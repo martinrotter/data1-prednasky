@@ -1,0 +1,86 @@
+%% This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+%% To view a copy of this license, visit www.creative-commons.org/licenses/by-nc-nd/3.0 or send a letter
+%% to Creative Commons, 444 Cas-tro Street, Suite 900, Mountain View, California, 94041, USA.
+
+%% The above statement applies to all included files too!!!
+
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[
+	%iwona,
+	%final,
+	blacklogo,
+	%joinlists,
+	abbreviations,
+	figures,
+	tables,
+	listings,
+	language=czech,
+	bibfile=bibliography.bib,
+	bibencoding=utf8,
+	bibstyle=numeric,
+	encoding=utf8,
+	]{upbase}
+
+\usepackage[
+	custompicture=graphics/elephant.png
+	]{upsimple}
+
+\uptitle{Databázové systémy 1}
+\upsubtitle{KMI/DATA1}
+\upyear{\today}
+\upauthor{Martin Rotter}
+\upanot{Tento dokument obsahuje přepisy přednášek, které vedl \href{mailto:vilem.vychodil@upol.cz}{doc. RNDr Vilém Vychodil, Ph.D.}. Uvedená práce (dílo) podléhá licenci \href{http://creativecommons.org/licenses/by-nc-nd/3.0/}{Attribution-NonCommercial-NoDerivs 3.0 Unported}, a to včetně vložených souborů, to neplatí pro loga jiných společností, jako je například logo \href{http://www.postgresql.org/}{PostgreSQL}.}
+\uppapertype{P\v{R}EPISY P\v{R}EDN\'{A}\v{S}EK}
+
+\begin{document}
+
+% vytiskne titulní stranu
+\upmaketitle
+
+% vytiskne anotaci (abstrakt)
+\upmakeanot
+
+% tiskne obsah a seznamy obrázku, tabulek a případně zdr. kódů, více v makrech \uptableofcontents a \upprintlists
+% tiskne pouze povolené seznamy
+\uptocandlists
+
+\section{Úvod}
+Toto je dokumentace stylu \keyword{upsimple}.
+
+\upabbrevdeclare{UPOL}{UPOL}{Univerzita Palackého v Olomouci}
+
+Pokud například máme definovanou zkratku UPOL, tak se na ní můžeme odkázat několikrát, třeba dvakrát, za sebou. Tedy \upabbrevref{UPOL} a ještě jednou \upabbrevref{UPOL},
+
+\index{hm}.
+
+% vytiskne nepatrnou mezeru do obsahu dokumentu (používá se pro vizuální oddělení) dodatečných částí práce
+% od hlavní části práce)
+\upendoftreatise
+
+% tiskne přílohy
+\upappendix
+\section{První příloha}
+Text první přílohy
+
+\section{Druhá příloha}
+Text druhé přílohy
+
+\upendoftreatise
+
+% pokud některou z následujích featur nepotřebujete tak ji jednoduše zakomentujte a případně zakažte danou funkcionalitu
+% viz parametr abbreviatons
+
+% vytiskne seznam zkratek
+%\upprintabbrevlist
+
+% tiskne seznam teorémů
+\upprinttheoremlist
+
+% vytiskne bibliografii
+\upprintbibliography
+
+% vytiskne rejstřík
+%\upprintindex
+
+\end{document}

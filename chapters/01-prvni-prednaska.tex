@@ -1,0 +1,22 @@
+\section{Přehled databázových systémů a jejich historie}
+
+Databázový systém (anglicky \upabbrevref{DBMS}) je soustava komplexního aplikačního vybavení, které je podloženo určitým teoretickým základem. Jeden bez druhého nemůže existovat (resp. může, což má ale za následek formální selhání \upabbrevref{DBMS} jako takového), a tak je nutné znát obě strany pomyslné databázové barikády. Databázový systém tedy tvoří:
+\begin{enumerate}
+\item Aplikační software, který je obvykle používán jako rozhraní pro přístup k databázi samotné.
+\item Teorie, která formálně podkládá návrh databáze, organizaci dat a obsahuje algoritmickou stránku věci.
+\end{enumerate}
+
+Mějme na paměti, že obě částí \upabbrevref{DBMS} se rozvíjely postupně a mnohdy metodou pokus - omyl. Obecně platí, že pokud selže teoretický základ, tak již ani sebelepší frontend nic nezmůže. V \upabbrevref{DBMS} se objeví formální rozpor a jedinou cestou vpřed je začít znovu.
+
+Hlavním úkolem \upabbrevref{DBMS} je poskytovat \textit{perzistentní uložení dat}, dále poskytnout svým uživatelům konzistentní rozhraní a případně nabídnout \textit{transa-kční zpracování dat}. Nutnto podotknout, že poslední bod nemusí být takovou samozřejmostí, jak by se mohlo zdát.
+
+\subsection{Historie databázových systémů}
+Potřeba organizace dat je stará jako lidstvo samo. Již staří Egypťané si vedli podrobné záznamy o výběru daní, stavbách chrámů a jiných činnostech. Zde můžeme hovořit o databázích založených na souborech.
+
+\subsubsection{Databáze založené na souborech}
+Souborem může být například papyrus, hliněná destička nebo (lépe) papír. Na papíře můžete být napsány v řádcích nějaké záznamy. Například seznam dlužníků nějakého podnikatele. \textit{Vytvoření} takového seznamu je vskutku \textit{lehké}. Představme si, že dlužník uprostřed seznamu splatil svůj dluh a bude ze seznamu vyškrtnut. Místo něj v seznamu vznikne prázdné místo. Zbytek seznamu se následně musí zkonsolidovat (přepsat na nový papír), aby vypadal konzistentně. Odtud plyne určitá \textit{těžkopádnost} vyplývající z definice souboru a z určité \textit{nízkoúrovňovosti} práce s ním. Přitom souborem může být myšlen i soubor na disku počítače.
+
+Představme si navíc, že daný podnikatel si vede další soubor se seznamem, kde si u každého dlužníka značí jeho adresu, aby jej mohl v případě nutnosti navštívit. Jméno dlužníka tedy uchováva hned na dvou seznamech, přitom je přirozeně jasné, že stačí dlužníka evidovat jednou a poté se na něj \enquote{odkazovat.} \textit{Redundace dat} je tedy zřejmá.
+
+\subsubsection{Databáze založené na síťovém modelu}
+pokračovat

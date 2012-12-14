@@ -45,34 +45,16 @@
 % tiskne pouze povolené seznamy
 \uptocandlists
 
-\section{Úvod}
-Toto je dokumentace stylu \keyword{upsimple}.
+% deklarace zkratek
+\upabbrevdeclare{DBMS}{DBMS}{Database management system}
 
-\upabbrevdeclare{UPOL}{UPOL}{Univerzita Palackého v Olomouci}
-
-Pokud například máme definovanou zkratku UPOL, tak se na ní můžeme odkázat několikrát, třeba dvakrát, za sebou. Tedy \upabbrevref{UPOL} a ještě jednou \upabbrevref{UPOL},
-
-\index{hm}.
-
-% vytiskne nepatrnou mezeru do obsahu dokumentu (používá se pro vizuální oddělení) dodatečných částí práce
-% od hlavní části práce)
-\upendoftreatise
-
-% tiskne přílohy
-\upappendix
-\section{První příloha}
-Text první přílohy
-
-\section{Druhá příloha}
-Text druhé přílohy
+% první přednáška
+\input{chapters/01-prvni-prednaska.tex}
 
 \upendoftreatise
-
-% pokud některou z následujích featur nepotřebujete tak ji jednoduše zakomentujte a případně zakažte danou funkcionalitu
-% viz parametr abbreviatons
 
 % vytiskne seznam zkratek
-%\upprintabbrevlist
+\upprintabbrevlist
 
 % tiskne seznam teorémů
 \upprinttheoremlist

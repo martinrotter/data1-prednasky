@@ -6,7 +6,7 @@ Databázový systém (anglicky \upabbrevref{DBMS}) je soustava komplexního apli
 \item Teorie, která formálně podkládá návrh databáze, organizaci dat a obsahuje algoritmickou stránku věci.
 \end{enumerate}
 
-Mějme na paměti, že obě částí \upabbrevref{DBMS} se rozvíjely postupně a mnohdy metodou pokus - omyl. Obecně platí, že pokud selže teoretický základ, tak již ani sebelepší frontend nic nezmůže. V \upabbrevref{DBMS} se objeví formální rozpor a jedinou cestou vpřed je začít znovu.
+Mějme na paměti, že obě částí databázových systémů se rozvíjely postupně a mnohdy metodou pokus - omyl. Obecně platí, že pokud selže teoretický základ, tak již ani sebelepší frontend nic nezmůže. V databázovém systému se objeví formální rozpor a jedinou cestou vpřed je začít znovu.
 
 Hlavním úkolem \upabbrevref{DBMS} je poskytovat \textit{perzistentní uložení dat}, dále poskytnout svým uživatelům konzistentní rozhraní a případně nabídnout \textit{transa-kční zpracování dat}. Nutnto podotknout, že poslední bod nemusí být takovou samozřejmostí, jak by se mohlo zdát.
 
@@ -19,4 +19,69 @@ Souborem může být například papyrus, hliněná destička nebo (lépe) papí
 Představme si navíc, že daný podnikatel si vede další soubor se seznamem, kde si u každého dlužníka značí jeho adresu, aby jej mohl v případě nutnosti navštívit. Jméno dlužníka tedy uchováva hned na dvou seznamech, přitom je přirozeně jasné, že stačí dlužníka evidovat jednou a poté se na něj \enquote{odkazovat.} \textit{Redundace dat} je tedy zřejmá.
 
 \subsubsection{Databáze založené na síťovém modelu}
+Průkopníkem této oblasti byl Charles Bachman. Aktuálně se toto paradigma považuje za dávno překonané, nicméně pro časy budoucí poskytlo několik dob-rých poznatků. Typicky \enquote{síťový} databázový systém je tvoří mj. i:
+\begin{enumerate}
+\item \textit{Záznamy}, které mají určitý \textit{typ}. Ten deklaruje, jaké \textit{atributy} daný zázna obsahuje. Atributy mohou nabývat různých hodnot.
+\item \textit{Odkazy}, které reprezentují \textit{vztahy} mezi jednotlivými záznamy.
+\end{enumerate}
+Obecně se ví, že databázové systémy tohoto typu mohou poskytovat velmi rychlé prostředky pro získávání jednoduchých dat, ale na druhou stranu na komplexnější data se dotazuje hůře. Tvorba dat není rovněž jednoduchá, protože práce s odkazy požaduje vyšší míru sofistikace.
+
+% obrázky síťového modelu.
+
+\subsubsection{Databáze založené na hierarchickém modelu}
+Jedná se o speciální typ síťového modelu, kde bylo úmyslem tento model zjednodušit. Výsledkem bylo vytvoření hierarchie v záznamech a odkazech ve formě stromu\footnote{Strom je jednou ze základních grafových struktur. Jedná se o (neorientovaný) graf bez kružnic. Více napoví \citep[str. 91 -- 96]{cormen:algorithms}.}.
+
+\subsubsection{Databáze založené na objektovém modelu}
+V objektovém modelu jsou hlavní prvky, jenž reprezentují data, \textit{objekty}, tery serializované entity, které lze interpretovat pomocí nějakého vyššího programovacího jazyka. Prvním jazykem podporujícím takovéto pojetí byl Common Lisp.
+
+\subsubsection{Databáze založené na relačním modelu}
+Jedná se o aktuálně používaný model, který přináší určité výhody. Primárním nosičem informace v tomto modelu jsou \textit{relace} (poněkud amatérsky je můžeme nazývat také tabulkami). Základy tohoto modelu položil Edgar Codd v roce 1970.
+
+% obrázek struktury databáze.
+
+\section{Relační model dat}
+Model má 3 základní komponenty:
+\begin{enumerate}
+\item \textit{Struktury}, které uchovávají data a reprezentují výsledky dotazů.
+\item \textit{Integritní omezení}, která popisují vztahy mezi daty, které musí být splněny. Integritní omezení jsou v podstatě formule. Tato omezení slouží k popisu toho, jak mají data vypadat, slouži k odstranění jejich chyb.
+\item \textit{Manipulativní formalismy}, které říkají jak z uložených dat získat jiná data určitými operacemi.
+\end{enumerate}
+Relační mode je konkrétním modelem dat, avšak modely jako takové lzde rozdělit do dvou skupin, tedy:
+\begin{enumerate}
+\item Abstraktní modely dat, které poskytují vyčerpávající logické definice datových struktur nebo operací s daty. Ty dohromady tvoří abstraktní formalismus. Tedy jakýsi abstraktní stroj, se kterým může uživatel operovat.
+\item Konkrétní modely, pracující s persistentními daty.
+\end{enumerate}
+
+\section{Struktura relačních dat}
+Základním kamenem dat jsou tzv. \enquote{datové tabulky}, které obsahují záhlaví a další data.
+\begin{enumerate}
+\item Záhlaví (viz. tabulka \ref{tab:zahlavi}) je množina atributů a jejich typů. U tabulky se seznamem zamě-stnanců může být atributem například jméno zaměstnance atp.
+\item Vlastní data (neboli tělo) tabulky by u takovéto tabulky představovala data samotných zaměstnanců.
+\end{enumerate}
+
+\begin{table}
+\caption{Záhlaví tabulky}\label{tab:zahlavi}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+ID & JMÉNO & ADRESA \\
+\hline
+15 & Vyacheslav Drsoň & Peklo, 666 \\
+\hline
+\vdots & \vdots & \vdots \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Požadavky na tabulky}
+\begin{enumerate}
+\item Řádky by neměly mít žádné pořadí. Tabulka by měla být chápána jako množina řádků. A v množině na pořadí nezáleží.
+\item To samé platí pro sloupce.
+\item V definice množiny také vyplývá, že tabulka by neměla obsahovat identické řádky. Tento požadavek není v mnoha \upabbrevref{DBMS} splněn.
+\item Všechny atributy jsou regulární.
+\end{enumerate}
+Tyto požadavky formuloval C.~J.~Date.
+Pokud tabulka splňuje body 1 až 5, pak je v 1. normální formě.
+
 pokračovat

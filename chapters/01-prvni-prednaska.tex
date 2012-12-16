@@ -76,12 +76,145 @@ ID & JMÉNO & ADRESA \\
 
 \subsection{Požadavky na tabulky}
 \begin{enumerate}
-\item Řádky by neměly mít žádné pořadí. Tabulka by měla být chápána jako množina řádků. A v množině na pořadí nezáleží.
+\item\label{enum:first_re} Řádky by neměly mít žádné pořadí. Tabulka by měla být chápána jako množina řádků. A v množině na pořadí nezáleží.
 \item To samé platí pro sloupce.
 \item V definice množiny také vyplývá, že tabulka by neměla obsahovat identické řádky. Tento požadavek není v mnoha \upabbrevref{DBMS} splněn.
-\item Všechny atributy jsou regulární.
+\item\label{enum:last_re} Všechny atributy jsou regulární.
 \end{enumerate}
 Tyto požadavky formuloval C.~J.~Date.
-Pokud tabulka splňuje body 1 až 5, pak je v 1. normální formě.
+Pokud tabulka splňuje body \ref{enum:first_re} až \ref{enum:last_re}, pak je v 1. normální formě.
 
-pokračovat
+Zavedli jsme si několik pojmů jako \textit{atribut} a tak dále. Formalizujme je nyní přesněji:
+\begin{description}
+\item[Atribut] popisuje účel daného sloupce v tabulce, je to jméno sloupce.
+\item[Typ] říká, jakých hodnot může atribut nabývat.
+\item[Doména] je množinou všech možných hodnot daného typu. Tedy například nějaký pomyslný typ \keyword{BOOL} by mohl mít doménu ve tvaru: $$
+\dom(BOOL) = \lbrace true, false \rbrace
+$$
+\end{description}
+
+\subsection{Relační schéma}
+Již dříve jsme si uvedli pojem \textit{záhlaví tabulky}, avšak ten byl poněkud vágní. Relační schéma je jeho analogií s přesnější definicí.
+\begin{uptheorem}[Relační schéma]
+Mějme množinu atributů $Y$ a množinu typů $T$ Následně platí, relační schéma $R$ je množina definovaná jako:
+$$
+R = \lbrace \langle y, t \rangle \; | \; y \in Y, t \in T \rbrace
+$$
+\end{uptheorem}
+Proveďme dohodu, že typ atributu $y$ budeme zapisovat také jako $\typ(y)$ a analogicky doménu pro každý typ budeme značit jako $\dom(y)$.
+
+\subsection{Obecné kartézské součiny}
+Mějme následující systém množin:
+$$
+\lbrace A_{i} \; | \; i \in I \rbrace
+$$
+kde $I$ je tzv. indexní (a libovolná) množina a $i$ je index z této množiny. Kartézský součin $A_{i} (i \in I)$ se značí $\prod_{i \in I} A_{i}$ a je definován jako množina zobrazení $f: I \rightarrow \bigcup_{i \in I} A_{i}$, kde $f_{i} \in A_{i}$ pro každý $i \in I$.
+
+Prvky $\prod_{i \in I} A_{i}$ jsou zobrazení, nezáleží v nich na pořadí indexů.
+\begin{upexample}[Kartézský součin]
+Vypočítejme kartézský součin množin $A$ a $B$, tedy $A \times B$ se zadáníms:
+$$
+A = \lbrace a, b, c \rbrace, \quad B = \lbrace 10, 10 \rbrace, \quad I = \lbrace 1, 2 \rbrace, \quad A_{1} = A, \quad A_{2} = B
+$$
+Následně řešení:
+$$
+\prod_{i \in \lbrace 1, 2 \rbrace} A_{i} = \lbrace \langle a, 10 \rangle, \langle b, 10 \rangle. \langle a, 20 \rangle, \langle b, 20 \rangle \rbrace
+$$
+\end{upexample}
+
+\begin{upexample}[Kartézský součin s tečkovou indexní množinou]
+Mějme $I = \lbrace \bullet \rbrace$ a $A_{\bullet}$. Pak platí, že $\prod_{i \in I} A_{\bullet} = A_{\bullet}$ s funkcí $f: \lbrace \bullet \rbrace \rightarrow A_{\bullet}$.
+\end{upexample}
+
+\begin{upexample}[Kartézský součin žádné množiny]
+Nechť $I = \emptyset$. Pak $\prod_{i \in I} A_{i} = \lbrace \emptyset \rbrace$ s funkcí $f: \emptyset \rightarrow \emptyset$.
+\end{upexample}
+
+\subsection{Relace nad relačním schématem}
+\begin{uptheorem}[Relace nad relačním schématem]
+Mějme relační schéma $R$, pak relace nad $R$ je libovolná konečná podmnožina na kartézském součinu domén atributů z $R$, tedy
+$$
+\mathcal{D} \subseteq \prod_{y \in R} \dom(y)
+$$
+Relace v takovémto pojetí přibližně odpovídá vágnějšmu pojmu \textit{tabulka}. Součin lze pochopitelně také rozepsat. Obsahuje-li relační schéma $R$ celkem $n$ atributů, pak platí, že:
+$$
+\mathcal{D} \subseteq \dom(A_{1}) \times \cdots \times \dom(A_{n})
+$$
+Pozorný čtenář určitě pozoruje, že každá relace (tabulka) může mít určitý maximáln možný počet řádků. Matematicky:
+$$
+|\mathcal{D}| = |dom(A_{1})| \times \cdots \times |dom(A_{n})|
+$$
+Relaci lze také označit jako dvojici $\langle \mathcal{D}, R \rangle$. Tato dvojice takřak kompletně popisuje tabulku.
+\end{uptheorem}
+Každý prvek relace (tabulky) se nazývá n-tice. To je analogické vzhledem k matematickému pojetí relaci jako takových. Matematické relace též obsahují n-tice.
+
+\subsubsection{Speciální případy relací}
+\begin{enumerate}
+\item Prázdná relace (tabulka) nad $R$, tedy $\langle \emptyset, R \rangle$.
+\item Tabulka \enquote{dum}, tedy $\langle \emptyset, \emptyset \rangle$.
+\item Tabulka \enquote{dee}, tedy $\langle \lbrace \emptyset \rbrace, \emptyset \rangle$.
+\end{enumerate}
+
+\section{Tutorial D}
+Programovací jazyk Tutorial D formuje opozici vůči mnohem známějšímu a v praxi používanějšímu \upabbrevref{SQL}. Tutorial D má jedinou funkční a (víceménně) použitelnou implementaci známou jako Rel. Frontend Rel je naprogram v jazyce Java a jeho prostředí vypadá bohužel hrůzostrašně. Rel je silně staticky typovaný, nemá konverze typů. Obsahuje typy:
+\begin{description}
+\item[Skalární], které jsou opozitem hodnotových typů ze známějších jazyků a patří sem například \keyword{boolean}, \keyword{integer} nebo \keyword{string}.
+\item[N-ticové], které jsou dané jmény atributů a jejich typy.
+\end{description}
+Dále Rel disponuje \textit{relačním} typem, který představuje instance tabulek. Rel pracuje s proměnnými konstruktivně, proměnné nemohou měnit svůj obsah (hodnotu), místo toho se vytváří nová proměnná s novou hodnotou. Každá proměnná má tedy svůj typ.
+
+\subsection{Výrazy versus příkazy}
+Výrazem v Tutorial D (resp. v Rel) je například prostá logická rovnost hodnot. Výraz může mít nějaký výsledek. Příkaz se od výrazu liší tak, že končí středníkem a obvykle obsahuje volání nějaké funkce.
+\begin{upcode}{Výraz a příkaz (Tutorial D)}{code:exprd}{TutorialD}
+/* výraz */
+666 = 6661215
+/* příkaz */
+WRITELN(10 = 20);
+\end{upcode}
+
+\subsection{N-tice jako hodnoty}
+V Tutorial D lze přímočaře vytváře řádky relací a považovat je za hodnoty, viz. kód \ref{code:valstuple}
+\begin{upcode}{Základy n-tic (Tutorial D)}{code:valstuple}{TutorialD}
+/* prázdná n-tice */
+TUPLE {}
+/* n-tice včetně dat */
+TUPLE {id 666, name "Vilík", lab 5077}
+/* rovnost n-tic */
+WRITELN(TUPLE {id 666, name "Vilík", lab 5077} = TUPLE {id 007, name "James Bond", lab 1111});
+/* vnořené n-tice */
+TUPLE {id 666, TUPLE {jmeno "Vilík" prijmeni "Devil"}, lab 5077}
+\end{upcode}
+Z n-tic lze pochopitelně získávat hodnoty nebo n-tice sjednocovat, zúžovat a tak podobně.
+\begin{upcode}{Operace s n-ticemi (Tutorial D)}{code:tupleoper}{TutorialD}
+/* vypíše hodnoty atributů id a lab (zúžení n-tice) */
+TUPLE {id 666, TUPLE {jmeno "Vilík" prijmeni "Devil"}, lab 5077} {id, lab}
+/* vypíše vše kromě lab (zúžení n-tice) */
+TUPLE {id 666, TUPLE {jmeno "Vilík" prijmeni "Devil"}, lab 5077} {ALL BUT lab}
+
+/* sjednocení n-tic */
+TUPLE {id 666, jmeno "Vilík"} UNION TUPLE {jmeno "Vilík", lab 5077}
+
+/* přejmenování atributů n-tice */
+TUPLE {id 666, jmeno "Vilík"} RENAME (id AS cislo, jmeno AS name)
+\end{upcode}
+Sjednocení n-tic bere dvě n-tice, které se shodují na nějakém atributu a ve výsledku se objeví konkatenace n-tic s jedním výskytem společného atributu. Kompozice n-tic funguje obdobně jako sjednocení, avšak ve výsledku se společné atributy vůbec neobjeví.
+\begin{upcode}{Další operace s n-ticemi (Tutorial D)}{code:tupleoper2}{TutorialD}
+/* rozšíření n-tice */
+EXTEND TUPLE {id 666, jmeno "Vilík"} ADD (5077 AS lab)
+/* aktualizace hodnot v n-tici */
+UPDATE TUPLE {id 666, jmeno "Vilík"} (jmeno := "God")
+\end{upcode}
+
+\subsection{Relace v Tutorial D}
+Tutorial D (potažmo Rel) samozřejmě podpruje relace.
+\begin{upcode}{Operace s relacemi (Tutorial D)}{code:rel}{TutorialD}
+/* relace s několika n-ticemi*/
+RELATION {
+	TUPLE {id 666, jmeno "Vilík"},
+	TUPLE {id 007, jmeno "Bond"}
+}
+/* vytvoření relace jakožto typu */
+VAR seznam_lidi BASE RELATION {id INTEGER, jmeno STRING} KEY {id};
+\end{upcode}
+
+\section{}

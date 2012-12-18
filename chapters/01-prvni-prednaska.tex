@@ -26,7 +26,15 @@ Průkopníkem této oblasti byl Charles Bachman. Aktuálně se toto paradigma po
 \end{enumerate}
 Obecně se ví, že databázové systémy tohoto typu mohou poskytovat velmi rychlé prostředky pro získávání jednoduchých dat, ale na druhou stranu na komplexnější data se dotazuje hůře. Tvorba dat není rovněž jednoduchá, protože práce s odkazy požaduje vyšší míru sofistikace.
 
-% obrázky síťového modelu.
+\begin{figure}
+\centering\includegraphics[angle=-90,width=14cm]{graphics/01-sitovy}
+\caption{Datový model s obousměrnými odkazy}
+\end{figure}
+
+\begin{figure}
+\centering\includegraphics[angle=-90,width=14cm]{graphics/01-sitovy2}
+\caption{Datový model s jednosměrnými odkazy}
+\end{figure}
 
 \subsubsection{Databáze založené na hierarchickém modelu}
 Jedná se o speciální typ síťového modelu, kde bylo úmyslem tento model zjednodušit. Výsledkem bylo vytvoření hierarchie v záznamech a odkazech ve formě stromu\footnote{Strom je jednou ze základních grafových struktur. Jedná se o (neorientovaný) graf bez kružnic. Více napoví \citep[str. 91 -- 96]{cormen:algorithms}.}.

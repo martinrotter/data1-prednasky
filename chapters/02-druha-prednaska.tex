@@ -1,0 +1,158 @@
+\section{Modifikace dat}
+Již známe pojmy jako relace nebo relační proměnná. Modifikací dat v databázi se myslí přiřazení nové hodnoty k nějaké relační proměnné. V \upabbrevref{SQL} se k tomuto používají příkazy\upinlinecode{SQL}{!}{INSERT},\upinlinecode{SQL}{!}{UPDATE} nebo\upinlinecode{SQL}{!}{DELETE}. V Tutorial D k obdobným operacím slouží operátor \enquote{:=}, tak jak jej známe například z jazyka Pascal.
+\begin{upcode}{Modifikace relace (SQL)}{}{SQL}
+UPDATE	zakaznici
+SET		plat = 0
+WHERE	(plat > 50000);
+\end{upcode}
+\begin{upcode}{Modifikace relace (Tutorial D)}{}{Tutorial D}
+INSERT zakaznici RELATION {TUPLE {id 666, jmeno "Vilík", }};
+\end{upcode}
+K získávání dat z databáze slouží tzv. \textit{relační dotazování}. Formátování dotazů pak definuje \textit{dotazovací jazyk}. Ten říká, jak se budou dotazy vyhodnocovat. Tyto jazyky jsou obvykle deklarativní. Známe například \upabbrevref{SQL} a Tutorial D.
+
+\textit{Relační algebra} specifikuje množinu operací s relacemmi a dotazy se skládají z postupné aplikace těchto operací. Dotazy se formulují pomocí termů a vyhodnocování dotazů odpovídá vyhodnocování termů v algebře. Vyhodnocování může být přímočaré, avšak u složitějších dotazů rovněž netriviální.
+
+Relační kalkuly (výpočty nad relacemi) existují hned v několika variantách:
+\begin{itemize}
+\item doménový kalkul
+\item n-ticový kalkul
+\end{itemize}
+Dotaz je formule predikátové logiky, ve které relační symboly označují relační proměnné a vyhodnocování dotazu je ohodnocování formulí v dané predikátové struktuře (ta představuje instanci databáze), ve které jsou relační symboly interpretovány n-árními relacemi.
+
+Doménový relační kalkul má zhruba stejnou sílu jako relační algebra.
+
+\section{Relační algebra}
+Relační algebra poskytuje formální podklad pro množinové relační operace. Ty jsou analogií ke standardním operacím na množinách.
+\begin{enumerate}
+\item \textit{Průnik}, který obsahuje pouze společné n-tice dvou relací. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním schématem $R \subseteq Y$. Následně průnik definujeme jako:
+$$
+\mathcal{D}_{1} \cap \mathcal{D}_{2} = \lbrace r \in \prod_{y \in R} dim(y) \thickspace | \thickspace r \in \mathcal{D}_{1} \text{ a zároveň } r \in \mathcal{D}_{2} \rbrace
+$$
+\item \textit{Sjednoceni}, které obsahuje ty n-tice, které se vyskytnou alespoň v jedné ze vstupních relací. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním schématem $R \subseteq Y$. Následně sjednocení definujeme jako:
+$$
+\mathcal{D}_{1} \cup \mathcal{D}_{2} = \lbrace r \in \prod_{y \in R} dim(y) \thickspace | \thickspace r \in \mathcal{D}_{1} \text{ nebo } r \in \mathcal{D}_{2} \rbrace
+$$
+\item \textit{Rozdíl}, který obsahuje n-tice, které se nacházejí v první relaci, avšak nenacházejí se relaci druhé. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním sché-matem $R \subseteq Y$. Následně rozdíl definujeme jako:
+$$
+\mathcal{D}_{1} \setminus \mathcal{D}_{2} = \lbrace r \in \prod_{y \in R} dim(y) \thickspace | \thickspace r \in \mathcal{D}_{1} \text{ a zároveň } r \notin \mathcal{D}_{2} \rbrace
+$$
+\end{enumerate}
+Tyto operace lze provádět také v \upabbrevref{SQL} či v Tutorial D.
+\begin{upcode}{Relační operace (Tutorial D)}{}{Tutorial D}
+rexpr1 INTERSECT /* nebo UNION či MINUS */ rexpr2
+\end{upcode}
+\begin{upcode}{Relační operace (SQL)}{}{SQL}
+SELECT * FROM table1
+	INTERSECT /* nebo UNION či EXCEPT */
+SELECT * FROM table2;
+\end{upcode}
+Množinové operace v \upabbrevref{SQL} používají implicitně volbu\upinlinecode{SQL}{!}{DISTINCT}, takže duplicitní n-tice jsou ignorovány. Naproti tomu u operací typu\upinlinecode{SQL}{!}{SELECT} se jako výchozí používá\upinlinecode{SQl}{!}{ALL}.
+
+\subsection{Efektivita množinových operací}
+Efektivitá závisí na implementaci fyzciké vrstvý databázového systému. Obecně platí, že pokud lze na množině potřebných n-tic zavést lineární uspořádání, tak lze množinové operace provádět pomocí slévání.
+
+Je třeba aby dané uspořádání bylo navíc totální. Tedy každé dvě n-tice musejí být porovnatelné. Relace uspořádání musí být tranzitivní, symetrická a reflexivní. Z požadavku totality musí být uspořádání také úplné.
+
+Pokud máme na každé doméně zavedeno toto uspořádání $\leq y$ a zavedeme uspořádání také pro dané relační schéma $R$, tedy $\leq R$, pak nám všechna uspořá-dání
+$$
+\leq_{y}(y \in R) \text{ a } \leq_{R}
+$$
+indukují uspořádání na n-ticích $r_{1} < r_{2}$ právě tehdy, když existuje atribut $y \in R$ tak, že
+$$
+r_{1}(z) = r_{2}(z) \text{ pro každé } z <_{R} y \text{ a navíc } r_{1}(y) <_{y} r_{2}(y)
+$$
+V \upabbrevref{SQL} se efektivita zajišťuje použitím tzv. indexu. Index dokáže provést ono totální uspořádání.
+\begin{upcode}{Tvorba indexu (SQL)}{}{SQL}
+CREATE INDEX muj_index ON moje_tabulka (sloupec_1, sloupec_2);
+\end{upcode}
+
+\subsection{Další pojmy}
+Je třeba vysvětlit několik dalších pojmů:
+\begin{description}
+\item[Nadklíč (superkey)] Mějme relaci $\mathcal{D}$ nad relačním schématem $R$, která obsahuje několik n-tic. Jelikož je $\mathcal{D}$ množina, tak nemůže obsahovat dvě stejné n-tice. Tedy dvě n-tice, které jsou shodné na všech atributech z $R$. Navíc mohou přirozeně existovat další podmnožiny $R$ (i $R \subseteq R$), pro které platí, že žádné dvě n-tice by se na těchto podmnožinách neměli shodovat. Každou takovou podmnožinu $R$ nazýváme \textit{superklíč}. Každá relace má alespoň jeden superklíč -- ten, který je tvořen všemi atributy.
+\item[Klíč (key)] Mějme libovolný nadklíč a relaci $\mathcal{D}$. Takový nadklíč může obsahovat \enquote{nadbytečné} prvky resp. atributy. Jako \textit{klíč} $K$ označíme superklíč takový, že odstraněním jakéhokoliv dalšího atributu z klíče $K$ by vedlo k tomu, že $K$ již nebude nadklíč. Tedy:
+\begin{enumerate}
+\item Pro každé různé n-tice musí platit, že nemohou mít shodné hodnoty na (všech) atributech z klíče.
+\item Klíč je minimálním nadklíčem.
+\end{enumerate}
+\end{description}
+
+\subsection{Relační operace}
+\subsubsection{Projekce}
+Mějme relací $R$ na schématu $T$. Projekce $\mathcal{D}$ na $R \subseteq T$ je relace $\pi_{R}(\mathcal{D})$, definovaná jako:
+$$
+\pi_{R}(\mathcal{D}) = \lbrace r \in \prod_{y \in R} dim(y) \thickspace | \thickspace \text{existuje } s \in \prod_{y \in \pi_{R}} \text{tak, že } rs \in \mathcal{D} \rbrace
+$$
+kde $rs$ znázorňuje zřetězení n-tic, kde část $r \in R$ a $s \in T \setminus R$.
+
+V Tutorial D lze n-tice řetězit prostřednictvým klíčového slova\upinlinecode{TutorialD}{!}{COMPOSE}.
+\begin{upcode}{Projekce (SQL)}{}{SQL}
+/* část id, jmeno, plat je projekcí */
+SELECT DISTINCT id, jmeno, plat FROM table_1;
+\end{upcode}
+\begin{upcode}{Projekce (Tutorial D)}{}{TutorialD}
+/* část {id} je projekcí */
+TUPLE {id 666, jmeno "Vilík"} {id}
+/* vše kromě id */
+TUPLE {id 666, jmeno "Vilík"} {ALL BUT id}
+\end{upcode}
+Mějme na vědomí, že bez\upinlinecode{SQL}{!}{DISTINCT} se ze zřejmých důvodů nejedná o relační operaci.
+
+\subsubsubsection{Aspekty fyzické vrstvy}
+Projekce v SQL přes\upinlinecode{SQL}{!}{DISTINCT} je rychlá operace. V případě užití\upinlinecode{SQL}{!}{DISTINCT} se už o rychlou operaci jednat nemusí. To ale neplatí v případě, že $R \subseteq T$ obsahuje klíč. Projekcí umí zrychlit:
+\begin{enumerate}
+\item Hashování, kde se potencíální n-tice, které se objeví ve výsledku, hashují.
+\item Použití totálního uspořádání n-tic.
+\begin{upquote}[Užití totálního uspořádání pro zrychlení projekce]
+Pokud máme $S \subseteq R \subseteq T$, pak
+\begin{align*}
+\pi_{S} (\pi_{R}(\mathcal{D})) &= \pi_{S}(\mathcal{D}) \\
+\pi_{T} (\mathcal{D}) &= \mathcal{D} \\
+\pi_{R} (\mathcal{D}) &=\left\{\!\!\!
+\begin{array}{ll}
+\emptyset & \text{pokud } \mathcal{D} = \emptyset \\
+\lbrace \emptyset \rbrace & \text{pokud } \mathcal{D} \neq \emptyset
+\end{array}\right.
+\end{align*}
+\end{upquote}
+\end{enumerate}
+
+\subsubsection{Restrikce (selekce)}
+Mějme danou relaci $\mathcal{D}$ a formulí popisující podmínku $\varphi : t_{1} \approx t_{2}$. $t_{1}$ je atribut a $t_{2}$ je hodnota z domény atributu. Následně restrikce:
+$$
+\sigma_{\varphi}(\mathcal{D}) = \lbrace t \in \mathcal{D} \thickspace | \thickspace t \text{ splňuje } \varphi \rbrace
+$$
+\begin{upcode}{Restrikce (SQL)}{}{SQL}
+/* část id = 666 je restrikcí */
+SELECT * FROM table_1 WHERE id = 666;
+\end{upcode}
+\begin{upcode}{Restrikce (Tutorial D)}{}{TutorialD}
+/* část id = 666 je restrikcí */
+relexpr WHERE id = 666;
+\end{upcode}
+\begin{upquote}[O komutativitě restrikcí]
+Platí, že:
+$$
+\sigma_{\varphi}(\sigma_{\psi}(\mathcal{D})) = \sigma_{\psi}(\sigma_{\varphi}(\mathcal{D})) = \sigma_{\varphi \times \psi}(\mathcal{D})
+$$
+\end{upquote}
+
+\subsubsubsection{Záměna pořadí projekce a restrikce}
+Prohlašme, že $\pi_{R} (\sigma_{\varphi} (\mathcal{D})) \backsim \sigma_{\varphi} (\pi_{R} (\mathcal{D}))$. Pokud platí, že $\varphi$ závisí na některém atributu z $T \setminus R$, pak pravá strana nedává smysl.
+
+Předchozí poznatek má použití, a sice duální operaci k projekci, tedy přidání atributů.
+\begin{upcode}{Přidání atributů (SQL)}{}{SQL}
+SELECT table_1.*, expr AS additional_column FROM table_1;
+\end{upcode}
+\begin{upcode}{Přidání atributů (Tutorial D)}{}{TutorialD}
+EXTEND relexpr ADD (expr AS additional_column)
+\end{upcode}
+\begin{upcode}{Kombinace restrikce a duality projekce (SQL)}{}{SQL}
+SELECT	money * 2 AS doubled_money, money, id
+FROM 	employees
+WHERE	money * 2 > 5000;
+\end{upcode}
+\begin{upcode}{Kombinace restrikce a duality projekce (Tutorial D)}{}{TutorialD}
+((EXTEND relexpr ADD (money * 2 AS doubled_money))
+WHERE doubled_money > 5000) {doubled_money, money, id}
+\end{upcode}

@@ -88,7 +88,7 @@ Zavedli jsme si několik pojmů jako \textit{atribut} a tak dále. Formalizujme 
 \begin{description}
 \item[Atribut] popisuje účel daného sloupce v tabulce, je to jméno sloupce.
 \item[Typ] říká, jakých hodnot může atribut nabývat.
-\item[Doména] je množinou všech možných hodnot daného typu. Tedy například nějaký pomyslný typ \keyword{BOOL} by mohl mít doménu ve tvaru: $$
+\item[Doména] je množinou všech možných hodnot daného typu. Tedy například nějaký pomyslný typ\upinlinecode{SQL}{!}{BOOL} by mohl mít doménu ve tvaru: $$
 \dom(BOOL) = \lbrace true, false \rbrace
 $$
 \end{description}
@@ -158,14 +158,14 @@ Každý prvek relace (tabulky) se nazývá n-tice. To je analogické vzhledem k 
 \section{Tutorial D}
 Programovací jazyk Tutorial D formuje opozici vůči mnohem známějšímu a v praxi používanějšímu \upabbrevref{SQL}. Tutorial D má jedinou funkční a (víceménně) použitelnou implementaci známou jako Rel. Frontend Rel je naprogram v jazyce Java a jeho prostředí vypadá bohužel hrůzostrašně. Rel je silně staticky typovaný, nemá konverze typů. Obsahuje typy:
 \begin{description}
-\item[Skalární], které jsou opozitem hodnotových typů ze známějších jazyků a patří sem například \keyword{boolean}, \keyword{integer} nebo \keyword{string}.
+\item[Skalární], které jsou opozitem hodnotových typů ze známějších jazyků a patří sem například\upinlinecode{TutorialD}{!}{BOOLEAN},\upinlinecode{TutorialD}{!}{INTEGER} nebo\upinlinecode{TutorialD}{!}{STRING}.
 \item[N-ticové], které jsou dané jmény atributů a jejich typy.
 \end{description}
 Dále Rel disponuje \textit{relačním} typem, který představuje instance tabulek. Rel pracuje s proměnnými konstruktivně, proměnné nemohou měnit svůj obsah (hodnotu), místo toho se vytváří nová proměnná s novou hodnotou. Každá proměnná má tedy svůj typ.
 
 \subsection{Výrazy versus příkazy}
 Výrazem v Tutorial D (resp. v Rel) je například prostá logická rovnost hodnot. Výraz může mít nějaký výsledek. Příkaz se od výrazu liší tak, že končí středníkem a obvykle obsahuje volání nějaké funkce.
-\begin{upcode}{Výraz a příkaz (Tutorial D)}{code:exprd}{TutorialD}
+\begin{upcode}{Výraz a příkaz (Tutorial D)}{}{TutorialD}
 /* výraz */
 666 = 6661215
 /* příkaz */
@@ -173,7 +173,7 @@ WRITELN(10 = 20);
 \end{upcode}
 
 \subsection{N-tice jako hodnoty}
-V Tutorial D lze přímočaře vytváře řádky relací a považovat je za hodnoty, viz. kód \ref{code:valstuple}
+V Tutorial D lze přímočaře vytváře řádky relací a považovat je za hodnoty, viz. kód \ref{code:valstuple}.
 \begin{upcode}{Základy n-tic (Tutorial D)}{code:valstuple}{TutorialD}
 /* prázdná n-tice */
 TUPLE {}
@@ -185,7 +185,7 @@ WRITELN(TUPLE {id 666, name "Vilík", lab 5077} = TUPLE {id 007, name "James Bon
 TUPLE {id 666, TUPLE {jmeno "Vilík" prijmeni "Devil"}, lab 5077}
 \end{upcode}
 Z n-tic lze pochopitelně získávat hodnoty nebo n-tice sjednocovat, zúžovat a tak podobně.
-\begin{upcode}{Operace s n-ticemi (Tutorial D)}{code:tupleoper}{TutorialD}
+\begin{upcode}{Operace s n-ticemi (Tutorial D)}{}{TutorialD}
 /* vypíše hodnoty atributů id a lab (zúžení n-tice) */
 TUPLE {id 666, TUPLE {jmeno "Vilík" prijmeni "Devil"}, lab 5077} {id, lab}
 /* vypíše vše kromě lab (zúžení n-tice) */
@@ -198,7 +198,7 @@ TUPLE {id 666, jmeno "Vilík"} UNION TUPLE {jmeno "Vilík", lab 5077}
 TUPLE {id 666, jmeno "Vilík"} RENAME (id AS cislo, jmeno AS name)
 \end{upcode}
 Sjednocení n-tic bere dvě n-tice, které se shodují na nějakém atributu a ve výsledku se objeví konkatenace n-tic s jedním výskytem společného atributu. Kompozice n-tic funguje obdobně jako sjednocení, avšak ve výsledku se společné atributy vůbec neobjeví.
-\begin{upcode}{Další operace s n-ticemi (Tutorial D)}{code:tupleoper2}{TutorialD}
+\begin{upcode}{Další operace s n-ticemi (Tutorial D)}{}{TutorialD}
 /* rozšíření n-tice */
 EXTEND TUPLE {id 666, jmeno "Vilík"} ADD (5077 AS lab)
 /* aktualizace hodnot v n-tici */
@@ -207,7 +207,7 @@ UPDATE TUPLE {id 666, jmeno "Vilík"} (jmeno := "God")
 
 \subsection{Relace v Tutorial D}
 Tutorial D (potažmo Rel) samozřejmě podpruje relace.
-\begin{upcode}{Operace s relacemi (Tutorial D)}{code:rel}{TutorialD}
+\begin{upcode}{Operace s relacemi (Tutorial D)}{}{TutorialD}
 /* relace s několika n-ticemi*/
 RELATION {
 	TUPLE {id 666, jmeno "Vilík"},
@@ -216,5 +216,3 @@ RELATION {
 /* vytvoření relace jakožto typu */
 VAR seznam_lidi BASE RELATION {id INTEGER, jmeno STRING} KEY {id};
 \end{upcode}
-
-\section{}

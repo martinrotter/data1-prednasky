@@ -1,0 +1,111 @@
+\subsubsection{Sumarizace (agregace)}
+\begin{upcode}{Počet n-tic v relaci (SQL)}{}{SQL}
+SELECT COUNT(*) FROM my_table;
+\end{upcode}
+Výsledkem obdobného dotazu v SQL bude vždy relace. Například v tomto přípa-dě relace o jedné jednoprvkové n-tici, která obsahuje počet řádků původní relace.
+\begin{upcode}{Počet n-tic v relaci (Tutorial D)}{}{TutorialD}
+COUNT(relexpr)
+\end{upcode}
+Naopak v Tutorial D nebude výsledkem relace, avšak skalární hodnota. Tedy jednoduše číslo. Chování jazyka SQL lze v Tutorial D umitovat.
+\begin{upcode}{Imitace chování SQL (Tutorial D)}{}{TutorialD}
+SUMMARIZE relexpr ADD (COUNT() AS count_of_tuples)
+\end{upcode}
+\begin{upcode}{Pokročilá sumarizace (Tutorial D)}{code:summarized}{TutorialD}
+SUMMARIZE relexpr1
+PER (relexpr2)
+ADD (summary AS name)
+
+/* místo PER lze použít také BY */
+/* platí, že BY {seznam atributů} odpovídá PER (relexpr1 {seznam atributů}) */
+SUMMARIZE relexpr1
+BY (seznam atributů)
+ADD (summary AS name)
+\end{upcode}
+Navíc by mělo platit, že\upinlinecode{TutorialD}{!}{relexpr1} $\subseteq$\upinlinecode{TutorialD}{!}{relexpr2}. Význam zdrojového kódu \ref{code:summarized} je takový, že jdeme přes všechny n-tice z\upinlinecode{TutorialD}{!}{relexpr2} a počítáme sumarizaci ze všech n-tic z\upinlinecode{TutorialD}{!}{relexpr1}, které se shodují na atributech z relačního schématu z\upinlinecode{TutorialD}{!}{relexpr2}.
+
+\subsubsection{Seskupování}
+Uplatňuje se v modelech, které umožňují atributy s doménami, které jsou množi-ny relací.
+
+\subsubsubsection{Metoda UNGROUP}
+\begin{upcode}{Seskupování UNGROUP (Tutorial D)}{}{TutorialD}
+/* atributy jsou typu relace */
+relexpr UNGROUP (atribut, dalsi_atribut)
+\end{upcode}
+Výsledkem je relace nad schématem, které vznikne tak, že místo atributů ze seznamu budeme mít atributty vnořených tabulek a výsledek obsahuje n-tice tak, že pro každou n-tici je ve výsledku (obecně) několik n-tic, jejichž hodnoty jsou brány z tabulek ve výchozí n-tici metodou každý s každým.
+
+\subsubsubsection{Metoda GROUP}
+\begin{upcode}{Seskupování GROUP (Tutorial D)}{}{TutorialD}
+/* atributy jsou typu relace */
+relexpr GROUP (atribut, dalsi_atribut)
+\end{upcode}
+Na základě relace a seznamu atributů množin atributů, které se mají seskupit pod danými novými jmény se vytvoří relace, ve které jsou zbylé atributy výchozí relace a nové atributy, které nabývají hodnot, v nichž jsou maximální relace obsahující n.tice hodnot výchozí tabulky tak, že individuální hodnoty výsledných n-tic jsou v relaci se vzniklými relacemi právě tehdy, když zřetězení libovolných individuálních n-tic se zbylými individuálními hodnotami z každé výsledné n-tice se nachází ve výchozí tabulce.
+
+\subsubsection{Přejmenování}
+Z relace $\mathcal{D}$ nad relačním schématem $R$ se vytvoří nová relace
+$$
+\rho \thickspace y_{1}' \Leftarrow y_{1}, \ldots, y_{n}' \Leftarrow y_{n} (\mathcal{D})
+$$
+nad schématem $R$, ve kterém byly atributy $y_{1}, \ldots, y_{n}$ přejmenovány na atributy $y_{1}', \ldots, y_{n}'$, ale za předpokladu, že každé dva atributy $y_{i}, y_{i}' \text{ pro } 1 \leq i \leq n$ mají stejný typ.
+\begin{upcode}{Přejmenování (Tutorial D)}{}{TutorialD}
+relexpr RENAME (old AS new, old_2 AS new_2))
+\end{upcode}
+\begin{upcode}{Přejmenování (SQL)}{}{SQL}
+SELECT old AS new, old_2 AS new_2 FROM table_1;
+\end{upcode}
+
+\subsubsection{Přirozené spojení}
+\begin{uptheorem}[Přirozené spojení]
+Mějme relace $\mathcal{D}_{1}$ nad schématem $R \cup S$ a $\mathcal{D}_{2}$ nad schématem $S \cup T$ tak, že $R, S, T$ jsou po dvou disjunktní a $S$ je množina všech společných atributů. Pak je přírozené spojení $\mathcal{D}_{1}, \mathcal{D}_{2}$ relace nad schématem $R \cup S \cup T$ dáno předpisem
+$$
+\mathcal{D}_{1} \bowtie \mathcal{D}_{2} = \lbrace rst \thickspace | \thickspace rs \in \mathcal{D}_{1}, st \in \mathcal{D}_{2} \rbrace
+$$
+\end{uptheorem}
+\begin{upcode}{Přirozené spojení (Tutorial D)}{}{TutorialD}
+/* výsledkem je TUPLE {x 10, y 20, z 30} */
+TUPLE {x 10, y 20} UNION TUPLE {y 20, z 30}
+\end{upcode}
+\begin{upexample}[Přirozené spojení]
+Přírozeným spojením získáme tabulku, který má společné záhlaví, avšak obsahuje pouze n-tice, které se shodují na společných atributech daných vstupních tabulek resp. relací. Názorně na tabulkách ve skupině tabulek \ref{tab:prir_spojeni}.
+\begin{table}
+\caption{Přirozené spojení tabulek}\label{tab:prir_spojeni}
+\begin{subtable}[t]{0.3\textwidth}
+\centering
+\caption{První operand}
+\begin{tabular}{c | c | c}
+w & x & y \\
+\hline
+1 & 1 & 2 \\
+2 & 2 & 2 \\
+3 & 3 & 2 \\
+4 & 3 & 4 \\
+5 & 5 & 5
+\end{tabular}
+\end{subtable}
+~
+\begin{subtable}[t]{0.3\textwidth}
+\centering
+\caption{Druhý operand}
+\begin{tabular}{c | c | c}
+x & y & z \\
+\hline
+1 & 1 & 2 \\
+2 & 2 & 1 \\
+3 & 2 & 4 \\
+4 & 4 & 5 \\
+5 & 5 & 5
+\end{tabular}
+\end{subtable}
+~
+\begin{subtable}[t]{0.3\textwidth}
+\centering
+\caption{Výsledná tabulka}
+\begin{tabular}{c | c | c | c}
+w & x & y & z \\
+\hline
+2 & 2 & 2 & 1 \\
+3 & 2 & 3 & 4 \\
+5 & 5 & 5 & 5
+\end{tabular}
+\end{subtable}
+\end{table}
+\end{upexample}

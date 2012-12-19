@@ -60,7 +60,7 @@ $$
 \mathcal{D}_{1} \bowtie \mathcal{D}_{2} = \lbrace rst \thickspace | \thickspace rs \in \mathcal{D}_{1}, st \in \mathcal{D}_{2} \rbrace
 $$
 \end{uptheorem}
-\begin{upcode}{Přirozené spojení (Tutorial D)}{}{TutorialD}
+\begin{upcode}{Sjednocení n-tic (Tutorial D)}{}{TutorialD}
 /* výsledkem je TUPLE {x 10, y 20, z 30} */
 TUPLE {x 10, y 20} UNION TUPLE {y 20, z 30}
 \end{upcode}
@@ -75,10 +75,10 @@ Přírozeným spojením získáme tabulku, který má společné záhlaví, avš
 w & x & y \\
 \hline
 1 & 1 & 2 \\
-2 & 2 & 2 \\
-3 & 3 & 2 \\
+2 & \cellcolor{red}2 & \cellcolor{red}2 \\
+3 & \cellcolor{yellow}3 & \cellcolor{yellow}2 \\
 4 & 3 & 4 \\
-5 & 5 & 5
+5 & \cellcolor{green}5 & \cellcolor{green}5
 \end{tabular}
 \end{subtable}
 ~
@@ -89,10 +89,10 @@ w & x & y \\
 x & y & z \\
 \hline
 1 & 1 & 2 \\
-2 & 2 & 1 \\
-3 & 2 & 4 \\
+\cellcolor{red}2 & \cellcolor{red}2 & 1 \\
+\cellcolor{yellow}3 & \cellcolor{yellow}2 & 4 \\
 4 & 4 & 5 \\
-5 & 5 & 5
+\cellcolor{green}5 & \cellcolor{green}5 & 5
 \end{tabular}
 \end{subtable}
 ~
@@ -102,10 +102,100 @@ x & y & z \\
 \begin{tabular}{c | c | c | c}
 w & x & y & z \\
 \hline
-2 & 2 & 2 & 1 \\
-3 & 2 & 3 & 4 \\
-5 & 5 & 5 & 5
+2 & \cellcolor{red}2 & \cellcolor{red}2 & 1 \\
+3 & \cellcolor{yellow}3 & \cellcolor{yellow}2 & 4 \\
+5 & \cellcolor{green}5 & \cellcolor{green}5 & 5
 \end{tabular}
 \end{subtable}
 \end{table}
 \end{upexample}
+Libovolné n-tice $r$ nad schémater $R$ a $s$ nad schématem $S$ nazveme \textit{spojitelné}, pokud projekce $r (R \cup S) = s (R \cup S)$. Tedy pokud mají stejné hodnoty ve společných atributech. Přirozené spojení odpovídá množině všech spojitelných n-tic z nějakých vstupních relací $\mathcal{D}_{1}, \mathcal{D}_{2}$.
+\begin{upcode}{Přirozené spojení (Tutorial D)}{}{TutorialD}
+relexpr1 JOIN relexpr2
+\end{upcode}
+\begin{upcode}{Přirozené spojení (SQL)}{}{SQL}
+SELECT * from table_1 NATURAL JOIN table_2;
+
+/* případně */
+SELECT	table_1.*, table_2.*
+FROM	table_1, table_2
+WHERE	table_1.x = table_2.x AND table_1.y = table_2.y;
+\end{upcode}
+\begin{uptheorem}[Visící n-tice]
+Pokud uvažujeme spojení $\mathcal{D}_{1} \bowtie \mathcal{D}_{1}$, pak se $rs \in \mathcal{D}_{1}$ nazývá \textit{visící} n-tice, pokud $rs \notin \pi_{R \cup S} (\mathcal{D}_{1} \bowtie \mathcal{D}_{2})$, tedy právě, když $rs$ není spojitelné se žádnou n-ticí z $\mathcal{D}_{2}$.
+\end{uptheorem}
+\begin{uptheorem}[Úplné přirozené spojení]
+Pokud relace $\mathcal{D}_{1}, \mathcal{D}_{2}$ nemají vzhledem ke svému přirozenému spojení žádné visící n-tice, pak lze toto přirozené spojení označit jako \textit{úplné}.
+\end{uptheorem}
+
+\subsubsubsection{Speciální případy přirozeného spojení}
+Předpokládejme, že $\mathcal{D}_{1}$ je relace nad schématem $R \cup S$ a $\mathcal{D}_{2}$ je relace nad schématem $S \cup T$. Schémata $R, S, T$ jsou pod dvou disjunktní. 
+\begin{description}
+\item[Průnik] Jedná se o speciální případ pro $R = \varnothing \text{ a } T = \varnothing$, pak obě relace $\mathcal{D}_{1} \text{ a } \mathcal{D}_{2}$ jsou situovány nad schématem $S$. Následně spojení:
+\begin{align*}
+\mathcal{D}_{1} \bowtie \mathcal{D}_{2} &= \lbrace rst \thickspace | \thickspace rs \in \mathcal{D}_{1} \text{ a } st \in \mathcal{D}_{2} \rbrace \\
+&= \lbrace \varnothing s \varnothing \thickspace | \thickspace \varnothing \in \mathcal{D}_{1} \text{ a } s \varnothing \in \mathcal{D}_{2} \rbrace \\
+&= \lbrace s \thickspace | \thickspace s \in \mathcal{D}_{1} \text{ a } s \in \mathcal{D}_{2} \rbrace \\
+&= \mathcal{D}_{1} \cap \mathcal{D}_{2}
+\end{align*}
+
+\item[Kartézský průnik] Jedná se o spojení, kde společné schéma (seznam atributů) $S = \varnothing$. Následně:
+\begin{align*}
+\mathcal{D}_{1} \bowtie \mathcal{D}_{2} &= \lbrace rst \thickspace | \thickspace rs \in \mathcal{D}_{1} \text{ a } st \in \mathcal{D}_{2} \rbrace \\
+&= \lbrace rt \thickspace | \thickspace r \in \mathcal{D}_{1} \text{ a } t \in \mathcal{D}_{2} \rbrace
+\end{align*}
+Tento případ spojení značíme $\boxtimes$. Velikost výsledku tohoto spojení, tedy $| \mathcal{D}_{1} \boxtimes \mathcal{D}_{2} | = |\mathcal{D}_{1}| \cdot |\mathcal{D}_{2}|$.
+
+$\boxtimes$ tedy označuje množinu všech spojení tohoto typu. V Tutorial D nemá tato operace žádnou analogii. V SQL se používá klíčové slovo\upinlinecode{SQL}{!}{CROSS JOIN}.
+
+\item[Polospojení] Značí se $\ltimes$. Tedy $\mathcal{D}_{1} \ltimes \mathcal{D}_{2} = \pi_{R \cup S} (\mathcal{D}_{1} \bowtie) \mathcal{D}_{2})$. Výsledkem obsahuje takové n-tice $rs \in \mathcal{D}_{1} \ltimes \mathcal{D}_{2}$, pro které platí, že jsou spojitelné s alespoň jednou n-ticí z $\mathcal{D}_{2}$.
+\begin{upcode}{Polospojení (SQL)}{}{SQL}
+SELECT DISTINCT table_1.* FROM table_1 NATURAL JOIN table_2
+\end{upcode}
+\begin{upcode}{Polospojení (Tutorial D)}{}{TutorialD}
+relexpr1 MATCHING relexpr2
+\end{upcode}
+Pokud je $\left\{\!\!\!
+\begin{array}{ll}
+T = \varnothing & \text{pak } \mathcal{D}_{1} \ltimes \mathcal{D}_{2} = \mathcal{D}_{1} \bowtie \mathcal{D}_{2} \\
+R = \varnothing & \text{pak } \mathcal{D}_{2} \ltimes \mathcal{D}_{1} = \mathcal{D}_{1} \bowtie \mathcal{D}_{2}
+\end{array}\right.$
+
+\item[Restrikce (na rovnost)] $\sigma_{y \approx d} (\mathcal{D}) = \mathcal{D} \bowtie \lbrace \langle y, d \rangle \rbrace $, kde $\langle y, d \rangle$ je n-tice nad schématem $R = \lbrace s \rbrace$ a $f(y) = d$.
+\begin{upcode}{Restrikce na rovnost (Tutorial D)}{}{TutorialD}
+relexpr1 WHERE y = d
+/* je ekvivalentní s */
+relexpr1 JOIN RELATION {TUPLE {y d}}
+\end{upcode}
+
+\item[Kompozice binárních relací] Klasické kompozice z pohledu matematických relací se definuje jako:
+$$
+R_{1} \circ R_{2} = \lbrace \langle a, b \rangle \thickspace | \thickspace \exists c \text{ tak, že } \langle a, b \rangle \in R_{1} \text{ a zároveň } \langle c, b \rangle \in R_{2} \rbrace
+$$
+Naproti tomu kompozice s přihlédnutím k relacím nad určitým relačním schématem se definuje jako:
+$$
+\mathcal{D}_{1} \circledcirc \mathcal{D}_{2} = \pi_{T \cup R} (\mathcal{D}_{1} \bowtie \mathcal{D}_{2})
+$$
+kde relační schémata pro $\mathcal{D}_{1}, \mathcal{D}_{2}$ jsou $\lbrace x, y \rbrace$ resp. $\lbrace y, z \rbrace$.
+
+\end{description}
+\subsubsubsection{Vlastnosti přirozeného spojení}
+\begin{upquote}[Komutativita, asociativita, idempotence, neutralita a anihilace při\-/rozeného spojení]
+Platí, že:
+\begin{align}
+\tag{Komutativita}\mathcal{D}_{1} \bowtie \mathcal{D}_{2} &= \mathcal{D}_{2} \bowtie \mathcal{D}_{1} \\
+\tag{Asociativita}\mathcal{D}_{1} \bowtie (\mathcal{D}_{2} \bowtie \mathcal{D}_{3}) &= (\mathcal{D}_{1} \bowtie \mathcal{D}_{2}) \bowtie \mathcal{D}_{3} \\
+\tag{Idempotence}\mathcal{D} \bowtie \mathcal{D} &= \mathcal{D} \\
+\tag{Neutralita vůči množině obs. $\varnothing$}\mathcal{D} \bowtie \lbrace \varnothing \rbrace &= \mathcal{D} \\
+\tag{Neutralita vůči prázdné množině}\mathcal{D} \bowtie \varnothing &= \varnothing
+\end{align}
+\end{upquote}
+\begin{upquote}[Další vlastnosti spojení]
+Platí, že:
+\begin{enumerate}
+\item $\pi_{R_{j}} (\bowtie_{i = 1}^{n} \mathcal{D}_{i}) \subseteq \mathcal{D}_{j}, \quad \forall j = 1, \ldots, n$
+\item $\pi_{R_{j}} (\bowtie_{i = 1}^{n} \mathcal{D}_{i}) = \mathcal{D}_{j}, \quad \forall j = 1, \ldots, n$ právě, když lze relace $\mathcal{D}_{1}, \ldots, \mathcal{D}_{n}$ úplně spojit.
+POKRAČOVAT
+\end{enumerate}
+
+\end{upquote}

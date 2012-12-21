@@ -26,15 +26,15 @@ Relační algebra poskytuje formální podklad pro množinové relační operace
 \begin{enumerate}
 \item \textit{Průnik}, který obsahuje pouze společné n-tice dvou relací. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním schématem $R \subseteq Y$. Následně průnik definujeme jako:
 $$
-\mathcal{D}_{1} \cap \mathcal{D}_{2} = \lbrace r \in \prod_{y \in R} dim(y) \thickspace | \thickspace r \in \mathcal{D}_{1} \text{ a zároveň } r \in \mathcal{D}_{2} \rbrace
+\mathcal{D}_{1} \cap \mathcal{D}_{2} = \left\{ r \in \prod_{y \in R} dim(y) \; | \; r \in \mathcal{D}_{1} \text{ a zároveň } r \in \mathcal{D}_{2} \right\}
 $$
 \item \textit{Sjednoceni}, které obsahuje ty n-tice, které se vyskytnou alespoň v jedné ze vstupních relací. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním schématem $R \subseteq Y$. Následně sjednocení definujeme jako:
 $$
-\mathcal{D}_{1} \cup \mathcal{D}_{2} = \lbrace r \in \prod_{y \in R} dim(y) \thickspace | \thickspace r \in \mathcal{D}_{1} \text{ nebo } r \in \mathcal{D}_{2} \rbrace
+\mathcal{D}_{1} \cup \mathcal{D}_{2} = \left\{ r \in \prod_{y \in R} dim(y) \; | \; r \in \mathcal{D}_{1} \text{ nebo } r \in \mathcal{D}_{2} \right\}
 $$
 \item \textit{Rozdíl}, který obsahuje n-tice, které se nacházejí v první relaci, avšak nenacházejí se relaci druhé. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním sché-matem $R \subseteq Y$. Následně rozdíl definujeme jako:
 $$
-\mathcal{D}_{1} \setminus \mathcal{D}_{2} = \lbrace r \in \prod_{y \in R} dim(y) \thickspace | \thickspace r \in \mathcal{D}_{1} \text{ a zároveň } r \notin \mathcal{D}_{2} \rbrace
+\mathcal{D}_{1} \setminus \mathcal{D}_{2} = \left\{ r \in \prod_{y \in R} dim(y) \; | \; r \in \mathcal{D}_{1} \text{ a zároveň } r \notin \mathcal{D}_{2} \right\}
 $$
 \end{enumerate}
 Tyto operace lze provádět také v \upabbrevref{SQL} či v Tutorial D.
@@ -81,7 +81,7 @@ Je třeba vysvětlit několik dalších pojmů:
 \subsubsection{Projekce}
 Mějme relací $R$ na schématu $T$. Projekce $\mathcal{D}$ na $R \subseteq T$ je relace $\pi_{R}(\mathcal{D})$, definovaná jako:
 $$
-\pi_{R}(\mathcal{D}) = \lbrace r \in \prod_{y \in R} dim(y) \thickspace | \thickspace \text{existuje } s \in \prod_{y \in \pi_{R}} \text{tak, že } rs \in \mathcal{D} \rbrace
+\pi_{R}(\mathcal{D}) = \left\{ r \in \prod_{y \in R} dim(y) \; | \; \text{existuje } s \in \prod_{y \in \pi_{R}} \text{tak, že } rs \in \mathcal{D} \right\}
 $$
 kde $rs$ znázorňuje zřetězení n-tic, kde část $r \in R$ a $s \in T \setminus R$.
 
@@ -111,7 +111,7 @@ Pokud máme $S \subseteq R \subseteq T$, pak
 \pi_{R} (\mathcal{D}) &=\left\{\!\!\!
 \begin{array}{ll}
 \varnothing & \text{pokud } \mathcal{D} = \varnothing \\
-\lbrace \varnothing \rbrace & \text{pokud } \mathcal{D} \neq \varnothing
+\left\{ \varnothing \right\} & \text{pokud } \mathcal{D} \neq \varnothing
 \end{array}\right.
 \end{align*}
 \end{upquote}
@@ -120,7 +120,7 @@ Pokud máme $S \subseteq R \subseteq T$, pak
 \subsubsection{Restrikce (selekce)}
 Mějme danou relaci $\mathcal{D}$ a formulí popisující podmínku $\varphi : t_{1} \approx t_{2}$. $t_{1}$ je atribut a $t_{2}$ je hodnota z domény atributu. Následně restrikce:
 $$
-\sigma_{\varphi}(\mathcal{D}) = \lbrace t \in \mathcal{D} \thickspace | \thickspace t \text{ splňuje } \varphi \rbrace
+\sigma_{\varphi}(\mathcal{D}) = \left\{ t \in \mathcal{D} \; | \; t \text{ splňuje } \varphi \right\}
 $$
 \begin{upcode}{Restrikce (SQL)}{}{SQL}
 /* část id = 666 je restrikcí */

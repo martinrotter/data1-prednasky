@@ -97,7 +97,7 @@ Zavedli jsme si několik pojmů jako \textit{atribut} a tak dále. Formalizujme 
 \item[Atribut] popisuje účel daného sloupce v tabulce, je to jméno sloupce.
 \item[Typ] říká, jakých hodnot může atribut nabývat.
 \item[Doména] je množinou všech možných hodnot daného typu. Tedy například nějaký pomyslný typ\upinlinecode{SQL}{!}{BOOL} by mohl mít doménu ve tvaru: $$
-\dom(BOOL) = \lbrace true, false \rbrace
+\dom(BOOL) = \left\{ true, false \right\}
 $$
 \end{description}
 
@@ -106,7 +106,7 @@ Již dříve jsme si uvedli pojem \textit{záhlaví tabulky}, avšak ten byl pon
 \begin{uptheorem}[Relační schéma]
 Mějme množinu atributů $Y$ a množinu typů $T$ Následně platí, relační schéma $R$ je množina definovaná jako:
 $$
-R = \lbrace \langle y, t \rangle \; | \; y \in Y, t \in T \rbrace
+R = \left\{ \left\langle y, t \right\rangle \; | \; y \in Y, t \in T \right\}
 $$
 \end{uptheorem}
 Proveďme dohodu, že typ atributu $y$ budeme zapisovat také jako $\typ(y)$ a analogicky doménu pro každý typ budeme značit jako $\dom(y)$.
@@ -114,7 +114,7 @@ Proveďme dohodu, že typ atributu $y$ budeme zapisovat také jako $\typ(y)$ a a
 \subsection{Obecné kartézské součiny}
 Mějme následující systém množin:
 $$
-\lbrace A_{i} \; | \; i \in I \rbrace
+\left\{ A_{i} \; | \; i \in I \right\}
 $$
 kde $I$ je tzv. indexní (a libovolná) množina a $i$ je index z této množiny. Kartézský součin $A_{i} (i \in I)$ se značí $\prod_{i \in I} A_{i}$ a je definován jako množina zobrazení $f: I \rightarrow \bigcup_{i \in I} A_{i}$, kde $f_{i} \in A_{i}$ pro každý $i \in I$.
 
@@ -122,20 +122,20 @@ Prvky $\prod_{i \in I} A_{i}$ jsou zobrazení, nezáleží v nich na pořadí in
 \begin{upexample}[Kartézský součin]
 Vypočítejme kartézský součin množin $A$ a $B$, tedy $A \times B$ se zadáníms:
 $$
-A = \lbrace a, b, c \rbrace, \quad B = \lbrace 10, 10 \rbrace, \quad I = \lbrace 1, 2 \rbrace, \quad A_{1} = A, \quad A_{2} = B
+A = \left\{ a, b, c \right\}, \quad B = \left\{ 10, 10 \right\}, \quad I = \left\{ 1, 2 \right\}, \quad A_{1} = A, \quad A_{2} = B
 $$
 Následně řešení:
 $$
-\prod_{i \in \lbrace 1, 2 \rbrace} A_{i} = \lbrace \langle a, 10 \rangle, \langle b, 10 \rangle. \langle a, 20 \rangle, \langle b, 20 \rangle \rbrace
+\prod_{i \in \left\{ 1, 2 \right\}} A_{i} = \left\{ \left\langle a, 10 \right\rangle, \left\langle b, 10 \right\rangle. \left\langle a, 20 \right\rangle, \left\langle b, 20 \right\rangle \right\}
 $$
 \end{upexample}
 
 \begin{upexample}[Kartézský součin s tečkovou indexní množinou]
-Mějme $I = \lbrace \bullet \rbrace$ a $A_{\bullet}$. Pak platí, že $\prod_{i \in I} A_{\bullet} = A_{\bullet}$ s funkcí $f: \lbrace \bullet \rbrace \rightarrow A_{\bullet}$.
+Mějme $I = \left\{ \bullet \right\}$ a $A_{\bullet}$. Pak platí, že $\prod_{i \in I} A_{\bullet} = A_{\bullet}$ s funkcí $f: \left\{ \bullet \right\} \rightarrow A_{\bullet}$.
 \end{upexample}
 
 \begin{upexample}[Kartézský součin žádné množiny]
-Nechť $I = \varnothing$. Pak $\prod_{i \in I} A_{i} = \lbrace \varnothing \rbrace$ s funkcí $f: \varnothing \rightarrow \varnothing$.
+Nechť $I = \varnothing$. Pak $\prod_{i \in I} A_{i} = \left\{ \varnothing \right\}$ s funkcí $f: \varnothing \rightarrow \varnothing$.
 \end{upexample}
 
 \subsection{Relace nad relačním schématem}
@@ -150,17 +150,17 @@ $$
 $$
 Pozorný čtenář určitě pozoruje, že každá relace (tabulka) může mít určitý maximáln možný počet řádků. Matematicky:
 $$
-|\mathcal{D}| = |dom(A_{1})| \times \cdots \times |dom(A_{n})|
+\left|\mathcal{D}\right| = \left|dom(A_{1})\right| \times \cdots \times \left|dom(A_{n})\right|
 $$
-Relaci lze také označit jako dvojici $\langle \mathcal{D}, R \rangle$. Tato dvojice takřak kompletně popisuje tabulku.
+Relaci lze také označit jako dvojici $\left\langle \mathcal{D}, R \right\rangle$. Tato dvojice takřak kompletně popisuje tabulku.
 \end{uptheorem}
 Každý prvek relace (tabulky) se nazývá n-tice. To je analogické vzhledem k matematickému pojetí relaci jako takových. Matematické relace též obsahují n-tice.
 
 \subsubsection{Speciální případy relací}
 \begin{enumerate}
-\item Prázdná relace (tabulka) nad $R$, tedy $\langle \varnothing, R \rangle$.
-\item Tabulka \enquote{dum}, tedy $\langle \varnothing, \varnothing \rangle$.
-\item Tabulka \enquote{dee}, tedy $\langle \lbrace \varnothing \rbrace, \varnothing \rangle$.
+\item Prázdná relace (tabulka) nad $R$, tedy $\left\langle \varnothing, R \right\rangle$.
+\item Tabulka \enquote{dum}, tedy $\left\langle \varnothing, \varnothing \right\rangle$.
+\item Tabulka \enquote{dee}, tedy $\left\langle \left\{ \varnothing \right\}, \varnothing \right\rangle$.
 \end{enumerate}
 
 \section{Tutorial D}

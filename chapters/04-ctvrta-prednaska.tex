@@ -1,2 +1,98 @@
 \subsubsection{Relační dělení}
-Dělení je protípólem projekce a značí se \enquote{$\cong$}. Bývá odpovědí na dotazu typu: \enquote{Najdi osobu, která obsolvovala každý kurz.}
+Dělení je protípólem projekce a značí se \enquote{$\cong$}. Bývá odpovědí na dotazu typu: \enquote{Najdi osobu, která obsolvovala každý kurz.} Určitá n-tice $r$ se nachází v tabulce $r \in \pi_{R} (\mathcal{D})$ právě, když existuje $s$ tak, že $rs \in \mathcal{D}$. Dělení lze interpretovat jako odpověď na univerzální dotazy.
+
+Uvažujme relace:
+\begin{enumerate}
+\item $\mathcal{D}_{1}$ na schématu $R$, které říkejme \textit{dělenec}.
+\item $\mathcal{D}_{2}$ na schématu $S$, které říkejme \textit{dělitel}.
+\item $\mathcal{D}_{3}$ na schématu $T$, které říkejme \textit{prostředník}.
+\end{enumerate}
+Výsledkem dělení $\mathcal{D}_{1} \doteqdot_{\mathcal{D}_{3}} \mathcal{D}_{2}$, tedy tzv. podílem je relace nad schématem $R \cap T$. Matematicky:
+\begin{align*}
+\mathcal{D}_{1} \doteqdot_{\mathcal{D}_{3}} \mathcal{D}_{2} &= \left\{ r(R \cap T) \; | \; r \in \mathcal{D}_{1} \text{ tak, že } \forall s \in \mathcal{D}_{2} \text{ takové, že } r(R \cap S \cap T) \right. \\
+&\left.= s(R \cap S \cap T) \text{ platí, že } (rs) ((R \cup S) \cap T) \in \pi_{(R \cup S) \cap T} (\mathcal{D}_{3}) \right\}
+\end{align*}
+Pokud $R \cap S = \varnothing$, pak platí, že:
+\begin{align*}
+\mathcal{D}_{1} \doteqdot_{\mathcal{D}_{3}} \mathcal{D}_{2} = &\left\{ r(R \cap T \; | \;  r \in \mathcal{D}_{1} \text{ tak, že pro } \forall s \in \mathcal{D}_{2}  \text{ platí, že } \right. \\
+&\left.(rs) \left( \left(R \cup S\right) \cap T\right) \in \pi_{(R \cup S) \cap T} (\mathcal{D}_{3} \right\}
+\end{align*}
+Dělení trošku jinak:
+$$
+\mathcal{D}_{1} \doteqdot_{\mathcal{D}_{3}} \mathcal{D}_{2} = \left\{ r \; | \; r \in \mathcal{D}_{1} \text{ tak, že pro } \forall s \in \mathcal{D}_{2} \text{ platí, že } rs \in \mathcal{D}_{3} \right\}
+$$
+Nebo také:
+$$
+\mathcal{D}_{1} \doteqdot_{\mathcal{D}_{3}} \mathcal{D}_{2} = \pi_{R \cap T} \left( \mathcal{D}_{1} \right) \setminus \pi_{R \cap T} \left( \left( \pi_{R \cap T} \left( \mathcal{D}_{1} \right) \Join \pi_{S \cap T} \left( \mathcal{D}_{2} \right) \right) \setminus \pi_{(R \cup S) \cap T} \left( \mathcal{D}_{3} \right) \right)
+$$
+\begin{upcode}{Relační dělení (Tutorial D)}{}{TutorialD}
+relexpr1 DIVIDE BY relexpr2 PER relexpr3;
+\end{upcode}
+
+\subsubsection{Vnitřní a vnější spojení}
+Doposud probrané spojení bylo v podstatě vnitřní spojení (klíčové slovo\upinlinecode{SQL}{!}{INNER JOIN} v SQL). Abychom mohl uvažovat vnější spojení, je třeba uvažovat koncept \textit{chybějící} hodnoty, to jest porušit první normální formu. V SQL by se tedy místo\upinlinecode{SQL}{!}{NATURAL (INNER) JOIN} použilo\upinlinecode{SQL}{!}{FULL OUTER JOIN},\upinlinecode{SQL}{!}{LEFT OUTER JOIN} nebo\upinlinecode{SQL}{!}{RIGHT OUTER JOIN}.
+\begin{upcode}{Vnější spojení (SQL)}{}{SQL}
+SELECT * FROM table_1 FULL OUTER JOIN ON table_1.x < table_2.x
+\end{upcode}
+Při levém vnějším spojení se do výsledku přidávají i visící n-tice z první tabulky.
+
+\section{Neznámé hodnoty}
+Drtivá většina \enquote{moderních} \upabbrevref{DBMS} podporuje tzv. tříhodnotovou logiku, kde vstupuje do popředí, kromě \textit{pravdy} a \textit{nepravdy}, také hodnota \textit{NULL}, která říká, že daná hodnota je nedefinovaná nebo neznámá, což se bude jevit každému myslícímu člověku jako absolutní nesmysl. Těmto hodnotám je dobré se vyhnout, protože činí logické operace (potažmo funkce) nepřehlednými, jak ukazuje tabulka \ref{tab:operace}.
+
+\begin{table}
+\caption{Logické funkce}\label{tab:operace}
+\begin{subtable}[t]{0.45\textwidth}
+\centering
+\caption{Logický součin}
+\begin{tabular}{c || c c c}
+$\land$ & 0 & N & 1 \\
+\hline
+0 & 0 & 0 & 0 \\
+N & 0 & N & N \\
+1 & 0 & N & 1
+\end{tabular}
+\end{subtable}
+~
+\begin{subtable}[t]{0.45\textwidth}
+\centering
+\caption{Logická implikace}
+\begin{tabular}{c || c c c}
+$\to$ & 0 & N & 1 \\
+\hline
+0 & 1 & 1 & 1 \\
+N & N & N & 1 \\
+1 & 0 & N & 1
+\end{tabular}
+\end{subtable}
+\end{table}
+\begin{upexample}[Datův příklad k NULLovým hodnotám]
+Mějme vstupní data (tabulka \ref{tab:null}) a nad těmito daty proveďme dotaz:
+\begin{table}
+\caption{Příklad relace s NULL hodnotou}\label{tab:null}
+\begin{subtable}[t]{0.45\textwidth}
+\centering
+\caption{Tabulka n1}
+\begin{tabular}{c | c}
+x & yn \\
+\hline
+45 & London
+\end{tabular}
+\end{subtable}
+~
+\begin{subtable}[t]{0.45\textwidth}
+\centering
+\caption{Tabulka n2}
+\begin{tabular}{c | c}
+y & zn \\
+\hline
+33 & -
+\end{tabular}
+\end{subtable}
+\end{table}
+\begin{upcode}{Dotaz pracující s NULL hodnotami (SQL)}{}{SQL}
+SELECT	x, y
+FROM	n1, n2
+WHERE	yn <> zn OR zn <> "Paris";
+\end{upcode}
+Logicky bychom očekávali jako výsledek operace n-tici $\langle 45,33 \rangle$, avšak v SQL tomu tak není, protože dané porovnání v dotazu nevrací nepravdu nebo pravdu, ale hodnotu NULL.
+\end{upexample}

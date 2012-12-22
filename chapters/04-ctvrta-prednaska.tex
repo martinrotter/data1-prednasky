@@ -130,7 +130,7 @@ Výchozí myšlenkou je, že pokud máme systém tabulek, tak hodnoty v určitý
 Tuto vlastnost nazýváme \textit{cizí klíč}.
 
 \begin{upexample}[Cizí klíče v relacích]\label{ex:cizi}
-Představme si dvojici tabulek (systém tabulek \ref{tab:cizi}, která popisuje vlastnictví aut jednotlivými akademickými pracovníky.
+Představme si dvojici tabulek (systém tabulek \ref{tab:cizi}), která popisuje vlastnictví aut jednotlivými akademickými pracovníky.
 \begin{table}
 \caption{Cizí klíče v relacích}\label{tab:cizi}
 \begin{subtable}[t]{0.6\textwidth}
@@ -202,7 +202,7 @@ Pokud je $A$ je konečná, pak existuje index $m$ tak, že $R_{\infty} = \bigcup
 \end{uptheorem}
 Nyní aplikujme tranzitivní uzávěr na databáze.
 \begin{upexample}[Tranzitivní uzávěr tabulky]
-Mějme tabulku (tabulka \ref{tab:predmety1} podmiňujících předmětu se dvěma sloupci. Výsledkem tranzitivního uzávěru je úplná informace o podmiňujích atributech. Tabulky zobrazují podmiňující a podmíněné předměty. Například vidíme, že pro splnění předmětu PP3 je třeba mít přímo splněný předmět PP2, avšak ke splnění předmětu PP2 je třeba mít splněn VT i PP1. Tyto informace jdou z tabulky číst relativně obtížně a pro gigantické tabulky se nepřímé čtení těchto vztahů stává problémové.
+Mějme tabulku (tabulka \ref{tab:predmety1}) podmiňujících a podmíněných předmětu se dvěma sloupci. Výsledkem tranzitivního uzávěru je úplná informace o podmiňujích atributech. Tabulky zobrazují podmiňující a podmíněné předměty. Například vidíme, že pro splnění předmětu PP3 je třeba mít přímo splněný předmět PP2, avšak ke splnění předmětu PP2 je třeba mít splněn VT i PP1. Tyto informace jdou z tabulky číst relativně obtížně a pro gigantické tabulky se nepřímé čtení těchto vztahů stává problémové.
 \begin{table}
 \caption{Tranzitivní uzávěr tabulky}\label{tab:predmety}
 \begin{subtable}[t]{0.45\textwidth}
@@ -232,3 +232,57 @@ podmiňující př. & podmíněný př. \\
 \end{subtable}
 \end{table}
 \end{upexample}
+Pokud je $\mathcal{D}$ relace nad schématem $\lbrace x, y \rbrace$, která je protějškem $R \subseteq A \times A$, pak
+$$
+\mathcal{D} = \left\{ \left\{ \langle x, a \rangle, \langle x, b \rangle \right\} \; | \; \langle a, b \rangle \in R \right\}
+$$
+a vyjídříme protějšek $R^{\infty}$ jako
+$$
+\mathcal{D}^{\infty} = \bigcup_{n = 1}^{m} \pi_{\left\{ x, y \right\}} \left( \Join_{i = 1}^{n} \rho x'_{i, n} \leftarrow x, y'_{i, n} \leftarrow y(\mathcal{D}) \right)
+$$
+kde
+$$
+\begin{array}{l l}
+x'_{1, n} = x & \text{ pro každé } n \\
+y'_{m, n} = y & \text{ pro každé } n \\
+x'_{i, n} = y'_{i-2,n} & \text{ pro každé } 2 \leq i \leq n
+\end{array}
+$$
+Tranzitivní uzávěr je definovatelný, ale definice závisí na m.
+\begin{upcode}{Tranzitivní uzávěr (Tutorial D)}{}{TutorialD}
+TCLOSE relexpr
+\end{upcode}
+\begin{upcode}{Kostra rekurzivního dotazu (SQL)}{code:recursive}{SQL}
+WITH RECURSIVE jmeno(sloupce) AS (
+	/* nerekurzivní výraz
+	SELECT	*
+	FROM	foo
+	UNION	DISTINCT
+	/* rekurzivní výraz */
+	SELECT	*
+	FROM 	bar;
+)
+SELECT	*
+FROM	jmeno_sloupce;
+\end{upcode}
+\begin{upcode}{Tranzitivní uzávěr (SQL)}{}{SQL}
+WITH RECURSIVE tr(x, y) AS (
+	SELECT	*
+	FROM 	r
+	UNION	DISTINCT
+	SELECT	x, y tr.y FROM r, tr
+	WHERE	r.y = tr.x
+)
+SELECT * FROM tr;
+\end{upcode}
+Vyhodnocení dotazu z kódu \ref{code:recursive} probíhá následovně:
+\begin{enumerate}
+\item Vyhodnotí se nerekurzivní dotaz a jeho výsledky se uloží do dočasných tabulek RESULT a WORK.
+\item Dokud je WORK neprázdná, tak se opakuje následující:
+\begin{enumerate}
+\item Vyhodnotí se rekurzivní dotaz, v němž je self reference nahrazena tabulkou WORK. Výsledek si označme $R_{1}$.
+\item Pokud je použit\upinlinecode{SQL}{!}{UNION DISTINCT}, pak se z $R_{1}$ ostraní duplicity a vše, co už je v RESULT.
+\item Obsah $R_{1}$ se přidá do RESULT.
+\item WORK se nastaví na $R_{1}$.
+\end{enumerate}
+\end{enumerate}

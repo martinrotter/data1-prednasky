@@ -96,3 +96,139 @@ WHERE	yn <> zn OR zn <> "Paris";
 \end{upcode}
 Logicky bychom očekávali jako výsledek operace n-tici $\langle 45,33 \rangle$, avšak v SQL tomu tak není, protože dané porovnání v dotazu nevrací nepravdu nebo pravdu, ale hodnotu NULL.
 \end{upexample}
+
+\begin{quote}
+\foreignlanguage{english}{\enquote{You can never trust the answer you get from database with nulls.}}
+\end{quote}
+\hfill C.~J.~Date
+
+\section{Integritní omezení}
+Jedná se o jednu z komponent Coddova relačního modelu. Účel integritních omezení je ten, že je v databázi třeba udrže určou efektivitu operací a hlavně uchovat data v konzistentním stavu z hlediska jejich smyslu.
+
+\subsection{Výrazy relační algebry}
+\upabbrevref{RA} obsahuje atomické výrazy, tedy proměnné. Jedná se napří-klad o celá čísla nebo konstantní relace (TABLE DEE, TABLE DUM). Dále jsou obsaženy také složené výrazy, které jsou ustaveny rekurzivně, tedy:
+\begin{enumerate}
+\item Pokud jsou $R_{1}$ a $R_{2}$ relační výrazy.
+\item Pak je i $R_{1} \Join R_{2}$ relační výraz.
+\item A taktéž i $R_{1} \cap R_{2}$ je relační výraz.
+\end{enumerate}
+
+\subsection{Omezení z pohledu relační algebry}
+\begin{enumerate}
+\item\label{omez:1} Pro výraz $R$ definujeme omezení tvaru $R = \varnothing$, tedy nesmí existovat n-tice, které by jej splňovala.
+\item\label{omez:2} Pro výrazy $R, S$ definujeme omezení tvaru $R \subseteq S$, tedy každá n-tice z $R$ musí splňovat $S$.
+\end{enumerate}
+Pro \ref{omez:1} a \ref{omez:2} existuje vzájemná převoditelnost:
+\begin{align*}
+\text{\enquote{$\Rightarrow$}}&, R = \varnothing \text{ lze chápat jako } R \subseteq \varnothing \\
+\text{\enquote{$\Leftarrow$}}&, R \subseteq S \text{ lze chápat jako } R \setminus S = \varnothing
+\end{align*}
+
+\subsection{Referenční integritní omezení}
+Výchozí myšlenkou je, že pokud máme systém tabulek, tak hodnoty v určitých sloupcích, které popisují vlastnost určité entity, se musí shodovat s hodnotami ve sloupcích (popisujících stejnou vlastnost) pro stejnou entitu v ostatních tabulkách v tomto systému tabulek.
+
+Tuto vlastnost nazýváme \textit{cizí klíč}.
+
+\begin{upexample}[Cizí klíče v relacích]\label{ex:cizi}
+Představme si dvojici tabulek (systém tabulek \ref{tab:cizi}, která popisuje vlastnictví aut jednotlivými akademickými pracovníky.
+\begin{table}
+\caption{Cizí klíče v relacích}\label{tab:cizi}
+\begin{subtable}[t]{0.6\textwidth}
+\centering
+\caption{Pracovnící}\label{tab:vl1}
+\begin{tabular}{c || c c c}
+id & jméno & příjmení & laboratoř \\
+\hline
+\cellcolor{red}01 & Vilík & Devil & 666 \\
+\cellcolor{yellow}02 & James & Bond & 007 \\
+03 & Kryštof & Kolumbus & 1492 \\
+\cellcolor{green}04 & Jiří & Dikobraz & 1111
+\end{tabular}
+\end{subtable}
+~
+\begin{subtable}[t]{0.38\textwidth}
+\centering
+\caption{Vlastníci aut}\label{tab:vl2}
+\begin{tabular}{c || c}
+id & auto \\
+\hline
+\cellcolor{green}04 & Trabant \\
+\cellcolor{yellow}02 & Porsche 911 \\
+\cellcolor{red}01 & Nimbus 3000 \\
+\cellcolor{green}04 & Autobus
+\end{tabular}
+\end{subtable}
+\end{table}
+Dle tabulky vidíme, že číslo každého vlastníka auta v tabulce \ref{tab:vl2} odpovídá osobě z tabulky \ref{tab:vl1}.
+
+Zároveň neexistuje takový majitel auta, který by neměl v první tabulce záznam. Auto zkrátka nemůže být v tomto idealizovaném systému bez majitele. Tento vztah lze zapsat matematicky. Pojmenujme první tabulku $\mathcal{D}_{1}$ a druhou $\mathcal{D}_{2}$, pak lze napsat následující tvrzení:
+$$
+\rho_{id} \leftarrow pracovnik( id(\pi_{\left\{ id \right\}} \left( \mathcal{D}_{2} \right) )) \subseteq \pi_{\left\{ id \right\}} \left( \mathcal{D}_{1} \right)
+$$
+\end{upexample}
+
+V SQL lze modelovat cizí klíče pomocí klíčového slova\upinlinecode{SQL}{!}{FOREIGN KEY}.
+
+\subsubsection{Chování při použití cizího klíče}
+Konkrétní tvrzení z příkladu \ref{ex:cizi} lze pochopitelně zobecnit:
+$$
+\rho_{y} \leftarrow z(\pi_{x} \left( R_{1} \right) ) \subseteq \pi_{y} \left( R_{2} \right)
+$$
+\begin{enumerate}
+\item Nastane chyba, pokud se pokusíme do $R_{1}$ vložit n-tici, jejíž hodnota pro atribut $x$  se nenachází v žádné n-tici z $R_{2}$ v atributu $y$.
+\item Pokus o aktualizaci cizího klíče, kde mohou nastav v zásadě dvě možné situace:
+\begin{enumerate}
+\item Pokus smazat záznam z $R_{2}$, jehož hodnota pro $y$ se nachází v $R_{1}$. Tedy v analogii k předchozímu příkladu \ref{ex:cizi} bychom se snažili smazat pracovníka, který ale vlastní nějaké auto.
+\item Pokus změnit záznam z $R_{2}$ tak, že nová hodnota pro $y$ se nenachází v $R_{1}$. Tedy v analogii k předchozímu příkladu \ref{ex:cizi} bychom se snažili změnit vlastníka nějakého auta na pracovníka, který neexistuje.
+\end{enumerate}
+\end{enumerate}
+
+\upabbrevref{DBMS} může určitým způsobem reagovat na předchozí situace:
+\begin{enumerate}
+\item Databázový systém nemusí vykonat nic. Tohle chování je vlastní systémum pracujícím s SQL.
+\item Může být použito \textit{kaskádování}, kde se provedená změna propaguje do ostatních tabulek, ve kterých je změněná hodnota referována jako cizí klíč.
+\item Databázový systém může rovněž nastavit výskyt cizího klíče buď na NULL nebo na výchozí hodnotu (viz. klíčove slovo\upinlinecode{SQL}{!}{DEFAULT} v SQL.
+\end{enumerate}
+
+% TODO: omezení pomocí klíčů
+
+\section{Tranzitivní uzávěr relace}
+\begin{uptheorem}[Tranzitivní uzávěr relace (v matematickém smyslu)]
+Mějme $R \subseteq A \times A$. Pak tranzitivní uzávěr $R^{\infty} \subseteq A \times A$ je definován jako:
+$$
+R^{\infty} = \bigcup_{n = 1}^{\infty} R^{n} = \bigcup_{n = 1}^{\infty} \underbrace{R \circ \cdots \circ R}_{\text{n-krát}}
+$$
+Pokud je $A$ je konečná, pak existuje index $m$ tak, že $R_{\infty} = \bigcup_{n = 1}^{m} R^{n}$. Je-li  navíc $R$ reflexivní, pak $R^{\infty} = R^{m}$.
+\end{uptheorem}
+Nyní aplikujme tranzitivní uzávěr na databáze.
+\begin{upexample}[Tranzitivní uzávěr tabulky]
+Mějme tabulku (tabulka \ref{tab:predmety1} podmiňujících předmětu se dvěma sloupci. Výsledkem tranzitivního uzávěru je úplná informace o podmiňujích atributech. Tabulky zobrazují podmiňující a podmíněné předměty. Například vidíme, že pro splnění předmětu PP3 je třeba mít přímo splněný předmět PP2, avšak ke splnění předmětu PP2 je třeba mít splněn VT i PP1. Tyto informace jdou z tabulky číst relativně obtížně a pro gigantické tabulky se nepřímé čtení těchto vztahů stává problémové.
+\begin{table}
+\caption{Tranzitivní uzávěr tabulky}\label{tab:predmety}
+\begin{subtable}[t]{0.45\textwidth}
+\centering
+\caption{Výchozí tabulka}\label{tab:predmety1}
+\begin{tabular}{c | c}
+podmiňující př. & podmíněný př. \\
+\hline
+\rowcolor{green}PP1 & PP2 \\
+\rowcolor{red}VT & PP2 \\
+\rowcolor{yellow}PP2 & PP3
+\end{tabular}
+\end{subtable}
+~
+\begin{subtable}[t]{0.45\textwidth}
+\centering
+\caption{Tranizitivně uzavřená tabulka}\label{tab:predmety2}
+\begin{tabular}{c | c}
+podmiňující př. & podmíněný př. \\
+\hline
+\rowcolor{green}PP1 & PP2 \\
+\cellcolor{green}PP1 & \cellcolor{yellow}PP3 \\
+\rowcolor{yellow}PP2 & PP3 \\
+\rowcolor{red}VT & PP2 \\
+\cellcolor{red}VT & \cellcolor{yellow}PP3
+\end{tabular}
+\end{subtable}
+\end{table}
+\end{upexample}

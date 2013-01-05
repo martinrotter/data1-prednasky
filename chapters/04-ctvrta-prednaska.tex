@@ -7,30 +7,30 @@ Uvažujme relace:
 \item $\mathcal{D}_{2}$ na schématu $S$, které říkejme \textit{dělitel}.
 \item $\mathcal{D}_{3}$ na schématu $T$, které říkejme \textit{prostředník}.
 \end{enumerate}
-Výsledkem dělení $\mathcal{D}_{1} \doteqdot_{\mathcal{D}_{3}} \mathcal{D}_{2}$, tedy tzv. podílem je relace nad schématem $R \cap T$. Matematicky:
+Výsledkem dělení $\mathcal{D}_{1} \div_{\mathcal{D}_{3}} \mathcal{D}_{2}$, tedy tzv. podílem je relace nad schématem $R \cap T$. Matematicky:
 \begin{align*}
-\mathcal{D}_{1} \doteqdot_{\mathcal{D}_{3}} \mathcal{D}_{2} &= \left\{ r(R \cap T) \; | \; r \in \mathcal{D}_{1} \text{ tak, že } \forall s \in \mathcal{D}_{2} \text{ takové, že } r(R \cap S \cap T) \right. \\
+\mathcal{D}_{1} \div_{\mathcal{D}_{3}} \mathcal{D}_{2} &= \left\{ r(R \cap T) \; | \; r \in \mathcal{D}_{1} \text{ tak, že } \forall s \in \mathcal{D}_{2} \text{ takové, že } r(R \cap S \cap T) \right. \\
 &\left.= s(R \cap S \cap T) \text{ platí, že } (rs) ((R \cup S) \cap T) \in \pi_{(R \cup S) \cap T} (\mathcal{D}_{3}) \right\}
 \end{align*}
 Pokud $R \cap S = \varnothing$, pak platí, že:
 \begin{align*}
-\mathcal{D}_{1} \doteqdot_{\mathcal{D}_{3}} \mathcal{D}_{2} = &\left\{ r(R \cap T \; | \;  r \in \mathcal{D}_{1} \text{ tak, že pro } \forall s \in \mathcal{D}_{2}  \text{ platí, že } \right. \\
+\mathcal{D}_{1} \div_{\mathcal{D}_{3}} \mathcal{D}_{2} = &\left\{ r(R \cap T \; | \;  r \in \mathcal{D}_{1} \text{ tak, že pro } \forall s \in \mathcal{D}_{2}  \text{ platí, že } \right. \\
 &\left.(rs) \left( \left(R \cup S\right) \cap T\right) \in \pi_{(R \cup S) \cap T} (\mathcal{D}_{3} \right\}
 \end{align*}
-Dělení trošku jinak:
+Dělení trošku jinak: Pro $ T = R \cup S$ 
 $$
-\mathcal{D}_{1} \doteqdot_{\mathcal{D}_{3}} \mathcal{D}_{2} = \left\{ r \; | \; r \in \mathcal{D}_{1} \text{ tak, že pro } \forall s \in \mathcal{D}_{2} \text{ platí, že } rs \in \mathcal{D}_{3} \right\}
+\mathcal{D}_{1} \div_{\mathcal{D}_{3}} \mathcal{D}_{2} = \left\{ r \; | \; r \in \mathcal{D}_{1} \text{ tak, že pro } \forall s \in \mathcal{D}_{2} \text{ platí, že } rs \in \mathcal{D}_{3} \right\}
 $$
-Nebo také:
+Nebo také: (Vhodné pro vyjádření v SQL)
 $$
-\mathcal{D}_{1} \doteqdot_{\mathcal{D}_{3}} \mathcal{D}_{2} = \pi_{R \cap T} \left( \mathcal{D}_{1} \right) \setminus \pi_{R \cap T} \left( \left( \pi_{R \cap T} \left( \mathcal{D}_{1} \right) \Join \pi_{S \cap T} \left( \mathcal{D}_{2} \right) \right) \setminus \pi_{(R \cup S) \cap T} \left( \mathcal{D}_{3} \right) \right)
+\mathcal{D}_{1} \div_{\mathcal{D}_{3}} \mathcal{D}_{2} = \pi_{R \cap T} \left( \mathcal{D}_{1} \right) \setminus \pi_{R \cap T} \left( \left( \pi_{R \cap T} \left( \mathcal{D}_{1} \right) \Join \pi_{S \cap T} \left( \mathcal{D}_{2} \right) \right) \setminus \pi_{(R \cup S) \cap T} \left( \mathcal{D}_{3}  \right) \right) %v sesite mam index 2%
 $$
 \begin{upcode}{Relační dělení (Tutorial D)}{}{TutorialD}
 relexpr1 DIVIDE BY relexpr2 PER relexpr3;
 \end{upcode}
 
 \subsubsection{Vnitřní a vnější spojení}
-Doposud probrané spojení bylo v podstatě vnitřní spojení (klíčové slovo\upinlinecode{SQL}{!}{INNER JOIN} v SQL). Abychom mohl uvažovat vnější spojení, je třeba uvažovat koncept \textit{chybějící} hodnoty, to jest porušit první normální formu. V SQL by se tedy místo\upinlinecode{SQL}{!}{NATURAL (INNER) JOIN} použilo\upinlinecode{SQL}{!}{FULL OUTER JOIN},\upinlinecode{SQL}{!}{LEFT OUTER JOIN} nebo\upinlinecode{SQL}{!}{RIGHT OUTER JOIN}.
+Doposud probrané spojení bylo v podstatě vnitřní spojení (klíčové slovo\upinlinecode{SQL}{!}{INNER JOIN} v SQL). Abychom mohli uvažovat vnější spojení, je třeba uvažovat koncept \textit{chybějící} hodnoty, to jest porušit první normální formu. V SQL by se tedy místo\upinlinecode{SQL}{!}{NATURAL (INNER) JOIN} použilo\upinlinecode{SQL}{!}{FULL OUTER JOIN},\upinlinecode{SQL}{!}{LEFT OUTER JOIN} nebo\upinlinecode{SQL}{!}{RIGHT OUTER JOIN}.
 \begin{upcode}{Vnější spojení (SQL)}{}{SQL}
 SELECT * FROM table_1 FULL OUTER JOIN ON table_1.x < table_2.x
 \end{upcode}
@@ -106,11 +106,12 @@ Logicky bychom očekávali jako výsledek operace n-tici $\langle 45,33 \rangle$
 Jedná se o jednu z komponent Coddova relačního modelu. Účel integritních omezení je ten, že je v databázi třeba udrže určou efektivitu operací a hlavně uchovat data v konzistentním stavu z hlediska jejich smyslu.
 
 \subsection{Výrazy relační algebry}
-\upabbrevref{RA} obsahuje atomické výrazy, tedy proměnné. Jedná se napří-klad o celá čísla nebo konstantní relace (TABLE DEE, TABLE DUM). Dále jsou obsaženy také složené výrazy, které jsou ustaveny rekurzivně, tedy:
+\upabbrevref{RA} obsahuje atomické výrazy, tedy relační proměnné a konstantní relace (TABLE\_DEE, TABLE\_DUM). Dále jsou obsaženy také složené výrazy, které jsou ustaveny rekurzivně, tedy:
 \begin{enumerate}
 \item Pokud jsou $R_{1}$ a $R_{2}$ relační výrazy.
 \item Pak je i $R_{1} \Join R_{2}$ relační výraz.
 \item A taktéž i $R_{1} \cap R_{2}$ je relační výraz.
+\item Podobně s dalšími operacemi.
 \end{enumerate}
 
 \subsection{Omezení z pohledu relační algebry}
@@ -185,7 +186,7 @@ $$
 
 \upabbrevref{DBMS} může určitým způsobem reagovat na předchozí situace:
 \begin{enumerate}
-\item Databázový systém nemusí vykonat nic. Tohle chování je vlastní systémum pracujícím s SQL.
+\item Databázový systém nemusí vykonat nic, jen nahlásí chybu. Tohle chování je vlastní systémům pracujícím s SQL.
 \item Může být použito \textit{kaskádování}, kde se provedená změna propaguje do ostatních tabulek, ve kterých je změněná hodnota referována jako cizí klíč.
 \item Databázový systém může rovněž nastavit výskyt cizího klíče buď na NULL nebo na výchozí hodnotu (viz. klíčove slovo\upinlinecode{SQL}{!}{DEFAULT} v SQL.
 \end{enumerate}
@@ -198,11 +199,11 @@ Mějme $R \subseteq A \times A$. Pak tranzitivní uzávěr $R^{\infty} \subseteq
 $$
 R^{\infty} = \bigcup_{n = 1}^{\infty} R^{n} = \bigcup_{n = 1}^{\infty} \underbrace{R \circ \cdots \circ R}_{\text{n-krát}}
 $$
-Pokud je $A$ je konečná, pak existuje index $m$ tak, že $R_{\infty} = \bigcup_{n = 1}^{m} R^{n}$. Je-li  navíc $R$ reflexivní, pak $R^{\infty} = R^{m}$.
+Pokud je $A$ je konečná, pak existuje index $m$ tak, že $R^{\infty} = \bigcup_{n = 1}^{m} R^{n}$. Je-li  navíc $R$ reflexivní, pak $R^{\infty} = R^{m}$.
 \end{uptheorem}
 Nyní aplikujme tranzitivní uzávěr na databáze.
 \begin{upexample}[Tranzitivní uzávěr tabulky]
-Mějme tabulku (tabulka \ref{tab:predmety1}) podmi\-/ňujících a podmíněných předmětu se dvěma sloupci. Výsledkem tranzitivního uzá\-/věru je úplná informace o podmiňujích atributech. Tabulky zobrazují podmi\-/ňující a podmíněné předměty. Například vidíme, že pro splnění předmětu PP3 je třeba mít přímo splněný předmět PP2, avšak ke splnění předmětu PP2 je třeba mít splněn VT i PP1. Tyto informace jdou z tabulky číst relativně obtížně a pro gigantické tabulky se nepřímé čtení těchto vztahů stává problémové.
+Mějme tabulku (tabulka \ref{tab:predmety1}) podmi\-/ňujících a podmíněných předmětů se dvěma sloupci. Výsledkem tranzitivního uzá\-věru je úplná informace o podmiňujích atributech. Tabulky zobrazují podmi\-/ňující a podmíněné předměty. Například vidíme, že pro splnění předmětu PP3 je třeba mít přímo splněný předmět PP2, avšak ke splnění předmětu PP2 je třeba mít splněn VT i PP1. Tyto informace jdou z tabulky číst relativně obtížně a pro gigantické tabulky se nepřímé čtení těchto vztahů stává problémové.
 \begin{table}
 \caption{Tranzitivní uzávěr tabulky}\label{tab:predmety}
 \begin{subtable}[t]{0.45\textwidth}
@@ -238,7 +239,7 @@ $$
 $$
 a vyjídříme protějšek $R^{\infty}$ jako
 $$
-\mathcal{D}^{\infty} = \bigcup_{n = 1}^{m} \pi_{\left\{ x, y \right\}} \left( \Join_{i = 1}^{n} \rho x'_{i, n} \leftarrow x, y'_{i, n} \leftarrow y(\mathcal{D}) \right)
+\mathcal{D}^{\infty} = \bigcup_{n = 1}^{m} \pi_{\left\{ x, y \right\}} \left( \Join_{i = 1}^{n} \rho _{x'_{i, n} \leftarrow x, y'_{i, n} \leftarrow y}(\mathcal{D}) \right)
 $$
 kde
 $$

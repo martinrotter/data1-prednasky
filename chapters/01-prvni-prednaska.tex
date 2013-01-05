@@ -8,20 +8,20 @@ Databázový systém (anglicky \upabbrevref{DBMS}) je soustava komplexního apli
 
 Mějme na paměti, že obě částí databázových systémů se rozvíjely postupně a mnohdy metodou pokus - omyl. Obecně platí, že pokud selže teoretický základ, tak již ani sebelepší frontend nic nezmůže. V databázovém systému se objeví formální rozpor a jedinou cestou vpřed je začít znovu.
 
-Hlavním úkolem \upabbrevref{DBMS} je poskytovat \textit{perzistentní uložení dat}, dále poskytnout svým uživatelům konzistentní rozhraní a případně nabídnout \textit{transa-kční zpracování dat}. Nutnto podotknout, že poslední bod nemusí být takovou samozřejmostí, jak by se mohlo zdát.
+Hlavním úkolem \upabbrevref{DBMS} je poskytovat \textit{perzistentní uložení dat}, dále poskytnout svým uživatelům konzistentní rozhraní a případně nabídnout \textit{transa\-kční zpracování dat}. Nutnto podotknout, že poslední bod nemusí být takovou samozřejmostí, jak by se mohlo zdát.
 
 \subsection{Historie databázových systémů}
 Potřeba organizace dat je stará jako lidstvo samo. Již staří Egypťané si vedli podrobné záznamy o výběru daní, stavbách chrámů a jiných činnostech. Zde můžeme hovořit o databázích založených na souborech.
 
 \subsubsection{Databáze založené na souborech}
-Souborem může být například papyrus, hliněná destička nebo (lépe) papír. Na papíře můžete být napsány v řádcích nějaké záznamy. Například seznam dlužníků nějakého podnikatele. \textit{Vytvoření} takového seznamu je vskutku \textit{lehké}. Představme si, že dlužník uprostřed seznamu splatil svůj dluh a bude ze seznamu vyškrtnut. Místo něj v seznamu vznikne prázdné místo. Zbytek seznamu se následně musí zkonsolidovat (přepsat na nový papír), aby vypadal konzistentně. Odtud plyne určitá \textit{těžkopádnost} vyplývající z definice souboru a z určité \textit{nízkoúrovňovosti} práce s ním. Přitom souborem může být myšlen i soubor na disku počítače.
+Souborem může být například papyrus, hliněná destička nebo (lépe) papír. Na papíře mohou být napsány v řádcích nějaké záznamy. Například seznam dlužníků nějakého podnikatele. \textit{Vytvoření} takového seznamu je vskutku \textit{lehké}. Představme si, že dlužník uprostřed seznamu splatil svůj dluh a bude ze seznamu vyškrtnut. Místo něj v seznamu vznikne prázdné místo. Zbytek seznamu se následně musí zkonsolidovat (přepsat na nový papír), aby vypadal konzistentně. Odtud plyne určitá \textit{těžkopádnost} vyplývající z definice souboru a z určité \textit{nízkoúrovňovosti} práce s ním. Přitom souborem může být myšlen i soubor na disku počítače.
 
 Představme si navíc, že daný podnikatel si vede další soubor se seznamem, kde si u každého dlužníka značí jeho adresu, aby jej mohl v případě nutnosti navštívit. Jméno dlužníka tedy uchováva hned na dvou seznamech, přitom je přirozeně jasné, že stačí dlužníka evidovat jednou a poté se na něj \enquote{odkazovat.} \textit{Redundace dat} je tedy zřejmá.
 
 \subsubsection{Databáze založené na síťovém modelu}
 Průkopníkem této oblasti byl Charles Bachman. Aktuálně se toto paradigma považuje za dávno překonané, nicméně pro časy budoucí poskytlo několik dob-rých poznatků. Typicky \enquote{síťový} databázový systém je tvoří mj. i:
 \begin{enumerate}
-\item \textit{Záznamy}, které mají určitý \textit{typ}. Ten deklaruje, jaké \textit{atributy} daný zázna obsahuje. Atributy mohou nabývat různých hodnot.
+\item \textit{Záznamy}, které mají určitý \textit{typ}. Ten deklaruje, jaké \textit{atributy} daný záznam obsahuje. Atributy mohou nabývat různých hodnot.
 \item \textit{Odkazy}, které reprezentují \textit{vztahy} mezi jednotlivými záznamy.
 \end{enumerate}
 Obecně se ví, že databázové systémy tohoto typu mohou poskytovat velmi rychlé prostředky pro získávání jednoduchých dat, ale na druhou stranu na komplexnější data se dotazuje hůře. Tvorba dat není rovněž jednoduchá, protože práce s odkazy požaduje vyšší míru sofistikace.
@@ -40,11 +40,13 @@ Obecně se ví, že databázové systémy tohoto typu mohou poskytovat velmi ryc
 Jedná se o speciální typ síťového modelu, kde bylo úmyslem tento model zjednodušit. Výsledkem bylo vytvoření hierarchie v záznamech a odkazech ve formě stromu\footnote{Strom je jednou ze základních grafových struktur. Jedná se o (neorientovaný) graf bez kružnic. Více napoví \citep[str. 91 -- 96]{cormen:algorithms}.}.
 
 \subsubsection{Databáze založené na objektovém modelu}
-V objektovém modelu jsou hlavní prvky, jenž reprezentují data, \textit{objekty}, tery serializované entity, které lze interpretovat pomocí nějakého vyššího programovacího jazyka. Prvním jazykem podporujícím takovéto pojetí byl Common Lisp.
+V objektovém modelu jsou hlavní prvky, jenž reprezentují data, \textit{objekty}, tedy serializované entity, které lze interpretovat pomocí nějakého vyššího programovacího jazyka. Prvním jazykem podporujícím takovéto pojetí byl Common Lisp.
 
 \subsubsection{Databáze založené na relačním modelu}
 Jedná se o aktuálně používaný model, který přináší určité výhody. Primárním nosičem informace v tomto modelu jsou \textit{relace} (poněkud amatérsky je můžeme nazývat také tabulkami). Základy tohoto modelu položil Edgar Codd v roce 1970.
 
+\subsubsection{Nerelační databáze}
+Vyvíjeny v 90. letech 20. století. Někdy chybně značovaný jako \uv{No SQL}. Rychlé pro jednoduché dotazy. Patří sem např. BerkeleyDB, MongoDB.
 % obrázek struktury databáze.
 
 \section{Relační model dat}
@@ -54,16 +56,16 @@ Model má 3 základní komponenty:
 \item \textit{Integritní omezení}, která popisují vztahy mezi daty, které musí být splněny. Integritní omezení jsou v podstatě formule. Tato omezení slouží k popisu toho, jak mají data vypadat, slouži k odstranění jejich chyb.
 \item \textit{Manipulativní formalismy}, které říkají jak z uložených dat získat jiná data určitými operacemi.
 \end{enumerate}
-Relační mode je konkrétním modelem dat, avšak modely jako takové lzde rozdělit do dvou skupin, tedy:
+Relační model je konkrétním modelem dat, avšak modely jako takové lze rozdělit do dvou skupin, tedy:
 \begin{enumerate}
 \item Abstraktní modely dat, které poskytují vyčerpávající logické definice datových struktur nebo operací s daty. Ty dohromady tvoří abstraktní formalismus. Tedy jakýsi abstraktní stroj, se kterým může uživatel operovat.
-\item Konkrétní modely, pracující s persistentními daty.
+\item Konkrétní implementace modelů, pracující s persistentními daty. Od uživatele databáze se očekává dobrá znalost modelu dat, detailní znalost fyzické implementace není nutná.
 \end{enumerate}
 
 \section{Struktura relačních dat}
 Základním kamenem dat jsou tzv. \enquote{datové tabulky}, které obsahují záhlaví a další data.
 \begin{enumerate}
-\item Záhlaví (viz. tabulka \ref{tab:zahlavi}) je množina atributů a jejich typů. U tabulky se seznamem zamě-stnanců může být atributem například jméno zaměstnance atp.
+\item Záhlaví (viz. tabulka \ref{tab:zahlavi}) je množina atributů a jejich typů. U tabulky se seznamem zamě\-stnanců může být atributem například jméno zaměstnance atp.
 \item Vlastní data (neboli tělo) tabulky by u takovéto tabulky představovala data samotných zaměstnanců.
 \end{enumerate}
 
@@ -88,7 +90,7 @@ ID & JMÉNO & ADRESA \\
 \item To samé platí pro sloupce.
 \item Z definice množiny také vyplývá, že tabulka by neměla obsahovat identické řádky. Tento požadavek není v mnoha \upabbrevref{DBMS} splněn.
 \item V každém poli uvnitř tabulky je právě jedna hodnota daného typu.(SQL porušuje nedefinovanou hodnotou)
-\item\label{enum:last_re} Všechny atributy jsou regulární.
+\item\label{enum:last_re} Všechny atributy jsou regulární.(Nejsou přítomné žádné skryté atributy.)
 \end{enumerate}
 Tyto požadavky formuloval C.~J.~Date.
 Pokud tabulka splňuje body \ref{enum:first_re} až \ref{enum:last_re}, pak je v 1. normální formě.
@@ -96,7 +98,7 @@ Pokud tabulka splňuje body \ref{enum:first_re} až \ref{enum:last_re}, pak je v
 Zavedli jsme si několik pojmů jako \textit{atribut} a tak dále. Formalizujme je nyní přesněji:
 \begin{description}
 \item[Atribut] popisuje účel daného sloupce v tabulce, je to jméno sloupce.
-\item[Typ] říká, jakých hodnot může atribut nabývat.
+\item[Typ] je jméno(označení) datového typu. Např.: INTEGER
 \item[Doména] je množinou všech možných hodnot daného typu. Tedy například nějaký pomyslný typ\upinlinecode{SQL}{!}{BOOL} by mohl mít doménu ve tvaru: $$
 \dom(BOOL) = \left\{ true, false \right\}
 $$
@@ -105,7 +107,7 @@ $$
 \subsection{Relační schéma}
 Již dříve jsme si uvedli pojem \textit{záhlaví tabulky}, avšak ten byl poněkud vágní. Relační schéma je jeho analogií s přesnější definicí.
 \begin{uptheorem}[Relační schéma]
-Mějme množinu atributů $Y$ a množinu typů $T$ Následně platí, relační schéma $R$ je množina definovaná jako:
+Mějme spočetnou množinu atributů $Y$ a množinu typů $T$ Následně platí, relační schéma $R$ je množina definovaná jako:
 $$
 R = \left\{ \left\langle y, t \right\rangle \; | \; y \in Y, t \in T \right\}
 $$
@@ -117,11 +119,11 @@ Mějme následující systém množin:
 $$
 \left\{ A_{i} \; | \; i \in I \right\}
 $$
-kde $I$ je tzv. indexní (a libovolná) množina a $i$ je index z této množiny. Kartézský součin $A_{i} (i \in I)$ se značí $\prod_{i \in I} A_{i}$ a je definován jako množina zobrazení $f: I \rightarrow \bigcup_{i \in I} A_{i}$, kde $f_{i} \in A_{i}$ pro každý $i \in I$.
+kde $I$ je tzv. indexní (a libovolná) množina a $i$ je index z této množiny. Kartézský součin $A_{i} (i \in I)$ se značí $\prod_{i \in I} A_{i}$ a je definován jako množina všech zobrazení $$f: I \rightarrow \bigcup_{i \in I} A_{i} \text{ , kde } f(i) \in A_{i} \text{ pro } \forall i \in I$$.
 
 Prvky $\prod_{i \in I} A_{i}$ jsou zobrazení, nezáleží v nich na pořadí indexů.
 \begin{upexample}[Kartézský součin]
-Vypočítejme kartézský součin množin $A$ a $B$, tedy $A \times B$ se zadáníms:
+Vypočítejme kartézský součin množin $A$ a $B$, tedy $A \times B$ se zadáním:
 $$
 A = \left\{ a, b, c \right\}, \quad B = \left\{ 10, 10 \right\}, \quad I = \left\{ 1, 2 \right\}, \quad A_{1} = A, \quad A_{2} = B
 $$
@@ -141,7 +143,7 @@ Nechť $I = \varnothing$. Pak $\prod_{i \in I} A_{i} = \left\{ \varnothing \righ
 
 \subsection{Relace nad relačním schématem}
 \begin{uptheorem}[Relace nad relačním schématem]
-Mějme relační schéma $R$, pak relace nad $R$ je libovolná konečná podmnožina na kartézském součinu domén atributů z $R$, tedy
+Mějme relační schéma $R\subseteq Y$, pak relace nad $R$ je libovolná konečná podmnožina na kartézském součinu domén atributů z $R$, tedy
 $$
 \mathcal{D} \subseteq \prod_{y \in R} \dom(y)
 $$
@@ -167,10 +169,17 @@ Každý prvek relace (tabulky) se nazývá n-tice. To je analogické vzhledem k 
 \section{Tutorial D}
 Programovací jazyk Tutorial D formuje opozici vůči mnohem známějšímu a v praxi používanějšímu \upabbrevref{SQL}. Tutorial D má jedinou funkční a (víceménně) použitelnou implementaci známou jako Rel. Frontend Rel je naprogram v jazyce Java a jeho prostředí vypadá bohužel hrůzostrašně. Rel je silně staticky typovaný, nemá konverze typů. Obsahuje typy:
 \begin{description}
-\item[Skalární], které jsou opozitem hodnotových typů ze známějších jazyků a patří sem například\upinlinecode{TutorialD}{!}{BOOLEAN},\upinlinecode{TutorialD}{!}{INTEGER} nebo\upinlinecode{TutorialD}{!}{STRING}.
+\item[Skalární], které jsou opozitem hodnotových typů ze známějších jazyků a patří sem například\upinlinecode{TutorialD}{!}{BOOLEAN},\upinlinecode{TutorialD}{!}{INTEGER} nebo\upinlinecode{TutorialD}{!}{STRING} a také uživatelsky definované typy.
 \item[N-ticové], které jsou dané jmény atributů a jejich typy.
+\item[Relační], které jsou dány atributy a jejich typy. Hodnoty představují relace, t.j. množiny n-tic.
 \end{description}
-Dále Rel disponuje \textit{relačním} typem, který představuje instance tabulek. Rel pracuje s proměnnými konstruktivně, proměnné nemohou měnit svůj obsah (hodnotu), místo toho se vytváří nová proměnná s novou hodnotou. Každá proměnná má tedy svůj typ.
+
+
+\subsection{Hodnoty vs. proměnné}
+\begin{enumerate}
+\item[Hodnoty] - jednotlivé konstanty, relace a n-tice. Nemohou se měnit - \uv{Jako ve Scheme}
+\item[Proměnné] - ukazatele na reprezentace hodnot. Mají přiřazený typ, mohou měnit svůj odkaz.
+\end{enumerate}
 
 \subsection{Výrazy versus příkazy}
 Výrazem v Tutorial D (resp. v Rel) je například prostá logická rovnost hodnot. Výraz může mít nějaký výsledek. Příkaz se od výrazu liší tak, že končí středníkem a obvykle obsahuje volání nějaké funkce.

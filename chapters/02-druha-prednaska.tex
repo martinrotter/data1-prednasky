@@ -79,11 +79,11 @@ Je třeba vysvětlit několik dalších pojmů:
 
 \subsection{Relační operace}
 \subsubsection{Projekce}
-Mějme relací $R$ na schématu $T$. Projekce $\mathcal{D}$ na $R \subseteq T$ je relace $\pi_{R}(\mathcal{D})$, definovaná jako:
+Mějme relaci $\mathcal{D}$ na schématu $T$. Projekce z $\mathcal{D}$ přes $R \subseteq T$ je relace $\pi_{R}(\mathcal{D})$, definovaná jako:
 $$
-\pi_{R}(\mathcal{D}) = \left\{ r \in \prod_{y \in R} dom(y) \; | \; \text{existuje } s \in \prod_{y \in \pi_{R}} dom(y) \text{ tak, že } rs \in \mathcal{D} \right\}
+\pi_{R}(\mathcal{D}) = \left\{ r \in \prod_{y \in R} dom(y) \; | \; \text{existuje } s \in \prod_{y \in T \setminus R} dom(y) \text{ tak, že } rs \in \mathcal{D} \right\}
 $$
-kde $rs$ znázorňuje zřetězení n-tic, kde část $r \in R$ a $s \in T \setminus R$.
+kde $rs$ znázorňuje (určitý druh) zřetězení n-tic, kde část $r$ je nad schématem $R$ a $s$ je nad schématem $ T \setminus R$.
 
 V Tutorial D lze n-tice řetězit prostřednictvým klíčového slova\upinlinecode{TutorialD}{!}{COMPOSE}.
 \begin{upcode}{Projekce (SQL)}{}{SQL}

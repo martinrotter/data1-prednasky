@@ -12,7 +12,7 @@ K získávání dat z databáze slouží tzv. \textit{relační dotazování}. F
 
 \textit{Relační algebra} specifikuje množinu operací s relacemmi a dotazy se skládají z postupné aplikace těchto operací. Dotazy se formulují pomocí termů a vyhodnocování dotazů odpovídá vyhodnocování termů v algebře. Vyhodnocování může být přímočaré, avšak u složitějších dotazů rovněž netriviální.
 
-Relační kalkuly (výpočty nad relacemi) existují hned v několika variantách:
+\textit{Relační kalkuly} (výpočty nad relacemi) existují hned v několika variantách:
 \begin{itemize}
 \item doménový kalkul
 \item n-ticový kalkul
@@ -49,11 +49,11 @@ SELECT * FROM table2;
 Množinové operace v \upabbrevref{SQL} používají implicitně volbu\upinlinecode{SQL}{!}{DISTINCT}, takže duplicitní n-tice jsou ignorovány. Naproti tomu u operací typu\upinlinecode{SQL}{!}{SELECT} se jako výchozí používá\upinlinecode{SQl}{!}{ALL}.
 
 \subsection{Efektivita množinových operací}
-Efektivitá závisí na implementaci fyzciké vrstvý databázového systému. Obecně platí, že pokud lze na množině potřebných n-tic zavést lineární uspořádání, tak lze množinové operace provádět pomocí slévání.
+Efektivitá závisí na implementaci fyzické vrstvy databázového systému. Obecně platí, že pokud lze na množině potřebných n-tic zavést lineární uspořádání, tak lze množinové operace provádět pomocí slévání.
 
 Je třeba aby dané uspořádání bylo navíc totální. Tedy každé dvě n-tice musejí být porovnatelné. Relace uspořádání musí být tranzitivní, symetrická a reflexivní. Z požadavku totality musí být uspořádání také úplné.
 
-Pokud máme na každé doméně zavedeno toto uspořádání $\leq y$ a zavedeme uspořádání také pro dané relační schéma $R$, tedy $\leq R$, pak nám všechna uspořá-dání
+Pokud máme na každé doméně zavedeno toto uspořádání $\leq _{y}$ a zavedeme uspořádání také pro dané relační schéma $R$, tedy $\leq _{R}$, pak nám všechna uspořá-dání
 $$
 \leq_{y}(y \in R) \text{ a } \leq_{R}
 $$
@@ -69,8 +69,8 @@ CREATE INDEX muj_index ON moje_tabulka (sloupec_1, sloupec_2);
 \subsection{Další pojmy}
 Je třeba vysvětlit několik dalších pojmů:
 \begin{description}
-\item[Nadklíč (superkey)] Mějme relaci $\mathcal{D}$ nad relačním schématem $R$, která obsahuje několik n-tic. Jelikož je $\mathcal{D}$ množina, tak nemůže obsahovat dvě stejné n-tice. Tedy dvě n-tice, které jsou shodné na všech atributech z $R$. Navíc mohou přirozeně existovat další podmnožiny $R$ (i $R \subseteq R$), pro které platí, že žádné dvě n-tice by se na těchto podmnožinách neměli shodovat. Každou takovou podmnožinu $R$ nazýváme \textit{superklíč}. Každá relace má alespoň jeden superklíč -- ten, který je tvořen všemi atributy.
-\item[Klíč (key)] Mějme libovolný nadklíč a relaci $\mathcal{D}$. Takový nadklíč může obsahovat \enquote{nadbytečné} prvky resp. atributy. Jako \textit{klíč} $K$ označíme superklíč takový, že odstraněním jakéhokoliv dalšího atributu z klíče $K$ by vedlo k tomu, že $K$ již nebude nadklíč. Tedy:
+\item[Nadklíč (superkey)] Mějme relaci $\mathcal{D}$ nad relačním schématem $R$, která obsahuje několik n-tic. $K \subseteq R$ se nazývá \textit{nadklíč}, pokud pro každé n-tice $r_{1}$,$r_{2} \in \mathcal{D}$ platí: Pokud jsou si $r_{1}$ a $r_{2}$ rovny na všech atributech z $K$, pak si jsou rovny na všech atributech z $R$. Triviálním nadklíčem je $K=R$.
+\item[Klíč (key)] Mějme libovolný nadklíč a relaci $\mathcal{D}$. Takový nadklíč může obsahovat \enquote{nadbytečné} prvky resp. atributy. Jako \textit{klíč} $K$ označíme nadklíč takový, že odstraněním jakéhokoliv dalšího atributu z klíče $K$ by vedlo k tomu, že $K$ již nebude nadklíč. Tedy:
 \begin{enumerate}
 \item Pro každé různé n-tice musí platit, že nemohou mít shodné hodnoty na (všech) atributech z klíče.
 \item Klíč je minimálním nadklíčem.
@@ -81,7 +81,7 @@ Je třeba vysvětlit několik dalších pojmů:
 \subsubsection{Projekce}
 Mějme relací $R$ na schématu $T$. Projekce $\mathcal{D}$ na $R \subseteq T$ je relace $\pi_{R}(\mathcal{D})$, definovaná jako:
 $$
-\pi_{R}(\mathcal{D}) = \left\{ r \in \prod_{y \in R} dim(y) \; | \; \text{existuje } s \in \prod_{y \in \pi_{R}} \text{tak, že } rs \in \mathcal{D} \right\}
+\pi_{R}(\mathcal{D}) = \left\{ r \in \prod_{y \in R} dom(y) \; | \; \text{existuje } s \in \prod_{y \in \pi_{R}} dom(y) \text{ tak, že } rs \in \mathcal{D} \right\}
 $$
 kde $rs$ znázorňuje zřetězení n-tic, kde část $r \in R$ a $s \in T \setminus R$.
 
@@ -103,7 +103,7 @@ Projekce v SQL přes\upinlinecode{SQL}{!}{DISTINCT} je rychlá operace. V příp
 \begin{enumerate}
 \item Hashování, kde se potencíální n-tice, které se objeví ve výsledku, hashují.
 \item Použití totálního uspořádání n-tic.
-\begin{upquote}[Užití totálního uspořádání pro zrychlení projekce]
+\begin{upquote}
 Pokud má-me $S \subseteq R \subseteq T$, pak
 \begin{align*}
 \pi_{S} (\pi_{R}(\mathcal{D})) &= \pi_{S}(\mathcal{D}) \\
@@ -133,7 +133,7 @@ relexpr WHERE id = 666;
 \begin{upquote}[O komutativitě restrikcí]
 Platí, že:
 $$
-\sigma_{\varphi}(\sigma_{\psi}(\mathcal{D})) = \sigma_{\psi}(\sigma_{\varphi}(\mathcal{D})) = \sigma_{\varphi \times \psi}(\mathcal{D})
+\sigma_{\varphi}(\sigma_{\psi}(\mathcal{D})) = \sigma_{\psi}(\sigma_{\varphi}(\mathcal{D})) = \sigma_{\varphi \& \psi}(\mathcal{D})
 $$
 \end{upquote}
 

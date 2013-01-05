@@ -6,7 +6,7 @@ Výsledkem obdobného dotazu v SQL bude vždy relace. Například v tomto příp
 \begin{upcode}{Počet n-tic v relaci (Tutorial D)}{}{TutorialD}
 COUNT(relexpr)
 \end{upcode}
-Naopak v Tutorial D nebude výsledkem relace, avšak skalární hodnota. Tedy jednoduše číslo. Chování jazyka SQL lze v Tutorial D umitovat.
+Naopak v Tutorial D nebude výsledkem relace, avšak skalární hodnota. Tedy jednoduše číslo. Chování jazyka SQL lze v Tutorial D imitovat.
 \begin{upcode}{Imitace chování SQL (Tutorial D)}{}{TutorialD}
 SUMMARIZE relexpr ADD (COUNT() AS count_of_tuples)
 \end{upcode}
@@ -43,7 +43,7 @@ Na základě relace a seznamu atributů množin atributů, které se mají sesku
 \subsubsection{Přejmenování}
 Z relace $\mathcal{D}$ nad relačním schématem $R$ se vytvoří nová relace
 $$
-\rho \; y_{1}' \Leftarrow y_{1}, \ldots, y_{n}' \Leftarrow y_{n} (\mathcal{D})
+\rho _{ \; y_{1}' \Leftarrow y_{1}, \ldots, y_{n}' \Leftarrow y_{n}} (\mathcal{D})
 $$
 nad schématem $R$, ve kterém byly atributy $y_{1}, \ldots, y_{n}$ přejmenovány na atributy $y_{1}', \ldots, y_{n}'$, ale za předpokladu, že každé dva atributy $y_{i}, y_{i}' \text{ pro } 1 \leq i \leq n$ mají stejný typ.
 \begin{upcode}{Přejmenování (Tutorial D)}{}{TutorialD}
@@ -65,7 +65,7 @@ $$
 TUPLE {x 10, y 20} UNION TUPLE {y 20, z 30}
 \end{upcode}
 \begin{upexample}[Přirozené spojení]
-Přírozeným spojením získáme tabulku, který má společné záhlaví, avšak obsahuje pouze n-tice, které se shodují na společných atributech daných vstupních tabulek resp. relací. Názorně na tabulkách ve skupině tabulek \ref{tab:prir_spojeni}.
+Přírozeným spojením získáme tabulku, která má společné záhlaví, avšak obsahuje pouze n-tice, které se shodují na společných atributech daných vstupních tabulek resp. relací. Názorně na tabulkách ve skupině tabulek \ref{tab:prir_spojeni}.
 \begin{table}
 \caption{Přirozené spojení tabulek}\label{tab:prir_spojeni}
 \begin{subtable}[t]{0.3\textwidth}
@@ -109,7 +109,7 @@ w & x & y & z \\
 \end{subtable}
 \end{table}
 \end{upexample}
-Libovolné n-tice $r$ nad schémater $R$ a $s$ nad schématem $S$ nazveme \textit{spojitelné}, pokud projekce $r (R \cup S) = s (R \cup S)$. Tedy pokud mají stejné hodnoty ve společných atributech. Přirozené spojení odpovídá množině všech spojitelných n-tic z nějakých vstupních relací $\mathcal{D}_{1}, \mathcal{D}_{2}$.
+Libovolné n-tice $r$ nad schématem $R$ a $s$ nad schématem $S$ nazveme \textit{spojitelné}, pokud projekce $r (R \cap S) = s (R \cap S)$. Tedy pokud mají stejné hodnoty ve společných atributech. Přirozené spojení odpovídá množině všech spojitelných n-tic z nějakých vstupních relací $\mathcal{D}_{1}, \mathcal{D}_{2}$.
 \begin{upcode}{Přirozené spojení (Tutorial D)}{}{TutorialD}
 relexpr1 JOIN relexpr2
 \end{upcode}
@@ -139,16 +139,16 @@ Předpokládejme, že $\mathcal{D}_{1}$ je relace nad schématem $R \cup S$ a $\
 &= \mathcal{D}_{1} \cap \mathcal{D}_{2}
 \end{align*}
 
-\item[Kartézský průnik] Jedná se o spojení, kde společné schéma (seznam atributů) $S = \varnothing$. Následně:
+\item[Kartézský součin] Jedná se o spojení, kde společné schéma (seznam atributů) $S = \varnothing$. Následně:
 \begin{align*}
 \mathcal{D}_{1} \Join \mathcal{D}_{2} &= \left\{ rst \; | \; rs \in \mathcal{D}_{1} \text{ a } st \in \mathcal{D}_{2} \right\} \\
 &= \left\{ rt \; | \; r \in \mathcal{D}_{1} \text{ a } t \in \mathcal{D}_{2} \right\}
 \end{align*}
 Tento případ spojení značíme $\boxtimes$. Velikost výsledku tohoto spojení, tedy $\left| \mathcal{D}_{1} \boxtimes \mathcal{D}_{2} \right| = \left|\mathcal{D}_{1}\right| \cdot \left|\mathcal{D}_{2}\right|$.
 
-$\boxtimes$ tedy označuje množinu všech spojení tohoto typu. V Tutorial D nemá tato operace žádnou analogii. V SQL se používá klíčové slovo\upinlinecode{SQL}{!}{CROSS JOIN}.
+$\boxtimes$ tedy označuje množinu všech spojení tohoto typu. V Tutorial D nemá tato operace žádnou analogii. Dá se udělat pomocí JOIN a přejmenování atributů. V SQL se používá klíčové slovo\upinlinecode{SQL}{!}{CROSS JOIN}.
 
-\item[Polospojení] Značí se $\ltimes$. Tedy $\mathcal{D}_{1} \ltimes \mathcal{D}_{2} = \pi_{R \cup S} (\mathcal{D}_{1} \Join) \mathcal{D}_{2})$. Výsledkem obsahuje takové n-tice $rs \in \mathcal{D}_{1} \ltimes \mathcal{D}_{2}$, pro které platí, že jsou spojitelné s alespoň jednou n-ticí z $\mathcal{D}_{2}$.
+\item[Polospojení] Značí se $\ltimes$. Tedy $\mathcal{D}_{1} \ltimes \mathcal{D}_{2} = \pi_{R \cup S} (\mathcal{D}_{1} \Join \mathcal{D}_{2})$. Výsledek obsahuje takové n-tice $rs \in \mathcal{D}_{1} \ltimes \mathcal{D}_{2}$, pro které platí, že jsou spojitelné s alespoň jednou n-ticí z $\mathcal{D}_{2}$.
 \begin{upcode}{Polospojení (SQL)}{}{SQL}
 SELECT DISTINCT table_1.* FROM table_1 NATURAL JOIN table_2
 \end{upcode}
@@ -161,7 +161,7 @@ T = \varnothing & \text{pak } \mathcal{D}_{1} \ltimes \mathcal{D}_{2} = \mathcal
 R = \varnothing & \text{pak } \mathcal{D}_{2} \ltimes \mathcal{D}_{1} = \mathcal{D}_{1} \Join \mathcal{D}_{2}
 \end{array}\right.$
 
-\item[Restrikce (na rovnost)] $\sigma_{y \approx d} (\mathcal{D}) = \mathcal{D} \Join \left\{ \left\langle y, d \right\rangle \right\} $, kde $\left\langle y, d \right\rangle$ je n-tice nad schématem $R = \left\{ s \right\}$ a $f(y) = d$.
+\item[Restrikce (na rovnost)] $\sigma_{y \approx d} (\mathcal{D}) = \mathcal{D} \Join \left\{\{ \left\langle y, d \right\rangle \right\}\} $, kde $\left\langle y, d \right\rangle$ je n-tice nad schématem $R = \left\{ y \right\}$ a $f(y) = d$.
 \begin{upcode}{Restrikce na rovnost (Tutorial D)}{}{TutorialD}
 relexpr1 WHERE y = d
 /* je ekvivalentní s */
@@ -170,7 +170,7 @@ relexpr1 JOIN RELATION {TUPLE {y d}}
 
 \item[Kompozice binárních relací] Klasické kompozice z pohledu matematických relací se definuje jako:
 $$
-R_{1} \circ R_{2} = \left\{ \left\langle a, b \right\rangle \; | \; \exists c \text{ tak, že } \left\langle a, b \right\rangle \in R_{1} \text{ a zároveň } \left\langle c, b \right\rangle \in R_{2} \right\}
+R_{1} \circ R_{2} = \left\{ \left\langle a, b \right\rangle \; | \; \exists c \text{ tak, že } \left\langle a, c \right\rangle \in R_{1} \text{ a zároveň } \left\langle c, b \right\rangle \in R_{2} \right\}
 $$
 Naproti tomu kompozice s přihlédnutím k relacím nad určitým relačním schématem se definuje jako:
 $$
@@ -187,21 +187,21 @@ Platí, že:
 \tag{Asociativita}\mathcal{D}_{1} \Join (\mathcal{D}_{2} \Join \mathcal{D}_{3}) &= (\mathcal{D}_{1} \Join \mathcal{D}_{2}) \Join \mathcal{D}_{3} \\
 \tag{Idempotence}\mathcal{D} \Join \mathcal{D} &= \mathcal{D} \\
 \tag{Neutralita vůči množině obs. $\varnothing$}\mathcal{D} \Join \left\{ \varnothing \right\} &= \mathcal{D} \\
-\tag{Neutralita vůči prázdné množině}\mathcal{D} \Join \varnothing &= \varnothing
+\tag{Anihilace vůči prázdné množině}\mathcal{D} \Join \varnothing &= \varnothing
 \end{align}
 \end{upquote}
 \begin{upquote}[Další vlastnosti spojení]
-Platí, že:
+Mějme relace $\mathcal{D}_{i}$ na schématech $R_{j} (j=1, \dots , n)$ pak platí:
 \begin{enumerate}
 \item $\pi_{R_{j}} (\Join_{i = 1}^{n} \mathcal{D}_{i}) \subseteq \mathcal{D}_{j}, \quad \forall j = 1, \ldots, n$
 \item $\pi_{R_{j}} (\Join_{i = 1}^{n} \mathcal{D}_{i}) = \mathcal{D}_{j}, \quad \forall j = 1, \ldots, n$ právě, když lze relace $\mathcal{D}_{1}, \ldots, \mathcal{D}_{n}$ úplně spojit.
 \item $\pi_{R_{j}} (\Join_{k = 1}^{n} \pi_{R_{j}} (\Join_{i = 1}^{n} \mathcal{D}_{i})) = \pi_{R_{j}} (\Join_{i = 1}^{n} \mathcal{D}_{i}), \quad j = 1, \ldots, n$
 \end{enumerate}
-Mějme $\mathcal{D}$ na schématu $R_{1} \cup \cdots \cup R_{i}$. Následně platí:
+Mějme $\mathcal{D}$ na schématu $R_{1} \cup \cdots \cup R_{n}$. Následně platí:
 \begin{enumerate}
 \setcounter{enumi}{3}
 \item $\mathcal{D} \subseteq \Join_{i = 1}^{n} \pi_{R_{i}} (\mathcal{D})$
-\item $\Join_{i = 1}^{n} \pi_{R_{i}} (\Join_{i = 1}^{n} \pi_{R_{i}} (\mathcal{D})) = \Join_{i = 1}^{n} \pi_{R_{i}} (\mathcal{D}) $
+\item $\Join_{i = 1}^{n} \pi_{R_{i}} (\Join_{j = 1}^{n} \pi_{R_{j}} (\mathcal{D})) = \Join_{i = 1}^{n} \pi_{R_{i}} (\mathcal{D}) $
 \end{enumerate}
 \end{upquote}
 \begin{uptheorem}[Bezztrátová dekompozice]
@@ -230,9 +230,9 @@ $$
 \subsubsubsection{Vztah mezi přirozeným spojením a spojením na rovnost}
 Spojení na rovnost lze vyjádřit pomocí přirozeného spojení a restrikcí následovně:
 $$
-\mathcal{D}_{1} \Join_{x_{1} = y_{1} \land \cdots \land x_{n} = y_{n}} \mathcal{D}_{2} = \sigma_{x_{1} = y_{1}} (\sigma_{x_{2} = y_{2}} (\ldots (\sigma_{x_{n} = y_{n}}(\mathcal{D}_{1} \Join \mathcal{D}_{2}))))
+\mathcal{D}_{1} \Join_{x_{1} = y_{1} \land \cdots \land x_{n} = y_{n}} \mathcal{D}_{2} = \sigma_{x_{1} = y_{1}} (\sigma_{x_{2} = y_{2}} (\ldots (\sigma_{x_{n} = y_{n}}(\mathcal{D}_{1} \Join \mathcal{D}_{2}))\dots))
 $$
-Přirozené spojení lze vyjádřit pomocí restrikcí, přejmenování a projekcí. Mějme $\mathcal{D}_{1}, \mathcal{D}_{2}, \ldots, \mathcal{D}_{i} \text{ na } R \cup S \text{ a } \mathcal{D}_{3} \text{ na } S \cup T$. $R, S, T$ jsou po dvou disjunktní pro $S = \left\{ y_{1}, \ldots, y_{n} \right\}$. Bereme $\mathcal{D}_{2}$ a přejmenujeme atributy. Tedy:
+Přirozené spojení lze vyjádřit pomocí restrikcí, přejmenování a projekcí. Mějme $\mathcal{D}_{1}\text{ na } R \cup S \text{ a } \mathcal{D}_{2} \text{ na } S \cup T$. $R, S, T$ jsou po dvou disjunktní pro $S = \left\{ y_{1}, \ldots, y_{n} \right\}$. Bereme $\mathcal{D}_{2}$ a přejmenujeme atributy. Tedy:
 $$
 \pi_{R \cup S \cup T} (\rho_{y'_{1} \Leftarrow y_{1}, \ldots, y'_{n} \Leftarrow y_{n}} (\mathcal{D}_{2}) \Join_{y_{1} = y'_{1} \land \cdots \land y_{n} = y'_{n}} \mathcal{D}_{1}) = \mathcal{D}_{1} \Join \mathcal{D}_{2}
 $$

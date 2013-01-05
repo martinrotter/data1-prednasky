@@ -1,6 +1,6 @@
 \section{Transakční zpracování dat}
 V dnešních \upabbrevref{DBMS} je třeba, aby k databázi mohlo přistupovat několik uživatelů (aplikací) současně.
-\begin{upexample}[Soubéžný přístup dvou uživatelů k databázi]
+\begin{upexample}[Souběžný přístup dvou uživatelů k databázi]
 Představme si tabulku vytvořenou příkazem\upinlinecode{SQL}{!}{CREATE TABLE table_1 (x INTEGER NOT NULL PRIMARY KEY)}. Do tabulky se vloží hodnota $100$. Následně se s touto hodnotou snaží pracovat dva uživatelé:
 \begin{upcode}{Úprava hodnoty v tabulce dvěma uživateli (uživatel 1)}{}{SQL}
 UPDATE table_1 SET x = 100;
@@ -25,14 +25,14 @@ Začátek transakce se v SQL označuje klíčovým slovem\upinlinecode{SQL}{!}{B
 V tomto přístupu jsou operace prováděny jedna po druhé. Přístup více uživatelů nehraje žádnou zásadní roli.
 
 \subsection{Serializovatelné provedení DB operací}\label{sec:ser}
-Operace mohou být prováděný souběžně (paralelně), ale tak, aby výsledky odpovídalu tomu, jako by operace běžely sériově.
+Operace mohou být prováděný souběžně (paralelně), ale tak, aby výsledky odpovídaly tomu, jako by operace běžely sériově.
 
 Transakci lze označit jako read-only pomocí klíčového slova\upinlinecode{SQL}{!}{SET TRANSACTION READ ONLY} či jako read-write pomocí\upinlinecode{SQL}{!}{SET TRANSACTION READ WRITE}.
 
 \subsection{Atributy transakcí}
 Transakcím lze nastavovat různé chování v kritických situacích pomocí atributu:
 \begin{description}
-\item[READ UNCOMMITTED] Transakci je umožněno číst špinava data, tedy data změněna jinou probíhající transakcí.
+\item[READ UNCOMMITTED] Transakci je umožněno číst špinavá data, tedy data změněná jinou probíhající transakcí.
 \item[READ COMMITTED] Transakci je umožněno číst pouze čistá data, tedy data, která byla upravena jinou dokončenou transakcí.
 \item[REPEATED READ] Zaručuje, že po sobě jdoucí provedení stejného dotazu vrací stejný výsledek, i když mezitím jiná transakce provede commit.
 \item[SERIALIZABLE] Serializovatelné provedené operace, viz kapitolka \ref{sec:ser}. Toto chování je u většiny \upabbrevref{DBMS} obvykle nastaveno jako implicitní.
@@ -44,11 +44,11 @@ Body uložení (anglicky \enquote{save points}) jsou prostředkem, jak lze uvnit
 \section{Funkční závislosti}
 Uvažujem fixní relační schéma $R \subseteq \mathcal{T}$.
 \begin{uptheorem}[Funkční závislost]
-Funkční závislost nad schématem $R$ je fun\-/kční závislost $A \to B$, kde $A, B \subseteq R$. Říkáme, že: \enquote{$B$ funkčně závisí na $A$.} $A \to B$ právě, když pro libovolné dvě n-tice $t_{1}, t_{1}$ každého přípustného stavu určité relace (například relace $\mathcal{D}$ nad schématem $R$ platí, že je-li $a_{1}$ resp. $b_{1}$ (tedy  hodnota atributu $A$ resp. $B$) v n-tici $t_{1}$ a $a_{2}$ resp. $b_{2}$ (opět hodnota atributu $A$ resp. $B$) v n-tici $t_{2}$ a $a_{1} = a_{2}$, pak i $b_{1} = b_{2}$.
+Funkční závislost nad schématem $R$ je formule ve tvaru $A \Rightarrow B$, kde $A, B \subseteq R$. Říkáme, že: \enquote{$B$ funkčně závisí na $A$.} $A \Rightarrow B$ právě, když pro libovolné dvě n-tice $t_{1}, t_{1}$ každého přípustného stavu určité relace (například relace $\mathcal{D}$ nad schématem $R$ platí, že je-li $a_{1}$ resp. $b_{1}$ (tedy  hodnota atributu $A$ resp. $B$) v n-tici $t_{1}$ a $a_{2}$ resp. $b_{2}$ (opět hodnota atributu $A$ resp. $B$) v n-tici $t_{2}$ a $a_{1} = a_{2}$, pak i $b_{1} = b_{2}$.
 
 Tedy každé dvě závislé n-tice jsou si rovny i na atributech z $B$, pokud jsou si rovny na atributech z $A$. Pokud máme ntice
 $$
-t_{1}(A), t_{2}(A) \text{, což jsou n-tice z } A \text{ a } t_{1, 2} \in \pi_{y \in R} dim(y), A \subseteq R
+t_{1}(A), t_{2}(A) \text{, což jsou n-tice z } A \text{ a } t_{1, 2} \in \prod_{y \in R} dom(y), A \subseteq R
 $$
 pak, když
 $$
@@ -60,20 +60,20 @@ a v takovýchto případech můžeme říkaž, že \enquote{funkční závislost
 \begin{upexample}[Funkční závislosti]
 Mějme relační schéma $R = \{ w, v, x, y, z \}$. Pak funkčními závislostmi nad tímto schématem jsou mj.:
 \begin{align*}
-\{ x \} &\to \{ y \} \\
-\{ w, x \} &\to \{ z, y \} \\
-\varnothing &\to \{ \ldots \} \\
-\{ \ldots \} &\to \varnothing \\
-\vdots &\to \vdots
+\{ x \} &\Rightarrow \{ y \} \\
+\{ w, x \} &\Rightarrow \{ z, y \} \\
+\varnothing &\Rightarrow \{ \ldots \} \\
+\{ \ldots \} &\Rightarrow \varnothing \\
+\vdots &\Rightarrow \vdots
 \end{align*}
 \end{upexample}
 
 \begin{upexample}[Vybrané funkční závislosti]\label{prik:funk}
 Mějme závislost:
 \begin{align*}
-\mathcal{D}_{1} &\vDash \{ w, y \} \to \{ y \} \\
-\mathcal{D}_{2} &\vDash \{ w, y \} \to \{ y \} \\
-\mathcal{D}_{3} &\nvDash \{ w, y \} \to \{ y \}
+\mathcal{D}_{1} &\vDash \{ w, y \} \Rightarrow \{ y \} \\
+\mathcal{D}_{2} &\vDash \{ w, y \} \Rightarrow \{ y \} \\
+\mathcal{D}_{3} &\nvDash \{ w, y \} \Rightarrow \{ y \}
 \end{align*}
 Zdrojové tabulky $\mathcal{D}_{1}, \mathcal{D}_{2}, \mathcal{D}_{3}$ zobrazuje systém tabulek \ref{tab:funk}.
 
@@ -122,22 +122,26 @@ Platí následující tvrzení:
 \begin{enumerate}
 \item Pokud $A \subseteq B$, pak z $t_{1}(B) = t_{2}(A)$ plyne, že $t_{1}(A) = t_{2}(B)$.
 \item $t_{1}(\varnothing) = t_{1}(\varnothing), \forall t_{1}, t_{2}$
-\item Pokud $B \subseteq A$, pak $\mathcal{D} \vDash A \to B, \forall \mathcal{D}$.
-\item Pokud $\mathcal{D} \vDash A \to B$, pak $\mathcal{D} \vDash A \to B \cap C$.
-\item Pokud $\mathcal{D} \vDash A \to B$, pak $\mathcal{D} \vDash A \cup C \to B$.
-\item Speciálně platí, že $\text{cokoliv} \to \varnothing$.
+\item Pokud $B \subseteq A$, pak $\mathcal{D} \vDash A \Rightarrow B, \forall \mathcal{D}$.
+\item Pokud $\mathcal{D} \vDash A \Rightarrow B$, pak $\mathcal{D} \vDash A \Rightarrow B \cap C$.
+\item Pokud $\mathcal{D} \vDash A \Rightarrow B$, pak $\mathcal{D} \vDash A \cup C \Rightarrow B$.
+\item Speciálně platí, že $\text{cokoliv} \Rightarrow \varnothing$.
 \end{enumerate}
 \end{upquote}
 
-\subsection{Funkční závislosti versus (nad)líče}
-Mějme relační schéma $R$ a nad ním relaci $\mathcal{D}$. Pak $K \subseteq R$ je nadklíč právě, když $\mathcal{D} \vDash K \to R$. Důsledek předchozího tvrzení je, že pokud $t(K) = t'(K)$ právě, když $t = t'$ (tedy $t(R) = t'(R)$), pak je $K$ nadklíč.
-
-$K$ je klíč pro $\mathcal{D}$ právě, když $\mathcal{D} \vDash K \to R$ a pro $\forall K' \subset K$ platí, že $\mathcal{D} \vDash K' \to R$.
+\subsection{Funkční závislosti versus (nad)klíče}
+\begin{upquote}
+Mějme relační schéma $R$ a nad ním relaci $\mathcal{D}$. Pak $K \subseteq R$ je nadklíč právě, když $\mathcal{D} \vDash K \Rightarrow R$.
+\end{upquote}
+\begin{upproof}
+Pokud $t(K) = t'(K)$ pak $t = t'$ (tedy $t(R) = t'(R)$), pak je $K$ nadklíč.
+$K$ je klíč pro $\mathcal{D}$ právě, když $\mathcal{D} \vDash K \Rightarrow R$ a pro $\forall K' \subset K$ platí, že $\mathcal{D} \vDash K' \Rightarrow R$.
+\end{upproof}
 \begin{upquote}[Existence výrazu relační algebry pro funkční závislost]
-Pro každou $A \to B$ existuje výraz relační algebry $S$ tak, že $\mathcal{D} \vDash A \to B$ právě, když integritní omezení $S = \varnothing$ je splněno v $\mathcal{D}$.
+Pro každou $A \Rightarrow B$ existuje výraz relační algebry $S$ tak, že $\mathcal{D} \vDash A \Rightarrow B$ právě, když integritní omezení $S = \varnothing$ je splněno v $\mathcal{D}$.
 \end{upquote}
 \begin{upproof}[Existence výrazu relační algebry pro funkční závislost]
-Předpoklá\-/dejme, že $A \to B, A \text{ a } B \subseteq R$ a dále, že
+Předpoklá\-/dejme, že $A \Rightarrow B, A \text{ a } B \subseteq R$ a dále, že
 \begin{align*}
 A &= \left\{ y_{1}, \ldots, y_{n} \right\} \\
 B &= \left\{ z_{1}, \ldots, z_{k} \right\}
@@ -149,11 +153,11 @@ Následně
 \end{gather*}
 \end{upproof}
 \begin{uptheorem}[Teorie a model teorie]
-Mějme relační schéma $R$. Každá množina funkčních závislostí nad $R$ se nazývá \textit{teorie}. $\mathcal{D}$ je model teorie $T$, pokud $\mathcal{D} \vDash A \to B, \forall A \to B \in T$. Závislost $A \to B$ sémanticky plyne z $T$, pokud $A \to B$ je podnožinou každého modelu $T$.
+Mějme relační schéma $R$. Každá množina funkčních závislostí nad $R$ se nazývá \textit{teorie}. $\mathcal{D}$ je model teorie $T$, pokud $\mathcal{D} \vDash A \Rightarrow B, \forall A \Rightarrow B \in T$. Závislost $A \Rightarrow B$ sémanticky plyne z $T$, pokud $A \Rightarrow B$ je podnožinou každého modelu $T$.
 
-Třídu všech modelů nad $T$ značíme $\Mod(T)$. Systém relací (tedy množinu určitých tabulek) značíme $\mathfrak{M}$. $\mathfrak{M} \vDash A \to B$, pokud $\mathcal{D} \vDash A \to B, \forall \mathcal{D} \in \mathfrak{M}$.
+Třídu všech modelů nad $T$ značíme $\Mod(T)$. Systém relací (tedy množinu určitých tabulek) značíme $\mathfrak{M}$. $\mathfrak{M} \vDash A \Rightarrow B$, pokud $\mathcal{D} \vDash A \Rightarrow B, \forall \mathcal{D} \in \mathfrak{M}$.
 
-Dále zjevně $\Mod(T) \vDash A \to B$ a také $T \vDash A \to B$.
+Dále zjevně $\Mod(T) \vDash A \Rightarrow B$ a také $T \vDash A \Rightarrow B$.
 \end{uptheorem}
 \begin{upquote}[Další fakta o funkčních závislostech]
 Platí, že:
@@ -164,9 +168,9 @@ Platí, že:
 \end{enumerate}
 \end{upquote}
 \begin{upquote}[O podmnožinách teorie]
-Pokud $T_{1} \subseteq T_{2}$ a $T_{1} \vDash A \to B$, pak i $T_{2} \vDash A \to B$. $T \vDash A \to B, \forall A \to B \in T$.
+Pokud $T_{1} \subseteq T_{2}$ a $T_{1} \vDash A \Rightarrow B$, pak i $T_{2} \vDash A \Rightarrow B$. $T \vDash A \Rightarrow B, \forall A \Rightarrow B \in T$.
 \end{upquote}
-Položme si fundamentální otázku, a sice zda $T \vDash A \to B$.
+Položme si fundamentální otázku, a sice zda $T \vDash A \Rightarrow B$.
 
 \section{Kanonické relace}
 Výchozí idea je taková, že místo jedné relace $\mathcal{D}$ uvažujeme několik relací
@@ -205,13 +209,13 @@ q & p & q & q & p
 \end{tabular}
 \end{table}
 \begin{upquote}[Pravdivost závislosti v kanonické relaci]
-V kanonické relaci je pravdivá $\mathcal{D}_{M} \vDash A \to B$ právě, když $A \subseteq M \implies B \subseteq M$.
+V kanonické relaci je pravdivá $\mathcal{D}_{M} \vDash A \Rightarrow B$ právě, když $A \subseteq M \implies B \subseteq M$.
 \end{upquote}
 \begin{upproof}[Pravdivost závislosti v kanonické relaci]
 Jediná netriviální dvojice n-tic z $\mathcal{D}_{M}$ je nějaká $t_{1}, t_{2}$. Pak $t_{1}(A) = t_{2}(A)$ právě, když $A \subseteq M$. Situace platí analogicky také pro $B$.
 \end{upproof}
 \begin{upquote}[Existence systému kan. relací pro jinou relaci]
-Pro každou relaci $\mathcal{D}$ nad schématem $R$ existuje systém kanonických relací $\mathfrak{S}$ nad $R$ tak, že pro $\forall A \to B$ plati, že $\mathcal{D} \vDash A \to B$ právě, když $\mathfrak{S} \vDash A \to B$.
+Pro každou relaci $\mathcal{D}$ nad schématem $R$ existuje systém kanonických relací $\mathfrak{S}$ nad $R$ tak, že pro $\forall A \Rightarrow B$ plati, že $\mathcal{D} \vDash A \Rightarrow B$ právě, když $\mathfrak{S} \vDash A \Rightarrow B$.
 \end{upquote}
 \begin{upproof}[Existence systému kan. relací pro jinou relaci]
 Platí, že:
@@ -279,13 +283,13 @@ q & q & p
 \begin{upquote}
 Platí, že:
 $$
-T \vDash A \to B \Leftrightarrow \Mod(T) = \left\{ \mathcal{D}_{M} \; | \; \mathcal{D}_{M} \in \Mod(T) \right\}
+T \vDash A \Rightarrow B \Leftrightarrow \Mod _{c}(T) \vDash A \Rightarrow B$$ kde $$ \Mod _{c} = \left\{ \mathcal{D}_{M} \; | \; \mathcal{D}_{M} \in \Mod(T) \right\}
 $$
 \end{upquote}
 \begin{upproof}
-Důkaz je triviální, vzhledem k tomu, že $\Mod_{c}(T) \subseteq \Mod(T)$. Proto pak $T \vDash A \to B$, tedy $\Mod(T) \vDash A \to B$ a tedy také $\Mod_{c}(T)$.
+Důkaz je triviální, vzhledem k tomu, že $\Mod_{c}(T) \subseteq \Mod(T)$. Proto pak $T \vDash A \Rightarrow B$, tedy $\Mod(T) \vDash A \Rightarrow B$ a tedy také $\Mod_{c}(T)$.
 
-Pro opačný směr předpokládejme, že $\Mod_{c}(T) \vDash A \to B$. Vezmeme libovolnou $\mathcal{D} \in \Mod(T)$. Dle předchozí věty existuje $\mathcal{S}$ tak, že $\mathcal{D} \vDash E \to F$ právě, když $\mathcal{S} \vDash E \to F$ pro každé $E \to F$. Jelikož $\mathcal{S} \subseteq \Mod_{c}(T)$, tak dostáváme, že $\mathcal{D} \subseteq A \to B$.
+Pro opačný směr předpokládejme, že $\Mod_{c}(T) \vDash A \Rightarrow B$. Vezmeme libovolnou $\mathcal{D} \in \Mod(T)$. Dle předchozí věty existuje $\mathcal{S}$ tak, že $\mathcal{D} \vDash E \Rightarrow F$ právě, když $\mathcal{S} \vDash E \Rightarrow F$ pro každé $E \Rightarrow F$. Jelikož $\mathcal{S} \subseteq \Mod_{c}(T)$, tak dostáváme, že $\mathcal{D} \vDash A \Rightarrow B$.
 \end{upproof}
 
 \begin{uptheorem}[Uzávěrový systém]\label{def:uza}
@@ -302,13 +306,13 @@ Tvrdíme, že $\mathfrak{M}_{T}$ je skutečně uzávěrovým systé\-/mem.
 
 \begin{upproof}[Uzávěrový systém]
 Vezmeme libovolné $M_{i} \in \mathfrak{M}_{T}, i \in I$ a ověříme, že $\bigcap_{i \in I}M_{i} \in \mathfrak{M}_{T}$.
-Dle definice uzávěrového systému (\ref{def:uza}) stačí ověří, že:
+Dle definice uzávěrového systému (\ref{def:uza}) stačí ověřit, že:
 $$
 \mathcal{D}_{\bigcap_{i \in I} M_{i}} \in \Mod_{c}(T)
 $$
-pro libovolnou $A \to B \in T$ takovou, že $A \subseteq \bigcap_{i \in T} M_{i}$, pak $A \subseteq \bigcap_{i \in T} M_{i}$.
+pro libovolnou $A \Rightarrow B \in T$ takovou, že $A \subseteq \bigcap_{i \in T} M_{i}$, pak $A \subseteq \bigcap_{i \in T} M_{i}$.
 
-Avšak každá $\mathcal{D}_{M} \in \Mod_{c}(T), (i \in I)$, to jest $B \subseteq M_{i}, (i \in I)$, tedy $B \subseteq \bigcap_{i \in I} M_{i}$. Tedy $\mathcal{D}_{\bigcap_{i in I} M_{i}} \vDash A \to B$
+Avšak každá $\mathcal{D}_{M} \in \Mod_{c}(T), (i \in I)$, to jest $B \subseteq M_{i}, (i \in I)$, tedy $B \subseteq \bigcap_{i \in I} M_{i}$. Tedy $\mathcal{D}_{\bigcap_{i in I} M_{i}} \vDash A \Rightarrow B$
 \end{upproof}
 
 \begin{uptheorem}[Uzávěrový operátor]
@@ -322,8 +326,8 @@ $\left[ \ldots \right]_{T}$ značí uzávěrový operátor. To znamená, že pro
 \begin{upquote}\label{quot:dalsi}
 Následující tvrzení jsou ekvivalentní:
 \begin{align}
-T &\vDash A \to B \label{eq:1} \\
-\mathcal{D}_{\left[ A \right]_{T}} &\vDash A \to B \label{eq:2} \\
+T &\vDash A \Rightarrow B \label{eq:1} \\
+\mathcal{D}_{\left[ A \right]_{T}} &\vDash A \Rightarrow B \label{eq:2} \\
 B &\subseteq \left[ A \right]_{T}\label{eq:3}
 \end{align}
 \end{upquote}
@@ -337,7 +341,7 @@ Budeme dokazovat implikace mezi tvrzeními z věty \ref{quot:dalsi}:
 \end{enumerate}
 \ref{sol:1} má řešení, protože $\mathcal{D}_{\left[ A \right]_{T}} \in \Mod(T)$. \ref{sol:2} má řešení, protože $A \subseteq A_{\left[ T \right]}$ (extenzitivita). \ref{sol:3} má také řešení, avšak narozdíl od předešlých není triviální.
 
-Předpokládejme, že $B \subseteq \left[ A \right]_{T}$, následně stačí ověřit, že $A \to B$ v každém $\mathcal{D}_{M} \in \Mod_{c}(T)$. Pokud $A \subseteq M$, pak z monotonie uzávěrových operátorů plyne:
+Předpokládejme, že $B \subseteq \left[ A \right]_{T}$, následně stačí ověřit, že $A \Rightarrow B$ v každém $\mathcal{D}_{M} \in \Mod_{c}(T)$. Pokud $A \subseteq M$, pak z monotonie uzávěrových operátorů plyne:
 $$
 B \subseteq \left[ A \right]_{T} \subseteq \left[ M \right]_{T} = M
 $$
@@ -359,11 +363,11 @@ Předchozí je možné, protože $\mathcal{D}_{M}$ je kanonický model.
 \end{upnote}
 
 \begin{uptheorem}[Boyce--Coddova normální forma]
-Relace $R$ je v \upabbrevref{BCNF} tehdy a jen tehdy, když pro každou netriviální funkční závislost $X \to Y$, kde $X, Y$ jsou množiny atributů a zároveň $Y \nsubseteq X$, platí, že $X$ je nadmnožinou nějakého klíče, nebo $X$ je klíčem relace $R$. 
+Relace $R$ je v \upabbrevref{BCNF} tehdy a jen tehdy, když pro každou netriviální funkční závislost $X \Rightarrow Y$, kde $X, Y$ jsou množiny atributů a zároveň $Y \nsubseteq X$, platí, že $X$ je nadmnožinou nějakého klíče, nebo $X$ je klíčem relace $R$. 
 \end{uptheorem}
 
 \begin{uptheorem}[Alternativní pojetí \upabbrevref{BCNF}]
-Relační schéma $R$ vzhledem k teorii $T$ je v \upabbrevref{BCNF}, pokud platí, že každá netriviální $A \to B$, která  $T \vDash A \to B$, obsahuje klíč v $A$. Jinak řečeno, pokud $A$ je nadklíč.
+Relační schéma $R$ vzhledem k teorii $T$ je v \upabbrevref{BCNF}, pokud platí, že každá netriviální $A \Rightarrow B$, která  $T \vDash A \Rightarrow B$, obsahuje klíč v $A$. Jinak řečeno, pokud $A$ je nadklíč.
 \end{uptheorem}
 
 \begin{upexample}[Úvaha i nešikovné konstrukci relace]
@@ -375,7 +379,7 @@ Jenže, co když se některá pracovnice vdá a její jméno se změni. Pak bude
 \end{upexample}
 
 \begin{upquote}[O triviální funkční závislosti]
-Funkční závislost $A \to B$ je triviální právě, když $B \subseteq A$.
+Funkční závislost $A \Rightarrow B$ je triviální právě, když $B \subseteq A$.
 \end{upquote}
 
 \section{Reprezentace hierarchických struktur}

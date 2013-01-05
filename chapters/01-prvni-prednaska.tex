@@ -86,7 +86,8 @@ ID & JMÉNO & ADRESA \\
 \begin{enumerate}
 \item\label{enum:first_re} Řádky by neměly mít žádné pořadí. Tabulka by měla být chápána jako množina řádků. A v množině na pořadí nezáleží.
 \item To samé platí pro sloupce.
-\item V definice množiny také vyplývá, že tabulka by neměla obsahovat identické řádky. Tento požadavek není v mnoha \upabbrevref{DBMS} splněn.
+\item Z definice množiny také vyplývá, že tabulka by neměla obsahovat identické řádky. Tento požadavek není v mnoha \upabbrevref{DBMS} splněn.
+\item V každém poli uvnitř tabulky je právě jedna hodnota daného typu.(SQL porušuje nedefinovanou hodnotou)
 \item\label{enum:last_re} Všechny atributy jsou regulární.
 \end{enumerate}
 Tyto požadavky formuloval C.~J.~Date.
@@ -126,7 +127,7 @@ A = \left\{ a, b, c \right\}, \quad B = \left\{ 10, 10 \right\}, \quad I = \left
 $$
 Následně řešení:
 $$
-\prod_{i \in \left\{ 1, 2 \right\}} A_{i} = \left\{ \left\langle a, 10 \right\rangle, \left\langle b, 10 \right\rangle. \left\langle a, 20 \right\rangle, \left\langle b, 20 \right\rangle \right\}
+\prod_{i \in \left\{ 1, 2 \right\}} A_{i} = \left\{ \left\langle a, 10 \right\rangle, \left\langle b, 10 \right\rangle. \left\langle a, 20 \right\rangle, \left\langle b, 20 \right\rangle \right\}\footnote{Zmíněnou rovnost nutno brát mírně s rezervou, protože formálně výsledkem kartézského součinu je množina zobrazení, nikoliv uspořádaných množin.}
 $$
 \end{upexample}
 

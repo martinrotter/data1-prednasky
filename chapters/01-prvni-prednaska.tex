@@ -6,7 +6,7 @@ Databázový systém (anglicky \upabbrevref{DBMS}) je soustava komplexního apli
 \item Teorie, která formálně podkládá návrh databáze, organizaci dat a obsahuje algoritmickou stránku věci.
 \end{enumerate}
 
-Mějme na paměti, že obě částí databázových systémů se rozvíjely postupně a mnohdy metodou pokus - omyl. Obecně platí, že pokud selže teoretický základ, tak již ani sebelepší frontend nic nezmůže. V databázovém systému se objeví formální rozpor a jedinou cestou vpřed je začít znovu.
+Mějme na paměti, že obě části databázových systémů se rozvíjely postupně a mnohdy metodou pokus - omyl. Obecně platí, že pokud selže teoretický základ, tak již ani sebelepší frontend nic nezmůže. V databázovém systému se objeví formální rozpor a jedinou cestou vpřed je začít znovu.
 
 Hlavním úkolem \upabbrevref{DBMS} je poskytovat \textit{perzistentní uložení dat}, dále poskytnout svým uživatelům konzistentní rozhraní a případně nabídnout \textit{transa\-kční zpracování dat}. Nutnto podotknout, že poslední bod nemusí být takovou samozřejmostí, jak by se mohlo zdát.
 
@@ -19,7 +19,7 @@ Souborem může být například papyrus, hliněná destička nebo (lépe) papí
 Představme si navíc, že daný podnikatel si vede další soubor se seznamem, kde si u každého dlužníka značí jeho adresu, aby jej mohl v případě nutnosti navštívit. Jméno dlužníka tedy uchováva hned na dvou seznamech, přitom je přirozeně jasné, že stačí dlužníka evidovat jednou a poté se na něj \enquote{odkazovat.} \textit{Redundace dat} je tedy zřejmá.
 
 \subsubsection{Databáze založené na síťovém modelu}
-Průkopníkem této oblasti byl Charles Bachman. Aktuálně se toto paradigma považuje za dávno překonané, nicméně pro časy budoucí poskytlo několik dob-rých poznatků. Typicky \enquote{síťový} databázový systém je tvoří mj. i:
+Průkopníkem této oblasti byl Charles Bachman. Aktuálně se toto paradigma považuje za dávno překonané, nicméně pro časy budoucí poskytlo několik dob-rých poznatků. Typicky \enquote{síťový} databázový systém je tvořen mj. i:
 \begin{enumerate}
 \item \textit{Záznamy}, které mají určitý \textit{typ}. Ten deklaruje, jaké \textit{atributy} daný záznam obsahuje. Atributy mohou nabývat různých hodnot.
 \item \textit{Odkazy}, které reprezentují \textit{vztahy} mezi jednotlivými záznamy.
@@ -40,10 +40,10 @@ Obecně se ví, že databázové systémy tohoto typu mohou poskytovat velmi ryc
 Jedná se o speciální typ síťového modelu, kde bylo úmyslem tento model zjednodušit. Výsledkem bylo vytvoření hierarchie v záznamech a odkazech ve formě stromu\footnote{Strom je jednou ze základních grafových struktur. Jedná se o (neorientovaný) graf bez kružnic. Více napoví \citep[str. 91 -- 96]{cormen:algorithms}.}.
 
 \subsubsection{Databáze založené na objektovém modelu}
-V objektovém modelu jsou hlavní prvky, jenž reprezentují data, \textit{objekty}, tedy serializované entity, které lze interpretovat pomocí nějakého vyššího programovacího jazyka. Prvním jazykem podporujícím takovéto pojetí byl Common Lisp.
+V objektovém modelu jsou hlavní prvky, jež reprezentují data, \textit{objekty}, tedy serializované entity, které lze interpretovat pomocí nějakého vyššího programovacího jazyka. Prvním jazykem podporujícím takovéto pojetí byl Common Lisp.
 
 \subsubsection{Databáze založené na relačním modelu}
-Jedná se o aktuálně používaný model, který přináší určité výhody. Primárním nosičem informace v tomto modelu jsou \textit{relace} (poněkud amatérsky je můžeme nazývat také tabulkami). Základy tohoto modelu položil Edgar Codd v roce 1970.
+Jedná se o aktuálně používaný model, který přináší určité výhody. Primárním nosičem informace v tomto modelu jsou \textit{relace} (poněkud amatérsky je můžeme nazývat také tabulkami). Základy tohoto modelu položil Edgar Codd v roce 1970.\citep{codd:relationalModel}
 
 \subsubsection{Nerelační databáze}
 Vyvíjeny v 90. letech 20. století. Někdy chybně značovaný jako \uv{No SQL}. Rychlé pro jednoduché dotazy. Patří sem např. BerkeleyDB, MongoDB.
@@ -53,7 +53,7 @@ Vyvíjeny v 90. letech 20. století. Někdy chybně značovaný jako \uv{No SQL}
 Model má 3 základní komponenty:
 \begin{enumerate}
 \item \textit{Struktury}, které uchovávají data a reprezentují výsledky dotazů.
-\item \textit{Integritní omezení}, která popisují vztahy mezi daty, které musí být splněny. Integritní omezení jsou v podstatě formule. Tato omezení slouží k popisu toho, jak mají data vypadat, slouži k odstranění jejich chyb.
+\item \textit{Integritní omezení}, která popisují vztahy mezi daty, které musí být splněny. Integritní omezení jsou v podstatě formule. Tato omezení slouží k popisu toho, jak mají data vypadat, slouží k odstranění jejich chyb.
 \item \textit{Manipulativní formalismy}, které říkají jak z uložených dat získat jiná data určitými operacemi.
 \end{enumerate}
 Relační model je konkrétním modelem dat, avšak modely jako takové lze rozdělit do dvou skupin, tedy:
@@ -65,7 +65,7 @@ Relační model je konkrétním modelem dat, avšak modely jako takové lze rozd
 \section{Struktura relačních dat}
 Základním kamenem dat jsou tzv. \enquote{datové tabulky}, které obsahují záhlaví a další data.
 \begin{enumerate}
-\item Záhlaví (viz. tabulka \ref{tab:zahlavi}) je množina atributů a jejich typů. U tabulky se seznamem zamě\-stnanců může být atributem například jméno zaměstnance atp.
+\item Záhlaví (viz. tabulka \ref{tab:zahlavi}) je množina atributů a jejich typů. U tabulky se seznamem zamě\-stnanců může být atributem například jméno zaměstnance, rodné číslo atp.
 \item Vlastní data (neboli tělo) tabulky by u takovéto tabulky představovala data samotných zaměstnanců.
 \end{enumerate}
 
@@ -125,7 +125,7 @@ Prvky $\prod_{i \in I} A_{i}$ jsou zobrazení, nezáleží v nich na pořadí in
 \begin{upexample}[Kartézský součin]
 Vypočítejme kartézský součin množin $A$ a $B$, tedy $A \times B$ se zadáním:
 $$
-A = \left\{ a, b, c \right\}, \quad B = \left\{ 10, 10 \right\}, \quad I = \left\{ 1, 2 \right\}, \quad A_{1} = A, \quad A_{2} = B
+A = \left\{ a, b, c \right\}, \quad B = \left\{ 10, 20 \right\}, \quad I = \left\{ 1, 2 \right\}, \quad A_{1} = A, \quad A_{2} = B
 $$
 Následně řešení:
 $$
@@ -143,7 +143,7 @@ Nechť $I = \varnothing$. Pak $\prod_{i \in I} A_{i} = \left\{ \varnothing \righ
 
 \subsection{Relace nad relačním schématem}
 \begin{uptheorem}[Relace nad relačním schématem]
-Mějme relační schéma $R\subseteq Y$, pak relace nad $R$ je libovolná konečná podmnožina na kartézském součinu domén atributů z $R$, tedy
+Mějme relační schéma $R\subseteq Y$, pak relace nad $R$ je libovolná konečná podmnožina kartézského součinu domén atributů z $R$, tedy
 $$
 \mathcal{D} \subseteq \prod_{y \in R} \dom(y)
 $$
@@ -151,11 +151,11 @@ Relace v takovémto pojetí přibližně odpovídá vágnějšmu pojmu \textit{t
 $$
 \mathcal{D} \subseteq \dom(A_{1}) \times \cdots \times \dom(A_{n})
 $$
-Pozorný čtenář určitě pozoruje, že každá relace (tabulka) může mít určitý maximáln možný počet řádků. Matematicky:
+Pozorný čtenář určitě pozoruje, že každá relace (tabulka) může mít určitý maximální možný počet řádků. Matematicky:
 $$
 \left|\mathcal{D}\right| = \left|dom(A_{1})\right| \times \cdots \times \left|dom(A_{n})\right|
 $$
-Relaci lze také označit jako dvojici $\left\langle \mathcal{D}, R \right\rangle$. Tato dvojice takřak kompletně popisuje tabulku.
+Relaci lze také označit jako dvojici $\left\langle \mathcal{D}, R \right\rangle$. Tato dvojice takřka kompletně popisuje tabulku.
 \end{uptheorem}
 Každý prvek relace (tabulky) se nazývá n-tice. To je analogické vzhledem k matematickému pojetí relaci jako takových. Matematické relace též obsahují n-tice.
 
@@ -167,9 +167,9 @@ Každý prvek relace (tabulky) se nazývá n-tice. To je analogické vzhledem k 
 \end{enumerate}
 
 \section{Tutorial D}
-Programovací jazyk Tutorial D formuje opozici vůči mnohem známějšímu a v praxi používanějšímu \upabbrevref{SQL}. Tutorial D má jedinou funkční a (víceménně) použitelnou implementaci známou jako Rel. Frontend Rel je naprogram v jazyce Java a jeho prostředí vypadá bohužel hrůzostrašně. Rel je silně staticky typovaný, nemá konverze typů. Obsahuje typy:
+Programovací jazyk Tutorial D formuje opozici vůči mnohem známějšímu a v praxi používanějšímu \upabbrevref{SQL}. Tutorial D má jedinou funkční a (víceménně) použitelnou implementaci známou jako Rel. Frontend Rel je naprogramován v jazyce Java a jeho prostředí vypadá bohužel hrůzostrašně. Rel je silně staticky typovaný, nemá konverze typů. Obsahuje typy:
 \begin{description}
-\item[Skalární], které jsou opozitem hodnotových typů ze známějších jazyků a patří sem například\upinlinecode{TutorialD}{!}{BOOLEAN},\upinlinecode{TutorialD}{!}{INTEGER} nebo\upinlinecode{TutorialD}{!}{STRING} a také uživatelsky definované typy.
+\item[Skalární], které jsou opozitem hodnotových typů ze známějších jazyků a patří sem například\upinlinecode{TutorialD}{!}{BOOLEAN},\upinlinecode{TutorialD}{!}{INTEGER} nebo\upinlinecode{TutorialD}{!}{CHARACTER} a také uživatelsky definované typy.
 \item[N-ticové], které jsou dané jmény atributů a jejich typy.
 \item[Relační], které jsou dány atributy a jejich typy. Hodnoty představují relace, t.j. množiny n-tic.
 \end{description}
@@ -177,7 +177,7 @@ Programovací jazyk Tutorial D formuje opozici vůči mnohem známějšímu a v 
 
 \subsection{Hodnoty vs. proměnné}
 \begin{enumerate}
-\item[Hodnoty] - jednotlivé konstanty, relace a n-tice. Nemohou se měnit - \uv{Jako ve Scheme}
+\item[Hodnoty] - jednotlivé konstanty, relace a n-tice. Nemohou se měnit, chovají se tedy \uv{jako ve Scheme}
 \item[Proměnné] - ukazatele na reprezentace hodnot. Mají přiřazený typ, mohou měnit svůj odkaz.
 \end{enumerate}
 
@@ -191,7 +191,7 @@ WRITELN(10 = 20);
 \end{upcode}
 
 \subsection{N-tice jako hodnoty}
-V Tutorial D lze přímočaře vytváře řádky relací a považovat je za hodnoty, viz. kód \ref{code:valstuple}.
+V Tutorial D lze přímočaře vytvářet řádky relací a považovat je za hodnoty, viz. kód \ref{code:valstuple}.
 \begin{upcode}{Základy n-tic (Tutorial D)}{code:valstuple}{TutorialD}
 /* prázdná n-tice */
 TUPLE {}
@@ -224,7 +224,7 @@ UPDATE TUPLE {id 666, jmeno "Vilík"} (jmeno := "God")
 \end{upcode}
 
 \subsection{Relace v Tutorial D}
-Tutorial D (potažmo Rel) samozřejmě podpruje relace.
+Tutorial D (potažmo Rel) samozřejmě podporuje relace.
 \begin{upcode}{Operace s relacemi (Tutorial D)}{}{TutorialD}
 /* relace s několika n-ticemi*/
 RELATION {

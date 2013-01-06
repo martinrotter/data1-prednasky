@@ -1,5 +1,5 @@
 \subsubsection{Relační dělení}
-Dělení je protípólem projekce a značí se \enquote{$\cong$}. Bývá odpovědí na dotazu typu: \enquote{Najdi osobu, která obsolvovala každý kurz.} Určitá n-tice $r$ se nachází v tabulce $r \in \pi_{R} (\mathcal{D})$ právě, když existuje $s$ tak, že $rs \in \mathcal{D}$. Dělení lze interpretovat jako odpověď na univerzální dotazy.
+Dělení je protipólem projekce a značí se \enquote{$\div$}. Bývá odpovědí na dotazu typu: \enquote{Najdi osobu, která obsolvovala každý kurz.} Určitá n-tice $r$ se nachází v tabulce $r \in \pi_{R} (\mathcal{D})$ právě, když existuje $s$ tak, že $rs \in \mathcal{D}$. Dělení lze interpretovat jako odpověď na univerzální dotazy.
 
 Uvažujme relace:
 \begin{enumerate}
@@ -15,7 +15,7 @@ Výsledkem dělení $\mathcal{D}_{1} \div_{\mathcal{D}_{3}} \mathcal{D}_{2}$, te
 Pokud $R \cap S = \varnothing$, pak platí, že:
 \begin{align*}
 \mathcal{D}_{1} \div_{\mathcal{D}_{3}} \mathcal{D}_{2} = &\left\{ r(R \cap T \; | \;  r \in \mathcal{D}_{1} \text{ tak, že pro } \forall s \in \mathcal{D}_{2}  \text{ platí, že } \right. \\
-&\left.(rs) \left( \left(R \cup S\right) \cap T\right) \in \pi_{(R \cup S) \cap T} (\mathcal{D}_{3} \right\}
+&\left.(rs) \left( \left(R \cup S\right) \cap T\right) \in \pi_{(R \cup S) \cap T} (\mathcal{D}_{3}) \right\}
 \end{align*}
 Dělení trošku jinak: Pro $ T = R \cup S$ 
 $$
@@ -30,7 +30,7 @@ relexpr1 DIVIDE BY relexpr2 PER relexpr3;
 \end{upcode}
 
 \subsubsection{Vnitřní a vnější spojení}
-Doposud probrané spojení bylo v podstatě vnitřní spojení (klíčové slovo\upinlinecode{SQL}{!}{INNER JOIN} v SQL). Abychom mohli uvažovat vnější spojení, je třeba uvažovat koncept \textit{chybějící} hodnoty, to jest porušit první normální formu. V SQL by se tedy místo\upinlinecode{SQL}{!}{NATURAL (INNER) JOIN} použilo\upinlinecode{SQL}{!}{FULL OUTER JOIN},\upinlinecode{SQL}{!}{LEFT OUTER JOIN} nebo\upinlinecode{SQL}{!}{RIGHT OUTER JOIN}.
+Doposud probrané spojení bylo vnitřní spojení (klíčové slovo\upinlinecode{SQL}{!}{INNER JOIN} v SQL). Abychom mohli uvažovat vnější spojení, je třeba uvažovat koncept \textit{chybějící} hodnoty, to jest porušit první normální formu. V SQL by se tedy místo\upinlinecode{SQL}{!}{NATURAL (INNER) JOIN} použilo\upinlinecode{SQL}{!}{FULL OUTER JOIN},\upinlinecode{SQL}{!}{LEFT OUTER JOIN} nebo\upinlinecode{SQL}{!}{RIGHT OUTER JOIN}.
 \begin{upcode}{Vnější spojení (SQL)}{}{SQL}
 SELECT * FROM table_1 FULL OUTER JOIN ON table_1.x < table_2.x
 \end{upcode}
@@ -103,7 +103,7 @@ Logicky bychom očekávali jako výsledek operace n-tici $\langle 45,33 \rangle$
 \hfill C.~J.~Date
 
 \section{Integritní omezení}
-Jedná se o jednu z komponent Coddova relačního modelu. Účel integritních omezení je ten, že je v databázi třeba udrže určou efektivitu operací a hlavně uchovat data v konzistentním stavu z hlediska jejich smyslu.
+Jedná se o jednu z komponent Coddova relačního modelu. Účel integritních omezení je ten, že je v databázi třeba udržet určitou efektivitu operací a hlavně uchovat data v konzistentním stavu z hlediska jejich smyslu.
 
 \subsection{Výrazy relační algebry}
 \upabbrevref{RA} obsahuje atomické výrazy, tedy relační proměnné a konstantní relace (TABLE\_DEE, TABLE\_DUM). Dále jsou obsaženy také složené výrazy, které jsou ustaveny rekurzivně, tedy:
@@ -117,7 +117,7 @@ Jedná se o jednu z komponent Coddova relačního modelu. Účel integritních o
 \subsection{Omezení z pohledu relační algebry}
 \begin{enumerate}
 \item\label{omez:1} Pro výraz $R$ definujeme omezení tvaru $R = \varnothing$, tedy nesmí existovat n-tice, které by jej splňovala.
-\item\label{omez:2} Pro výrazy $R, S$ definujeme omezení tvaru $R \subseteq S$, tedy každá n-tice z $R$ musí splňovat $S$.
+\item\label{omez:2} Pro výrazy $R, S$ definujeme omezení tvaru $R \subseteq S$, tedy každá n-tice splňující $R$ musí splňovat $S$.
 \end{enumerate}
 Pro \ref{omez:1} a \ref{omez:2} existuje vzájemná převoditelnost:
 \begin{align*}
@@ -188,7 +188,7 @@ $$
 \begin{enumerate}
 \item Databázový systém nemusí vykonat nic, jen nahlásí chybu. Tohle chování je vlastní systémům pracujícím s SQL.
 \item Může být použito \textit{kaskádování}, kde se provedená změna propaguje do ostatních tabulek, ve kterých je změněná hodnota referována jako cizí klíč.
-\item Databázový systém může rovněž nastavit výskyt cizího klíče buď na NULL nebo na výchozí hodnotu (viz. klíčove slovo\upinlinecode{SQL}{!}{DEFAULT} v SQL.
+\item Databázový systém může rovněž nastavit výskyt cizího klíče buď na NULL nebo na výchozí hodnotu (viz. klíčove slovo\upinlinecode{SQL}{!}{DEFAULT} v SQL).
 \end{enumerate}
 
 % TODO: omezení pomocí klíčů
@@ -249,7 +249,7 @@ y'_{m, n} = y & \text{ pro každé } n \\
 x'_{i, n} = y'_{i-1,n} & \text{ pro každé } 2 \leq i \leq n
 \end{array}
 $$
-Tranzitivní uzávěr je definovatelný, ale definice závisí na m.
+Tranzitivní uzávěr je definovatelný, ale definice(vyjádření) závisí na $m$.
 \begin{upcode}{Tranzitivní uzávěr (Tutorial D)}{}{TutorialD}
 TCLOSE relexpr
 \end{upcode}
@@ -259,7 +259,7 @@ WITH RECURSIVE jmeno(sloupce) AS (
 	SELECT	*
 	FROM	foo
 	UNION	DISTINCT
-	/* rekurzivní výraz */
+	/* rekurzivní výraz, který může používat jmeno */
 	SELECT	*
 	FROM 	bar;
 )

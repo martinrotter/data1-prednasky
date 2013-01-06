@@ -14,7 +14,7 @@ UPDATE table_1 SET x = 20;
 \end{upcode}
 Vidíme, že v prvním časovém okamžiku uživatel 1 upravil hodnotu $x$ na $100$ a uživatel 2 nedělal nic. V druhém časovém okamžiku naopak uživatel 1 nic nedělá a uživatel 2 mění hodnotu $x$ na $20$. Ve třetím časovém okamžiku uživatel 1 pokládá dotaz na zobrazení všech záznamů z tabulky, kde $x = 100$, tedy hodnotě, na kterou předtím $x$ nastavil.
 
-V předchozí situaci může nastat několik problémů. Vidíme, že uživatelé pracují víceménně ve stejný čas se stejným atributem z tabulky. Databázový systém by se tedy mohl zachovat tak, že některému uživateli práci zakáže. Co si myslíte, že vrátí finální dotaz uživatele 1? Dostane uživatel 1 zpět své $x$ s hodnotou $100$? Nebo se u něj projeví změna, kterou provedl uživatel 2? Jak se \upabbrevref{DBMS} zachová?
+V předchozí situaci může nastat několik problémů. Vidíme, že uživatelé pracují víceméně ve stejný čas se stejným atributem z tabulky. Databázový systém by se tedy mohl zachovat tak, že některému uživateli práci zakáže. Co si myslíte, že vrátí finální dotaz uživatele 1? Dostane uživatel 1 zpět své $x$ s hodnotou $100$? Nebo se u něj projeví změna, kterou provedl uživatel 2? Jak se \upabbrevref{DBMS} zachová?
 
 Předpokládejme, že uživatel 1 potřebuje provést oba své dotazy nebo ani jeden z nich. Pokud by provedl jen jeden, tak to pro něj může znamenat ještě horší stav, než když neprovede žádný. To, co uživatel 1 potřebuje, je tzv. \textit{transakce}. Transace je posloupnost operací nad databází, která se (podle okolností) provede kompletně celá nebo se neprovede vůbec, tedy změny se do databáze perzistentně neuloží.
 
@@ -25,7 +25,7 @@ Začátek transakce se v SQL označuje klíčovým slovem\upinlinecode{SQL}{!}{B
 V tomto přístupu jsou operace prováděny jedna po druhé. Přístup více uživatelů nehraje žádnou zásadní roli.
 
 \subsection{Serializovatelné provedení DB operací}\label{sec:ser}
-Operace mohou být prováděný souběžně (paralelně), ale tak, aby výsledky odpovídaly tomu, jako by operace běžely sériově.
+Operace mohou být prováděny souběžně (paralelně), ale tak, aby výsledky odpovídaly tomu, jako by operace běžely sériově.
 
 Transakci lze označit jako read-only pomocí klíčového slova\upinlinecode{SQL}{!}{SET TRANSACTION READ ONLY} či jako read-write pomocí\upinlinecode{SQL}{!}{SET TRANSACTION READ WRITE}.
 
@@ -44,7 +44,7 @@ Body uložení (anglicky \enquote{save points}) jsou prostředkem, jak lze uvnit
 \section{Funkční závislosti}
 Uvažujem fixní relační schéma $R \subseteq \mathcal{T}$.
 \begin{uptheorem}[Funkční závislost]
-Funkční závislost nad schématem $R$ je formule ve tvaru $A \Rightarrow B$, kde $A, B \subseteq R$. Říkáme, že: \enquote{$B$ funkčně závisí na $A$.} $A \Rightarrow B$ právě, když pro libovolné dvě n-tice $t_{1}, t_{1}$ každého přípustného stavu určité relace (například relace $\mathcal{D}$ nad schématem $R$ platí, že je-li $a_{1}$ resp. $b_{1}$ (tedy  hodnota atributu $A$ resp. $B$) v n-tici $t_{1}$ a $a_{2}$ resp. $b_{2}$ (opět hodnota atributu $A$ resp. $B$) v n-tici $t_{2}$ a $a_{1} = a_{2}$, pak i $b_{1} = b_{2}$.
+Funkční závislost nad schématem $R$ je formule ve tvaru $A \Rightarrow B$, kde $A, B \subseteq R$\footnote{Fakt, že $A, B$ jsou množiny atributů je natolik zásadní, že chybné sdělení u zkoušky může vést k jejímu neúspěšnému dokončení.}. Říkáme, že: \enquote{$B$ funkčně závisí na $A$.} $A \Rightarrow B$ právě, když pro libovolné dvě n-tice $t_{1}, t_{2}$ každého přípustného stavu určité relace (například relace $\mathcal{D}$ nad schématem $R$ platí, že je-li $a_{1}$ resp. $b_{1}$ (tedy  hodnota atributu $A$ resp. $B$) v n-tici $t_{1}$ a $a_{2}$ resp. $b_{2}$ (opět hodnota atributu $A$ resp. $B$) v n-tici $t_{2}$ a $a_{1} = a_{2}$, pak i $b_{1} = b_{2}$.
 
 Tedy každé dvě závislé n-tice jsou si rovny i na atributech z $B$, pokud jsou si rovny na atributech z $A$. Pokud máme ntice
 $$
@@ -130,7 +130,7 @@ Platí následující tvrzení:
 \end{upquote}
 
 \subsection{Funkční závislosti versus (nad)klíče}
-\begin{upquote}
+\begin{upquote}[Vztah nadklíčů a funkčních závislostí]
 Mějme relační schéma $R$ a nad ním relaci $\mathcal{D}$. Pak $K \subseteq R$ je nadklíč právě, když $\mathcal{D} \vDash K \Rightarrow R$.
 \end{upquote}
 \begin{upproof}
@@ -183,7 +183,7 @@ přičemž všechny tyto dílčí relace jsou dvouprvkové, tedy obsahují 2 n-t
 Kanonická relace nad $R$ je taková, že pro $M \subseteq R$ definujeme $\mathcal{D}_{M}$ jako relaci nad $R$. Pro každý atribut $y \in R$ uvažujeme doménu $\mathcal{D}_{y} \subseteq \{ p, q \}$, kde $p, q$ jsou dva fixní prvky. Dále uvažujeme n-tici $t_{1}$ tak, že:
 \begin{align*}
 t_{1}(y) &= p, \forall y \in R \\
-t_{1}(y) &=\left\{\!\!\!
+t_{2}(y) &=\left\{\!\!\!
 \begin{array}{ll}
 p & \text{pokud } y \in M \\
 q & \text{pokud } y \notin M
@@ -215,12 +215,12 @@ V kanonické relaci je pravdivá $\mathcal{D}_{M} \vDash A \Rightarrow B$ práv�
 Jediná netriviální dvojice n-tic z $\mathcal{D}_{M}$ je nějaká $t_{1}, t_{2}$. Pak $t_{1}(A) = t_{2}(A)$ právě, když $A \subseteq M$. Situace platí analogicky také pro $B$.
 \end{upproof}
 \begin{upquote}[Existence systému kan. relací pro jinou relaci]
-Pro každou relaci $\mathcal{D}$ nad schématem $R$ existuje systém kanonických relací $\mathfrak{S}$ nad $R$ tak, že pro $\forall A \Rightarrow B$ plati, že $\mathcal{D} \vDash A \Rightarrow B$ právě, když $\mathfrak{S} \vDash A \Rightarrow B$.
+Pro každou relaci $\mathcal{D}$ nad schématem $R$ existuje systém kanonických relací $\mathcal{S}$ nad $R$ tak, že pro $\forall A \Rightarrow B$ plati, že $\mathcal{D} \vDash A \Rightarrow B$ právě, když $\mathcal{S} \vDash A \Rightarrow B$.
 \end{upquote}
 \begin{upproof}[Existence systému kan. relací pro jinou relaci]
 Platí, že:
 $$
-\mathfrak{S} = \left\{ \mathcal{D}_{M_{t_{1}, t_{2}}} \; | \; M_{t_{1}, t_{2}} \in R \text{ taková, že } y \in M_{t_{1}, t_{2}} \Leftrightarrow t_{1}(y) = t_{2}(y) \text{ a } t_{1}, t_{2} \in \mathcal{D} \right\}
+\mathcal{S} = \left\{ \mathcal{D}_{M_{t_{1}, t_{2}}} \; | \; M_{t_{1}, t_{2}} \in R \text{ taková, že } y \in M_{t_{1}, t_{2}} \Leftrightarrow t_{1}(y) = t_{2}(y) \text{ a } t_{1}, t_{2} \in \mathcal{D} \right\}
 $$
 Dále je řešení (prý) jasné.
 \end{upproof}
@@ -386,10 +386,10 @@ Funkční závislost $A \Rightarrow B$ je triviální právě, když $B \subsete
 Databáze může modelovat chování známých datových hierarchických struktur.
 
 \subsection{Reprezentace stromů}
-Stromy lze reprezentova hned několika způsoby.
+Stromy lze reprezentovat hned několika způsoby.
 
 \subsubsection{Hranová reprezentace}
-V této reprezentaci je třeba jen jedna tabulka, které obsahuje dva sloupce. Jeden sloupec popisuje data, které jsou nesena daným uzlem, a druhý sloupec určuje rodiče daného uzlu. Příklad stromu popisuje tabulka \ref{tab:str1}. Strom lze vidět na obrázku \ref{fig:stri}.
+V této reprezentaci je třeba jen jedna tabulka, která obsahuje dva sloupce. Jeden sloupec popisuje data, které jsou nesena daným uzlem, a druhý sloupec určuje rodiče daného uzlu. Příklad stromu popisuje tabulka \ref{tab:str1}. Strom lze vidět na obrázku \ref{fig:stri}.
 
 \begin{figure}
 \centering\includegraphics[width=5cm]{graphics/02-strom}

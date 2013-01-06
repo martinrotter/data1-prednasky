@@ -10,7 +10,7 @@ INSERT zakaznici RELATION {TUPLE {id 666, jmeno "Vilík", }};
 \end{upcode}
 K získávání dat z databáze slouží tzv. \textit{relační dotazování}. Formátování dotazů pak definuje \textit{dotazovací jazyk}. Ten říká, jak se budou dotazy vyhodnocovat. Tyto jazyky jsou obvykle deklarativní. Známe například \upabbrevref{SQL} a Tutorial D.
 
-\textit{Relační algebra} specifikuje množinu operací s relacemmi a dotazy se skládají z postupné aplikace těchto operací. Dotazy se formulují pomocí termů a vyhodnocování dotazů odpovídá vyhodnocování termů v algebře. Vyhodnocování může být přímočaré, avšak u složitějších dotazů rovněž netriviální.
+\textit{Relační algebra} specifikuje množinu operací s relacemmi a dotazy se skládají z~postupné aplikace těchto operací. Dotazy se formulují pomocí termů a vyhodnocování dotazů odpovídá vyhodnocování termů v algebře. Vyhodnocování je přímočaré, avšak efektivní vyhodnocování může být netriviální.
 
 \textit{Relační kalkuly} (výpočty nad relacemi) existují hned v několika variantách:
 \begin{itemize}
@@ -26,15 +26,15 @@ Relační algebra poskytuje formální podklad pro množinové relační operace
 \begin{enumerate}
 \item \textit{Průnik}, který obsahuje pouze společné n-tice dvou relací. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním schématem $R \subseteq Y$. Následně průnik definujeme jako:
 $$
-\mathcal{D}_{1} \cap \mathcal{D}_{2} = \left\{ r \in \prod_{y \in R} dim(y) \; | \; r \in \mathcal{D}_{1} \text{ a zároveň } r \in \mathcal{D}_{2} \right\}
+\mathcal{D}_{1} \cap \mathcal{D}_{2} = \left\{ r \in \prod_{y \in R} dom(y) \; | \; r \in \mathcal{D}_{1} \text{ a zároveň } r \in \mathcal{D}_{2} \right\}
 $$
-\item \textit{Sjednoceni}, které obsahuje ty n-tice, které se vyskytnou alespoň v jedné ze vstupních relací. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním schématem $R \subseteq Y$. Následně sjednocení definujeme jako:
+\item \textit{Sjednocení}, které obsahuje ty n-tice, které se vyskytnou alespoň v jedné ze vstupních relací. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním schématem $R \subseteq Y$. Následně sjednocení definujeme jako:
 $$
-\mathcal{D}_{1} \cup \mathcal{D}_{2} = \left\{ r \in \prod_{y \in R} dim(y) \; | \; r \in \mathcal{D}_{1} \text{ nebo } r \in \mathcal{D}_{2} \right\}
+\mathcal{D}_{1} \cup \mathcal{D}_{2} = \left\{ r \in \prod_{y \in R} dom(y) \; | \; r \in \mathcal{D}_{1} \text{ nebo } r \in \mathcal{D}_{2} \right\}
 $$
-\item \textit{Rozdíl}, který obsahuje n-tice, které se nacházejí v první relaci, avšak nenacházejí se relaci druhé. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním sché-matem $R \subseteq Y$. Následně rozdíl definujeme jako:
+\item \textit{Rozdíl}, který obsahuje n-tice, které se nacházejí v první relaci, avšak nenacházejí se v relaci druhé. Mějme tedy relace $\mathcal{D}_{1}$ a $\mathcal{D}_{2}$ nad relačním sché-matem $R \subseteq Y$. Následně rozdíl definujeme jako:
 $$
-\mathcal{D}_{1} \setminus \mathcal{D}_{2} = \left\{ r \in \prod_{y \in R} dim(y) \; | \; r \in \mathcal{D}_{1} \text{ a zároveň } r \notin \mathcal{D}_{2} \right\}
+\mathcal{D}_{1} \setminus \mathcal{D}_{2} = \left\{ r \in \prod_{y \in R} dom(y) \; | \; r \in \mathcal{D}_{1} \text{ a zároveň } r \notin \mathcal{D}_{2} \right\}
 $$
 \end{enumerate}
 Tyto operace lze provádět také v \upabbrevref{SQL} či v Tutorial D.
@@ -49,7 +49,7 @@ SELECT * FROM table2;
 Množinové operace v \upabbrevref{SQL} používají implicitně volbu\upinlinecode{SQL}{!}{DISTINCT}, takže duplicitní n-tice jsou ignorovány. Naproti tomu u operací typu\upinlinecode{SQL}{!}{SELECT} se jako výchozí používá\upinlinecode{SQl}{!}{ALL}.
 
 \subsection{Efektivita množinových operací}
-Efektivitá závisí na implementaci fyzické vrstvy databázového systému. Obecně platí, že pokud lze na množině potřebných n-tic zavést lineární uspořádání, tak lze množinové operace provádět pomocí slévání.
+Efektivita závisí na implementaci fyzické vrstvy databázového systému. Obecně platí, že pokud lze na množině potřebných n-tic zavést lineární uspořádání, tak lze množinové operace provádět pomocí slévání.
 
 Je třeba aby dané uspořádání bylo navíc totální. Tedy každé dvě n-tice musejí být porovnatelné. Relace uspořádání musí být tranzitivní, symetrická a reflexivní. Z požadavku totality musí být uspořádání také úplné.
 
@@ -85,7 +85,7 @@ $$
 $$
 kde $rs$ znázorňuje (určitý druh) zřetězení n-tic, kde část $r$ je nad schématem $R$ a $s$ je nad schématem $ T \setminus R$.
 
-V Tutorial D lze n-tice řetězit prostřednictvým klíčového slova\upinlinecode{TutorialD}{!}{COMPOSE}.
+V Tutorial D lze n-tice řetězit prostřednictvím klíčového slova\upinlinecode{TutorialD}{!}{COMPOSE}.
 \begin{upcode}{Projekce (SQL)}{}{SQL}
 /* část id, jmeno, plat je projekcí */
 SELECT DISTINCT id, jmeno, plat FROM table_1;
@@ -104,7 +104,7 @@ Projekce v SQL přes\upinlinecode{SQL}{!}{DISTINCT} je rychlá operace. V příp
 \item Hashování, kde se potencíální n-tice, které se objeví ve výsledku, hashují.
 \item Použití totálního uspořádání n-tic.
 \begin{upquote}
-Pokud má-me $S \subseteq R \subseteq T$, pak
+Pokud máme $S \subseteq R \subseteq T$, pak
 \begin{align*}
 \pi_{S} (\pi_{R}(\mathcal{D})) &= \pi_{S}(\mathcal{D}) \\
 \pi_{T} (\mathcal{D}) &= \mathcal{D} \\
@@ -118,7 +118,7 @@ Pokud má-me $S \subseteq R \subseteq T$, pak
 \end{enumerate}
 
 \subsubsection{Restrikce (selekce)}
-Mějme danou relaci $\mathcal{D}$ a formulí popisující podmínku $\varphi : t_{1} \approx t_{2}$. $t_{1}$ je atribut a $t_{2}$ je hodnota z domény atributu. Následně restrikce:
+Mějme danou relaci $\mathcal{D}$ a formuli popisující podmínku $\varphi : t_{1} \approx t_{2}$. $t_{1}$ je atribut a $t_{2}$ je hodnota z domény atributu. Následně restrikce:
 $$
 \sigma_{\varphi}(\mathcal{D}) = \left\{ t \in \mathcal{D} \; | \; t \text{ splňuje } \varphi \right\}
 $$

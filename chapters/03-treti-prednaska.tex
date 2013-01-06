@@ -35,8 +35,8 @@ Výsledkem je relace nad schématem, které vznikne tak, že místo atributů ze
 
 \subsubsubsection{Metoda GROUP}
 \begin{upcode}{Seskupování GROUP (Tutorial D)}{}{TutorialD}
-/* atributy jsou typu relace */
-relexpr GROUP (atribut, dalsi_atribut)
+/* atributy, dalsi_atributy, ...  jsou množiny atributů */
+relexpr GROUP (atributy AS jmeno, dalsi_atributy AS jmeno2, ..., dalsi_dalsi_atributy AS jmenoN)
 \end{upcode}
 Na základě relace a seznamu atributů množin atributů, které se mají seskupit pod danými novými jmény se vytvoří relace, ve které jsou zbylé atributy výchozí relace a nové atributy, které nabývají hodnot, v nichž jsou maximální relace obsahující n.tice hodnot výchozí tabulky tak, že individuální hodnoty výsledných n-tic jsou v relaci se vzniklými relacemi právě tehdy, když zřetězení libovolných individuálních n-tic se zbylými individuálními hodnotami z každé výsledné n-tice se nachází ve výchozí tabulce.
 
@@ -45,7 +45,7 @@ Z relace $\mathcal{D}$ nad relačním schématem $R$ se vytvoří nová relace
 $$
 \rho _{ \; y_{1}' \Leftarrow y_{1}, \ldots, y_{n}' \Leftarrow y_{n}} (\mathcal{D})
 $$
-nad schématem $R$, ve kterém byly atributy $y_{1}, \ldots, y_{n}$ přejmenovány na atributy $y_{1}', \ldots, y_{n}'$, ale za předpokladu, že každé dva atributy $y_{i}, y_{i}' \text{ pro } 1 \leq i \leq n$ mají stejný typ.
+nad schématem $R'$, ve kterém byly atributy $y_{1}, \ldots, y_{n}$ přejmenovány na atributy $y_{1}', \ldots, y_{n}'$, ale za předpokladu, že každé dva atributy $y_{i}, y_{i}' \text{ pro } 1 \leq i \leq n$ mají stejný typ.
 \begin{upcode}{Přejmenování (Tutorial D)}{}{TutorialD}
 relexpr RENAME (old AS new, old_2 AS new_2))
 \end{upcode}
@@ -148,7 +148,7 @@ Tento případ spojení značíme $\boxtimes$. Velikost výsledku tohoto spojen�
 
 $\boxtimes$ tedy označuje množinu všech spojení tohoto typu. V Tutorial D nemá tato operace žádnou analogii. Dá se udělat pomocí JOIN a přejmenování atributů. V SQL se používá klíčové slovo\upinlinecode{SQL}{!}{CROSS JOIN}.
 
-\item[Polospojení] Značí se $\ltimes$. Tedy $\mathcal{D}_{1} \ltimes \mathcal{D}_{2} = \pi_{R \cup S} (\mathcal{D}_{1} \Join \mathcal{D}_{2})$. Výsledek obsahuje takové n-tice $rs \in \mathcal{D}_{1} \ltimes \mathcal{D}_{2}$, pro které platí, že jsou spojitelné s alespoň jednou n-ticí z $\mathcal{D}_{2}$.
+\item[Polospojení] Značí se $\ltimes$. Tedy $\mathcal{D}_{1} \ltimes \mathcal{D}_{2} = \pi_{R \cup S} (\mathcal{D}_{1} \Join \mathcal{D}_{2})$. Výsledek obsahuje takové n-tice $rs \in \mathcal{D}_{1}$, pro které platí, že jsou spojitelné s alespoň jednou n-ticí z $\mathcal{D}_{2}$.
 \begin{upcode}{Polospojení (SQL)}{}{SQL}
 SELECT DISTINCT table_1.* FROM table_1 NATURAL JOIN table_2
 \end{upcode}
@@ -161,7 +161,7 @@ T = \varnothing & \text{pak } \mathcal{D}_{1} \ltimes \mathcal{D}_{2} = \mathcal
 R = \varnothing & \text{pak } \mathcal{D}_{2} \ltimes \mathcal{D}_{1} = \mathcal{D}_{1} \Join \mathcal{D}_{2}
 \end{array}\right.$
 
-\item[Restrikce (na rovnost)] $\sigma_{y \approx d} (\mathcal{D}) = \mathcal{D} \Join \left\{\{ \left\langle y, d \right\rangle \right\}\} $, kde $\left\langle y, d \right\rangle$ je n-tice nad schématem $R = \left\{ y \right\}$ a $f(y) = d$.
+\item[Restrikce (na rovnost)] $\sigma_{y = d} (\mathcal{D}) = \mathcal{D} \Join \left\{\{ \left\langle y, d \right\rangle \right\}\} $, kde $\left\langle y, d \right\rangle$ je n-tice nad schématem $R = \left\{ y \right\}$ a $f(y) = d$.
 \begin{upcode}{Restrikce na rovnost (Tutorial D)}{}{TutorialD}
 relexpr1 WHERE y = d
 /* je ekvivalentní s */
@@ -195,7 +195,7 @@ Mějme relace $\mathcal{D}_{i}$ na schématech $R_{j} (j=1, \dots , n)$ pak plat
 \begin{enumerate}
 \item $\pi_{R_{j}} (\Join_{i = 1}^{n} \mathcal{D}_{i}) \subseteq \mathcal{D}_{j}, \quad \forall j = 1, \ldots, n$
 \item $\pi_{R_{j}} (\Join_{i = 1}^{n} \mathcal{D}_{i}) = \mathcal{D}_{j}, \quad \forall j = 1, \ldots, n$ právě, když lze relace $\mathcal{D}_{1}, \ldots, \mathcal{D}_{n}$ úplně spojit.
-\item $\pi_{R_{j}} (\Join_{k = 1}^{n} \pi_{R_{j}} (\Join_{i = 1}^{n} \mathcal{D}_{i})) = \pi_{R_{j}} (\Join_{i = 1}^{n} \mathcal{D}_{i}), \quad j = 1, \ldots, n$
+\item $\pi_{R_{j}} (\Join_{k = 1}^{n} \pi_{R_{k}} (\Join_{i = 1}^{n} \mathcal{D}_{i})) = \pi_{R_{j}} (\Join_{i = 1}^{n} \mathcal{D}_{i}), \quad j = 1, \ldots, n$
 \end{enumerate}
 Mějme $\mathcal{D}$ na schématu $R_{1} \cup \cdots \cup R_{n}$. Následně platí:
 \begin{enumerate}

@@ -151,7 +151,7 @@ id & jméno & příjmení & laboratoř \\
 \centering
 \caption{Vlastníci aut}\label{tab:vl2}
 \begin{tabular}{c || c}
-id & auto \\
+pracovnik\_id & auto \\
 \hline
 \cellcolor{green}04 & Trabant \\
 \cellcolor{yellow}02 & Porsche 911 \\
@@ -164,7 +164,7 @@ Dle tabulky vidíme, že číslo každého vlastníka auta v tabulce \ref{tab:vl
 
 Zároveň neexistuje takový majitel auta, který by neměl v první tabulce záznam. Auto zkrátka nemůže být v tomto idealizovaném systému bez majitele. Tento vztah lze zapsat matematicky. Pojmenujme první tabulku $\mathcal{D}_{1}$ a druhou $\mathcal{D}_{2}$, pak lze napsat následující tvrzení:
 $$
-\rho_{id} \leftarrow pracovnik( id(\pi_{\left\{ id \right\}} \left( \mathcal{D}_{2} \right) )) \subseteq \pi_{\left\{ id \right\}} \left( \mathcal{D}_{1} \right)
+\rho_{id \leftarrow pracovnik\_id}(\pi_{\left\{ pracovnik\_id \right\}} \left( \mathcal{D}_{2} \right) ) \subseteq \pi_{\left\{ id \right\}} \left( \mathcal{D}_{1} \right)
 $$
 \end{upexample}
 
@@ -173,7 +173,7 @@ V SQL lze modelovat cizí klíče pomocí klíčového slova\upinlinecode{SQL}{!
 \subsubsection{Chování při použití cizího klíče}
 Konkrétní tvrzení z příkladu \ref{ex:cizi} lze pochopitelně zobecnit:
 $$
-\rho_{y} \leftarrow z(\pi_{x} \left( R_{1} \right) ) \subseteq \pi_{y} \left( R_{2} \right)
+\rho_{y \leftarrow x}(\pi_{\{x\}} \left( R_{1} \right) ) \subseteq \pi_{\{y\}} \left( R_{2} \right)
 $$
 \begin{enumerate}
 \item Nastane chyba, pokud se pokusíme do $R_{1}$ vložit n-tici, jejíž hodnota pro atribut $x$  se nenachází v žádné n-tici z $R_{2}$ v atributu $y$.

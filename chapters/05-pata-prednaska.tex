@@ -213,7 +213,7 @@ q & p & q & q & p
 \end{tabular}
 \end{table}
 \begin{upquote}[Pravdivost závislosti v kanonické relaci]
-V kanonické relaci je pravdivá $\mathcal{D}_{M} \vDash A \Rightarrow B$ právě, když $A \subseteq M \implies B \subseteq M$.
+V kanonické relaci je pravdivá $\mathcal{D}_{M} \vDash A \Rightarrow B$ právě, když platí $A \subseteq M$ pak i $B \subseteq M$.
 \end{upquote}
 \begin{upproof}[Pravdivost závislosti v kanonické relaci]
 Jediná netriviální dvojice n-tic z $\mathcal{D}_{M}$ je nějaká $t_{1}, t_{2}$. Pak $t_{1}(A) = t_{2}(A)$ právě, když $A \subseteq M$. Situace platí analogicky také pro $B$.
@@ -314,9 +314,11 @@ Dle definice uzávěrového systému (\ref{def:uza}) stačí ověřit, že:
 $$
 \mathcal{D}_{\bigcap_{i \in I} M_{i}} \in \Mod_{c}(T)
 $$
-pro libovolnou $A \Rightarrow B \in T$ takovou, že $A \subseteq \bigcap_{i \in T} M_{i}$, pak $A \subseteq \bigcap_{i \in T} M_{i}$.
+Pro libovolnou $A \Rightarrow B \in T$ takovou, že $A \subseteq \bigcap_{i \in I} M_{i}$, pak $A \subseteq  M_{i}$.
 
-Avšak každá $\mathcal{D}_{M} \in \Mod_{c}(T), (i \in I)$, to jest $B \subseteq M_{i}, (i \in I)$, tedy $B \subseteq \bigcap_{i \in I} M_{i}$. Tedy $\mathcal{D}_{\bigcap_{i in I} M_{i}} \vDash A \Rightarrow B$
+Avšak každá $\mathcal{D}_{M_{i}} \in \Mod_{c}(T) (\text{pro }i \in I)$, to jest $B \subseteq M_{i}, (i \in I)$ (musí být pokud chceme, aby i $A \subseteq M_{i}$), tedy $B \subseteq \bigcap_{i \in I} M_{i}$.
+
+Tedy $\mathcal{D}_{\bigcap_{i in I} M_{i}} \vDash A \Rightarrow B$.
 \end{upproof}
 
 \begin{uptheorem}[Uzávěrový operátor]

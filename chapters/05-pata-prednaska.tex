@@ -44,18 +44,22 @@ Body uložení (anglicky \enquote{save points}) jsou prostředkem, jak lze uvnit
 \section{Funkční závislosti}
 Uvažujem fixní relační schéma $R \subseteq \mathcal{T}$.
 \begin{uptheorem}[Funkční závislost]
-Funkční závislost nad schématem $R$ je formule ve tvaru $A \Rightarrow B$, kde $A, B \subseteq R$\footnote{Fakt, že $A, B$ jsou množiny atributů je natolik zásadní, že chybné sdělení u zkoušky může vést k jejímu neúspěšnému dokončení.}. Říkáme, že: \enquote{$B$ funkčně závisí na $A$.} $A \Rightarrow B$ právě, když pro libovolné dvě n-tice $t_{1}, t_{2}$ každého přípustného stavu určité relace (například relace $\mathcal{D}$ nad schématem $R$) platí, že je-li $a_{1}$ resp. $b_{1}$ (tedy  hodnota atributu $A$ resp. $B$) v n-tici $t_{1}$ a $a_{2}$ resp. $b_{2}$ (opět hodnota atributu $A$ resp. $B$) v n-tici $t_{2}$ a $a_{1} = a_{2}$, pak i $b_{1} = b_{2}$.
-
-Tedy každé dvě závislé n-tice jsou si rovny i na atributech z $B$, pokud jsou si rovny na atributech z $A$. Pokud máme ntice
-$$
-t_{1}(A), t_{2}(A) \text{, což jsou n-tice z } A \text{ a } t_{1, 2} \in \prod_{y \in R} dom(y), A \subseteq R
-$$
-pak, když
-$$
-t_{1}(A) = t_{2}(A), \text{ pak } t_{1}(B) = t_{2}(B), \forall t_{1,2} \in \mathcal{D}
-$$
-a v takovýchto případech můžeme říkaž, že \enquote{funkční závislost je pravdivá.}
+Funkční závislost nad schématem $R$ je formule ve tvaru $A \Rightarrow B$, kde $A, B \subseteq R$\footnote{Fakt, že $A, B$ jsou množiny atributů je natolik zásadní, že chybné sdělení u zkoušky může vést k jejímu neúspěšnému dokončení.}.
 \end{uptheorem}
+Před definicí pravdivosti funkčních závislostí v relacích zaveďme následující označení:
+$$
+t(A)=t'(A) \text{ kde } t, t' \in \prod_{y \in R} dom(y), A \subseteq R
+\text{ pokud }
+ t(y)=t'(y) \text{ pro každé } y \in A
+$$
+\begin{uptheorem}[Pravdivost funkční závislosti]
+Funkční závislost $A \Rightarrow B$ nad schématem $R$ je pravdivá v relaci $\mathcal{D}$ nad schématem $R$ pokud pro každé $t,t' \in \mathcal{D}$ platí:
+$$
+\text{když } t(A)=t'(A) \text{ pak }t(B)=t'(B)
+$$
+Značíme $\mathcal{D} \vDash A \Rightarrow B$
+\end{uptheorem}
+
 
 \begin{upexample}[Funkční závislosti]
 Mějme relační schéma $R = \{ w, v, x, y, z \}$. Pak funkčními závislostmi nad tímto schématem jsou mj.:
@@ -300,7 +304,7 @@ Pro opačný směr předpokládejme, že $\Mod_{c}(T) \vDash A \Rightarrow B$. V
 Platí, že:
 \begin{align*}
 \mathfrak{M}_{T} &= \left\{ M \subseteq R \; | \; \mathcal{D}_{M} \in \Mod_{c}(T) \right\} \\
-\mathfrak{M}_{T} &= 2^{R}
+\mathfrak{M}_{T} &\subseteq 2^{R}
 \end{align*}
 \end{uptheorem}
 

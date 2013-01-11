@@ -134,7 +134,7 @@ Tuto vlastnost nazýváme \textit{cizí klíč}.
 Představme si dvojici tabulek (systém tabulek \ref{tab:cizi}), která popisuje vlastnictví aut jednotlivými akademickými pracovníky.
 \begin{table}
 \caption{Cizí klíče v relacích}\label{tab:cizi}
-\begin{subtable}[t]{0.6\textwidth}
+\begin{subtable}[t]{0.5\textwidth}
 \centering
 \caption{Pracovnící}\label{tab:vl1}
 \begin{tabular}{c || c c c}
@@ -147,7 +147,7 @@ id & jméno & příjmení & laboratoř \\
 \end{tabular}
 \end{subtable}
 ~
-\begin{subtable}[t]{0.38\textwidth}
+\begin{subtable}[t]{0.45\textwidth}
 \centering
 \caption{Vlastníci aut}\label{tab:vl2}
 \begin{tabular}{c || c}
@@ -173,13 +173,14 @@ V SQL lze modelovat cizí klíče pomocí klíčového slova\upinlinecode{SQL}{!
 \subsubsection{Chování při použití cizího klíče}
 Konkrétní tvrzení z příkladu \ref{ex:cizi} lze pochopitelně zobecnit:
 $$
-\rho_{y \leftarrow x}(\pi_{\{x\}} \left( R_{1} \right) ) \subseteq \pi_{\{y\}} \left( R_{2} \right)
+\rho_{y \leftarrow x}(\pi_{\{x\}} \left( R_{2} \right) ) \subseteq \pi_{\{y\}} \left( R_{1} \right)
 $$
+Atribut $x$ z $R_{2}$ je referující cizí klíč do $R_{1}$, kde vystupuje jako $y$.
 \begin{enumerate}
-\item Nastane chyba, pokud se pokusíme do $R_{1}$ vložit n-tici, jejíž hodnota pro atribut $x$  se nenachází v žádné n-tici z $R_{2}$ v atributu $y$.
+\item Nastane chyba, pokud se pokusíme do $R_{2}$ vložit n-tici, jejíž hodnota pro atribut $x$  se nenachází v žádné n-tici z $R_{1}$ v atributu $y$.
 \item Pokus o aktualizaci cizího klíče, kde mohou nastav v zásadě dvě možné situace:
 \begin{enumerate}
-\item Pokus smazat záznam z $R_{2}$, jehož hodnota pro $y$ se nachází v $R_{1}$. Tedy v analogii k předchozímu příkladu \ref{ex:cizi} bychom se snažili smazat pracovníka, který ale vlastní nějaké auto.
+\item Pokus smazat záznam z $R_{1}$, jehož hodnota pro $y$ se nachází v $R_{2}$. Tedy v analogii k předchozímu příkladu \ref{ex:cizi} bychom se snažili smazat pracovníka, který ale vlastní nějaké auto.
 \item Pokus změnit záznam z $R_{2}$ tak, že nová hodnota pro $y$ se nenachází v $R_{1}$. Tedy v analogii k předchozímu příkladu \ref{ex:cizi} bychom se snažili změnit vlastníka nějakého auta na pracovníka, který neexistuje.
 \end{enumerate}
 \end{enumerate}

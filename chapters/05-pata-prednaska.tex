@@ -151,10 +151,10 @@ A &= \left\{ y_{1}, \ldots, y_{n} \right\} \\
 B &= \left\{ z_{1}, \ldots, z_{k} \right\}
 \end{align*}
 Následně
-\begin{gather*}
-\mathcal{D}_{2} = \pi_{A \cup B} (\mathcal{D}) \Join \rho_{y'_{1} \leftarrow y_{1}, \ldots, y'_{n} \leftarrow y_{n}, z'_{1} \leftarrow z_{1}, \ldots, z'_{k} \leftarrow z_{k}} \left(\pi_{A \cup B} (\mathcal{D})\right) \\
-\mathcal{D}_{3} = \sigma_{y_{1} = y'_{1} \land \cdots \land y_{n} = y'_{n} \lnot(z_{1} = z'_{1} \land \cdots \land z_{k} = z'_{k})} \left( \mathcal{D}_{2} \right)
-\end{gather*}
+\begin{align*}
+\mathcal{D}_{2} &= \pi_{A \cup B} (\mathcal{D}) \Join \rho_{y'_{1} \leftarrow y_{1}, \ldots, y'_{n} \leftarrow y_{n}, z'_{1} \leftarrow z_{1}, \ldots, z'_{k} \leftarrow z_{k}} \left(\pi_{A \cup B} (\mathcal{D})\right) \\
+\mathcal{D}_{3} &= \sigma_{y_{1} = y'_{1} \land \cdots \land y_{n} = y'_{n} \lnot(z_{1} = z'_{1} \land \cdots \land z_{k} = z'_{k})} \left( \mathcal{D}_{2} \right)
+\end{align*}
 Relace $\mathcal{D}_{2}$ obsahuje všechny možné spojitelné ntice z $\mathcal{D}_{2}$, takové, které jsme z $\mathcal{D}_{2}$ vyřízli tak, že obsahují pouze atributy z $A \cup B$ a navíc jsme tyto atributy přejmenovali pro další použití. Tyto ntice jsme spojili s těmi samými nticemi. Vznikly nám tak všechny možné kombinace hodnot z $A \cup B$.
 
 Relace $\mathcal{D}_{3}$ obsahuje všechny ntice takové, že se rovnají na atributech z $A$ a zároveň nerovnají na atributech z $B$. Tedy ntice, které hypoteticky zneplatňují $\mathcal{D} \vDash A \Rightarrow B$. Pokud tedy $|\mathcal{D}_{3}| = 0$, pak určitě $\mathcal{D} \vDash A \Rightarrow B$.

@@ -99,7 +99,7 @@ TUPLE {id 666, jmeno "Vilík"} {ALL BUT id}
 Mějme na vědomí, že bez\upinlinecode{SQL}{!}{DISTINCT} se ze zřejmých důvodů nejedná o relační operaci.
 
 \subsubsubsection{Aspekty fyzické vrstvy}
-Projekce v SQL přes\upinlinecode{SQL}{!}{DISTINCT} je rychlá operace. V případě užití\upinlinecode{SQL}{!}{DISTINCT} se už o rychlou operaci jednat nemusí. To ale neplatí v případě, že $R \subseteq T$ obsahuje klíč. Projekcí umí zrychlit:
+Projekce v SQL bez\upinlinecode{SQL}{!}{DISTINCT} je rychlá operace. V případě užití\upinlinecode{SQL}{!}{DISTINCT} se už o rychlou operaci jednat nemusí. To ale neplatí v případě, že $R \subseteq T$ obsahuje klíč. Projekcí umí zrychlit:
 \begin{enumerate}
 \item Hashování, kde se potencíální n-tice, které se objeví ve výsledku, hashují.
 \item Použití totálního uspořádání n-tic.
@@ -108,7 +108,7 @@ Pokud máme $S \subseteq R \subseteq T$, pak
 \begin{align*}
 \pi_{S} (\pi_{R}(\mathcal{D})) &= \pi_{S}(\mathcal{D}) \\
 \pi_{T} (\mathcal{D}) &= \mathcal{D} \\
-\pi_{R} (\mathcal{D}) &=\left\{\!\!\!
+\pi_{\varnothing} (\mathcal{D}) &=\left\{\!\!\!
 \begin{array}{ll}
 \varnothing & \text{pokud } \mathcal{D} = \varnothing \\
 \left\{ \varnothing \right\} & \text{pokud } \mathcal{D} \neq \varnothing
